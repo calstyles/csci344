@@ -13,15 +13,19 @@ body{
     top: 0;
     left: 0;
     right: 0;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
 }
   
 .nav-left a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     color: rgb(90, 43, 22);
     font-size: 30px;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-top: 15%;
 }
   
 .nav-right {
@@ -30,6 +34,7 @@ body{
 }
   
 .username {
+    padding: 10px;
     font-size: 20px;
 }
   
@@ -47,15 +52,13 @@ body{
     }
 }
 
-.right-side{
-    float: right;
-    position: fixed;
-}
-
 .recommendations-panel {
-    margin-top: 100px;
+    top: 20%;
+    left: 80%;
     float:right;
     width: 20%;
+    padding: 5% auto;
+    position: fixed;
 }
 
 .user-profile {
@@ -126,18 +129,13 @@ body{
 
 /* Story Panels Stuff */
 
-.image-container{
-    background-color: aliceblue;
-}
-
 .story-panel{
-    height: 50%;
-    background-position: center;
     display: flex;
-    width: 50%;
+    width: 80%;
     float: left;
     justify-content: left;
-    margin-top: 100px;    
+    margin-top: 100px;
+    background-color: white;    
 }
 
 .story {
@@ -163,6 +161,94 @@ body{
 
 /* Card Stuff */  
 
-.card{
-    width: 70%;
+.card {
+    float: left;
+    width: 50%;
+    margin: 20px auto;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.replyname {
+    font-weight: bold;
+}
+
+.post-pic {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.heart, .comment, .plane, .bookmark {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+.card-likes {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.card-caption {
+    margin-bottom: 20px;
+}
+
+.replyname, .caption-text {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.more-link {
+    text-decoration: underline;
+}
+
+.card-comments {
+    margin-bottom: 20px;
+}
+
+.card-comment {
+    margin-bottom: 10px;
+}
+
+.replyname, .comment-text {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.card-add-comment {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card-add-comment input {
+    width: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.card-add-comment, .post-link {
+    text-decoration: underline;
 }
