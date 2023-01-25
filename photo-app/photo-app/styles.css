@@ -185,7 +185,7 @@ body{
     margin-bottom: 20px;
 }
 
-.username {
+.replyname {
     font-weight: bold;
 }
 
@@ -218,7 +218,7 @@ body{
     margin-bottom: 20px;
 }
 
-.username, .caption-text {
+.replyname, .caption-text {
     font-weight: bold;
     margin-right: 10px;
 }
@@ -235,7 +235,7 @@ body{
     margin-bottom: 10px;
 }
 
-.username, .comment-text {
+.replyname, .comment-text {
     font-weight: bold;
     margin-right: 10px;
 }
@@ -255,6 +255,6 @@ body{
     border: none;
 }
 
-.card-add-comment .post-link {
+.card-add-comment, .post-link {
     text-decoration: underline;
 }
