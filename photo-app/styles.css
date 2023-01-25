@@ -55,7 +55,6 @@ body{
 .recommendations-panel {
     top: 20%;
     left: 80%;
-    float:right;
     width: 20%;
     padding: 5% auto;
     position: fixed;
@@ -132,10 +131,8 @@ body{
 .story-panel{
     display: flex;
     width: 80%;
-    float: left;
     justify-content: left;
     margin-top: 100px;
-    background-color: white;    
 }
 
 .story {
@@ -162,14 +159,16 @@ body{
 /* Card Stuff */  
 
 .card {
-    float: left;
+    justify-content:left;
     width: 50%;
     margin: 20px auto;
     margin-top: 20px;
+    margin-left: 10px;
     background-color: white;
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
     border-radius: 5px;
     padding: 20px;
+    background-size: cover;
 }
 
 .card-header {
