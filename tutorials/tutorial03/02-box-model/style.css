@@ -18,7 +18,6 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 /*
@@ -27,8 +26,14 @@ Part 1: Create some style blocks to style the card.
 */
 
 .page-section{
-    padding: 10px;
-    margin: 10px;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
     width: 50vh;
     border: dotted 1px #CCC;
+}
+
+.card img {
+    width: 100%;
+    
 }
