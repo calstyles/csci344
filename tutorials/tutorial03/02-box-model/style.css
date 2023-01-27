@@ -37,3 +37,7 @@ Part 1: Create some style blocks to style the card.
     width: 100%;
     
 }
+
+.card p, .card button{
+    margin: 10px;
+}
