@@ -18,6 +18,6 @@
 const search = ev =>{
     ev.preventDefault();
 
-    const searchTerm = document.querySelector().value;
-    const location = document.querySelector().value;
+    const searchTerm = document.querySelector('#search_term').value;
+    const location = document.querySelector('#location').value;
 }
