@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    max-width: 700px;
+    margin: 0 auto; /*center-aligns the element*/
+}
+
+h1, h2 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-form {
+    padding: 20px 20px;
+    background: #F4F4F4;
+    border-radius: 4px;
+    border: solid 1px #DDD;
+}
+.search-form > div {
+    margin-bottom: 15px;
+}
+
+.search-form label {
+    font-weight: 500;
+}
+
+.search-form input[type="text"],
+.search-form select {
+    min-width: 300px;
+    padding: 10px 10px;
+    width: 100%;
+    /* line-height: 1.8em; */
+}
+
+.search-form button {
+    padding: 5px 20px;
+    color: white;
+    background-color: #536de2;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: solid 2px transparent;
+}
+
+.search-form button:hover {
+    background-color: #536de2d6;
+    border: solid 2px white;
+}
+
+
+.search-form input[type="text"],
+.search-form select, 
+.search-form button {
+    font-size: 1.1em;
+}
+
+#results {
+    margin-top: 50px;
+}
