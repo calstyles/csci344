@@ -15,15 +15,35 @@
  *    3. If you choose Twitter, allow your user to specify both a search term
  *       and a result_type (mixed, recent, or popular).
  */
-async function search(){
-    ev.preventDefault();
 
+async function search(){
     const searchTerm = document.querySelector('#search_term').value;
     const location = document.querySelector('#location').value;
-    const url = `https://www.apitutor.org/yelp/simple/v3/businesses/search?location=${location}&term=${searchTerm}`;
-    const response = await fetch(url);
+    const url = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search';
+    const headers = new Headers({'Authorization': `Bearer ${"9p7JReQH-5tKdfRvIl4SGfqujuGPT3NC5OlzK7IzOAkpgUoB-R80UuxyZXLcyX04VyWolM3bwktzD101Xck7UvJtcMqlVQcsY_5bRXv1Mln3yXeQdC9VYh5y-3PtY3Yx"}`});
+    const params = new URLSearchParams({'location': 'Asheville, NC'});
+
+    // fetch(`${url}?${params}`, {headers})
+    // .then(response => {
+    //     if (response.ok) {
+    //     return response.json();
+    //     } else {
+    //     throw new Error(`Error: ${response.status}`);
+    //     }
+    // })
+    // .then(data => {
+    //     const businesses = data.businesses;
+    //     for (const business of businesses) {
+    //     console.log(`${business.name} ${business.rating} ${business.location.address1}`);
+    //     }
+    // })
+    // .catch(error => console.error(error));
+    
+    const response = await fetch(`${url}?${params}`, {headers});
     const data = await response.json();
   
+    // console.log(data);
+    // console.log(businesses);
     const results = data.businesses.map((business) => {
       const categories = business.categories.map((category) => category.title).join(', ');
       return `
@@ -37,4 +57,4 @@ async function search(){
   
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = results;
-  }
+}
