@@ -20,7 +20,7 @@ async function search(){
     const searchTerm = document.querySelector('#search_term').value;
     const location = document.querySelector('#location').value;
     const url = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search';
-    const headers = new Headers({'Authorization': `Bearer ${"9p7JReQH-5tKdfRvIl4SGfqujuGPT3NC5OlzK7IzOAkpgUoB-R80UuxyZXLcyX04VyWolM3bwktzD101Xck7UvJtcMqlVQcsY_5bRXv1Mln3yXeQdC9VYh5y-3PtY3Yx"}`});
+    const headers = new Headers({'Authorization': `Bearer ${"tmUoQOPdO6WqBnNTs6XGtWnBz0jOOAuigdAy_-jfqC92VPqb0w1gYgQ8_6en6DyhAmkTrrC0HfXdoL3NtdEP_t02TSPP8z2GdzQpjzC0_8Q3KTS5c9Nx-9XFNwHvY3Yx"}`});
     const params = new URLSearchParams({'term': searchTerm, 'location': location});
 
     const response = await fetch(`${url}?${params}`, {headers});
