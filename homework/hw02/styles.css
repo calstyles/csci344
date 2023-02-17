@@ -1,0 +1,361 @@
+a:link { text-decoration: none; }
+
+/*Head Stuff*/
+
+body{
+    background-color: #f8f8f8f8;
+    margin: 0;
+}
+
+/* Nav Bar Stuff */
+
+.nav-bar {
+    background-color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Comfortaa', cursive;
+}
+  
+.nav-left a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    margin: 10px;
+}
+  
+.nav-right {
+    display:inline-flex;
+    align-items: center;
+}
+  
+.username-top {
+    padding: 10px;
+    font-size: 20px;
+}
+
+  
+.logout {
+    padding: 10px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+/* Recommendations Panel Stuff */
+
+
+
+.recommendations-panel {
+    margin-top: 20px;
+    left: 60vw;
+    width: 40vw;
+    padding: 5% auto;
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.user-profile {
+    font-family: 'Comfortaa', cursive;
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+    Width: 600px
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.user-pic {
+    display: block;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 30px;
+}
+
+.username {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 30px;
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+}
+
+.username-rec {
+    font-size: 50px;
+}
+
+.suggestions-title {
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: grey;
+}
+  
+.suggested-accounts {
+    display: flex;
+    flex-direction: column;
+
+}
+  
+.account {
+    display: flex;
+    margin-right: 25px;
+}
+  
+.account-pic {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-right: 20px;
+    object-fit:fill;
+}
+  
+.account-info {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+  
+.account-username {
+    font-size: 35px;
+    margin-bottom: 5px;
+}
+  
+.suggested-for-you {
+    font-size: 15px;
+    color: grey;
+    font-weight: bold;
+}
+  
+.follow-link {
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+    text-decoration: none;
+    font-size: 20px;
+    margin-top: 5px;
+    width: 200px;
+}
+
+/* Story Panels Stuff */
+
+.story-panel{
+    display: flex;
+    justify-content: left;
+    margin-right: 40vw;
+    margin-left: 5vw;
+    margin-top: 80px;
+    background-color: white;
+    margin-right: 30% auto;
+    padding: 10px;
+}
+
+
+.story {
+    justify-content: left;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.story-pic {
+    margin: 0 auto;
+    display: block;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-color: grey;
+    border-width: 100px;
+}
+
+.storyname {
+    text-align: center;
+    text-decoration: none;
+    display:block;
+    font-size: 15px;
+}
+
+/* Card Stuff */  
+
+.card-block{
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    margin-right: 40vw;
+    margin-left: 5vw;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-header, .username{
+font-family: 'Comfortaa', cursive;
+}
+
+.replyname {
+    font-weight: bold;
+}
+
+.post-pic {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.card-actions {
+    display: flex;
+    font-size: 30px;
+    height: 5px;
+    margin-left: 20px;
+
+
+}
+
+.heart, .comment, .plane{
+    margin-right: 40px;
+}
+
+.bookmark{
+    margin-left: auto;
+    margin-right: 20px;
+
+}
+
+.card-likes {
+    font-weight: bold;
+    margin-top: 1vw;
+    font-size: larger;
+}
+
+.dots{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    font-size: 25px; 
+
+}
+
+.card-caption {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.replyname, .caption-text {
+    margin-right: 10px;
+}
+
+
+
+.card-comments {
+    margin-bottom: 20px;
+}
+
+.card-comment {
+    margin-bottom: 10px;
+}
+
+.replyname, .comment-text {
+
+    margin-right: 10px;
+}
+
+.card-add-comment {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid;
+    border-color: grey;
+    font-size: 20px;    
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.smile{
+    font-size: 30px;
+}
+
+.card-add-comment input {
+    width: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+
+
+.card-likes{
+    margin-top: 30px;
+    padding: 10px;
+
+}
+
+.card-caption .username{
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-comments .username{
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input::placeholder {
+    font: 20px/3 sans-serif;    
+}
+
+
+
+@media only screen and (max-width: 800px) {
+    .hide-mobile {
+        display:none;
+    }
+    .card{
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .story-panel{
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .card-likes{
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 15px;
+    }
+    .card-actions{
+        font-size: 25px;
+        margin-left: 10px;
+    }
+    .card-caption{
+        margin-top: 0px;
+    }
+
+}
