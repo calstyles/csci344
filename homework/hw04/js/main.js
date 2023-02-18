@@ -1,24 +1,20 @@
 import {getAccessToken} from './utilities.js';
 const rootURL = 'https://photo-app-secured.herokuapp.com';
 
-const showUserProfile = async (token) => {
+const showUserProfile = async (token) => {0
     const endpoint = `${rootURL}/api/profile`;
-    const response = await fetch(endpoint, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-    });
+    const headers = new Headers({'Content-Type': 'application/json'}, {'Authorization' : `Bearer ${token}`});
+    const response = await fetch(endpoint, headers);
     const data = await response.json();
     console.log('User Profile:', data);
 
     const userPic = document.querySelector('.user-pic');
     const usernameRec = document.querySelector('.username-rec');
-    const usernameTop = document.querySelector('.username-top');
+    const usernameProfile = document.querySelector('.username-profile');
 
     userPic.src = data.profile_pic;
     usernameRec.textContent = data.username;
-    usernameTop.textContent = data.username;
+    usernameProfile.textContent = data.username;
 };
 
 const showStories = async (token) => {
