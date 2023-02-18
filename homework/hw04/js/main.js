@@ -30,7 +30,15 @@ const showStories = async (token) => {
 }
 
 const showPosts = async (token) => {
-    console.log('code to show posts');
+    const endpoint = `${rootURL}/api/posts`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    console.log('Posts:', data);
 }
 
 const initPage = async () => {
