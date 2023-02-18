@@ -13,6 +13,18 @@ const showUserProfile = async (token) => {
     console.log('User Profile:', data);
 };
 
+const showSuggestions = async (token) => {
+    const endpoint = `${rootURL}/api/suggestions`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    console.log('Stories:', data);
+}
+
 const showStories = async (token) => {
     const endpoint = `${rootURL}/api/stories`;
     const response = await fetch(endpoint, {
@@ -42,9 +54,11 @@ const initPage = async () => {
     const token = await getAccessToken(rootURL, 'webdev', 'password');
 
     // then use the access token provided to access data on the user's behalf
+    showUserProfile(token);
+    showSuggestions(token);
     showStories(token);
     showPosts(token);
-    showUserProfile(token);
+    
 }
 
 initPage();
