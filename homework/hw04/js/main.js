@@ -76,12 +76,6 @@ const showStories = async (token) => {
     resultsDiv.innerHTML = storiesResults;
 }
 
-
-function generateComments(){
-    var cardComments = document.getElementById("card-comments")
-    cardComments.classList.remove("test")
-}
-
 const showPosts = async (token) => {
     const endpoint = `${rootURL}/api/posts`;
     const response = await fetch(endpoint, {
@@ -104,7 +98,10 @@ const showPosts = async (token) => {
             let currentComment = currentPost.comments[j];
             currentCommentHTML += 
             `  <div class="card-comment">
-                <span class="username">${currentComment.user.username}</span>
+                <span class="comment_username">
+                    ${currentComment.user.username}
+                </span>
+                
                 <span class="comment-text">${currentComment.text}</span>
                </div>
             `
@@ -144,16 +141,15 @@ const showPosts = async (token) => {
                     </div>
                     ${commentsGreaterThanOne ? `<button href="#" id="view_all_comments" onClick="(function(){
 
-                        var cardComments = document.getElementById('card-comments');
-                        cardComments.classList.remove('test');
+                        var cardComments = document.getElementById('card-comments-${i}');
+                        cardComments.classList.remove('view_all_comments_btn');
 
                     })();return false;"> 
                         View all ${currentPost.comments.length} comments 
                     </button>` : firstComment}
-                <div id="card-comments" class="test"> 
+                <div id="card-comments-${i}" class="view_all_comments_btn"> 
                    ${currentCommentHTML}
                 </div>
-                
                 <div class="card-add-comment">
                     <div class="smile">
                         <i class="far fa-smile"></i>
@@ -167,9 +163,6 @@ const showPosts = async (token) => {
     const resultsDiv = document.getElementById('card-block');
     resultsDiv.innerHTML = postResults;
 }
-
-
-
 
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
