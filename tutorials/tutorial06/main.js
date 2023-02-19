@@ -25,8 +25,8 @@ async function search(){
 
     const response = await fetch(`${url}?${params}`, {headers});
     const data = await response.json();
-    // console.log(data);
-    // console.log(businesses);
+    console.log(data);
+    console.log(businesses);
     const results = data.businesses.map((business) => {
       const categories = business.categories.map((category) => category.title).join(', ');
       return `
