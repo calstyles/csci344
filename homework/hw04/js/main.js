@@ -30,10 +30,10 @@ const showSuggestions = async (token) => {
     const data = await response.json();
 //    console.log('Suggestions:', data);
 
-    let results = ``
+    let suggestionResults = ``
     for(let i = 0; i < data.length; i++){
         let currentSuggestion = data[i];
-        results +=  
+        suggestionResults +=  
             `
             <div class="account">
                 <img src="${currentSuggestion.image_url}" alt="account1" class="account-pic">
@@ -46,7 +46,7 @@ const showSuggestions = async (token) => {
             `
     }    
     const resultsDiv = document.getElementById('suggested-accounts');
-    resultsDiv.innerHTML = results;
+    resultsDiv.innerHTML = suggestionResults;
 }
 
 const showStories = async (token) => {
@@ -59,10 +59,10 @@ const showStories = async (token) => {
     })
     const data = await response.json();
     console.log('Stories:', data);
-    let results = ``
+    let storiesResults = ``
     for(let i = 0; i < data.length; i++){
         let currentStory = data[i];
-        results +=  
+        storiesResults +=  
             `
             <div class="story">
                 <img src="${currentStory.user.image_url}" class="story-pic">
@@ -73,7 +73,7 @@ const showStories = async (token) => {
             `
     }    
     const resultsDiv = document.getElementById('story-panel');
-    resultsDiv.innerHTML = results;
+    resultsDiv.innerHTML = storiesResults;
 }
 
 const showPosts = async (token) => {
@@ -86,10 +86,22 @@ const showPosts = async (token) => {
     })
     const data = await response.json();
     console.log('Posts:', data);
-    let results = ``
+
+    let postResults = ``
     for(let i = 0; i < data.length; i++){
+        let currentCommentHTML = ``
+        for(let j = 0; j < data[i].comments.length; j++){
+            let currentComment = data[i].comments[j];
+            currentCommentHTML += 
+            `  <div class="card-comment">
+                <span class="username">${currentComment.user.username}</span>
+                <span class="comment-text">${currentComment.text}</span>
+               </div>
+            `
+        }
+
         let currentPost = data[i];
-        results +=  
+        postResults +=  
             `
             <div class="card">
                 <div class="card-header">
@@ -101,7 +113,7 @@ const showPosts = async (token) => {
                     <img src="${currentPost.image_url}" alt="post picture" class="post-pic">
                     <div class="card-actions">
                         <div class="heart">
-                            <i class="fas fa-heart"></i>
+                            <i ${currentPost.current_user_like_id == null ? `class="far fa-heart fa-regular"` : `class="fas fa-heart liked_post"`}></i>
                         </div>
                         <div class="comment">
                             <i class="fas fa-comment"></i>
@@ -113,21 +125,14 @@ const showPosts = async (token) => {
                             <i class="fas fa-bookmark"></i>
                         </div>
                     </div>
-                <div class="card-likes">${currentPost.likes.length}</div>
+                <div class="card-likes">${currentPost.likes.length} likes</div>
                     <div class="card-caption">
                         <span class="username">${currentPost.user.username}</span>
                         <span class="caption-text">${currentPost.caption}</span>
                         <a href="#" class="more-link">more</a>
                     </div>
                 <div class="card-comments"> 
-                    <div class="card-comment">
-                        <span class="username">dogge</span>
-                        <span class="comment-text">Nice pic!</span>
-                    </div>
-                    <div class="card-comment">
-                        <span class="username">numbahDeux</span>
-                        <span class="comment-text">Wow, this is beautiful!</span>
-                    </div>
+                    ${currentCommentHTML}
                 </div>
                 <div class="card-add-comment">
                     <div class="smile">
@@ -140,7 +145,7 @@ const showPosts = async (token) => {
             `
     }    
     const resultsDiv = document.getElementById('card-block');
-    resultsDiv.innerHTML = results;
+    resultsDiv.innerHTML = postResults;
 }
 
 const initPage = async () => {

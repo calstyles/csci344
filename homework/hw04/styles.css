@@ -1,3 +1,7 @@
+.liked_post{
+    color: red;
+}
+
 a:link { text-decoration: none; }
 
 /*Head Stuff*/
