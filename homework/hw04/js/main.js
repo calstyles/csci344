@@ -76,6 +76,12 @@ const showStories = async (token) => {
     resultsDiv.innerHTML = storiesResults;
 }
 
+
+function generateComments(){
+    var cardComments = document.getElementById("card-comments")
+    cardComments.classList.remove("test")
+}
+
 const showPosts = async (token) => {
     const endpoint = `${rootURL}/api/posts`;
     const response = await fetch(endpoint, {
@@ -87,20 +93,25 @@ const showPosts = async (token) => {
     const data = await response.json();
     console.log('Posts:', data);
 
+
     let postResults = ``
     for(let i = 0; i < data.length; i++){
+        let currentPost = data[i];
         let currentCommentHTML = ``
-        for(let j = 0; j < data[i].comments.length; j++){
-            let currentComment = data[i].comments[j];
+        let commentsGreaterThanOne = (currentPost.comments.length > 1 ? true : false);
+        let firstComment = ``
+        for(let j = 0; j < currentPost.comments.length; j++){
+            let currentComment = currentPost.comments[j];
             currentCommentHTML += 
             `  <div class="card-comment">
                 <span class="username">${currentComment.user.username}</span>
                 <span class="comment-text">${currentComment.text}</span>
                </div>
             `
+
+            firstComment = (j === 0 ? currentCommentHTML : firstComment);
         }
 
-        let currentPost = data[i];
         postResults +=  
             `
             <div class="card">
@@ -122,7 +133,7 @@ const showPosts = async (token) => {
                             <i class="far fa-paper-plane"></i>
                         </div>    
                         <div class="bookmark">
-                            <i class="fas fa-bookmark"></i>
+                            <i ${currentPost.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i>
                         </div>
                     </div>
                 <div class="card-likes">${currentPost.likes.length} likes</div>
@@ -131,9 +142,18 @@ const showPosts = async (token) => {
                         <span class="caption-text">${currentPost.caption}</span>
                         <a href="#" class="more-link">more</a>
                     </div>
-                <div class="card-comments"> 
-                    ${currentCommentHTML}
+                    ${commentsGreaterThanOne ? `<button href="#" id="view_all_comments" onClick="(function(){
+
+                        var cardComments = document.getElementById('card-comments');
+                        cardComments.classList.remove('test');
+
+                    })();return false;"> 
+                        View all ${currentPost.comments.length} comments 
+                    </button>` : firstComment}
+                <div id="card-comments" class="test"> 
+                   ${currentCommentHTML}
                 </div>
+                
                 <div class="card-add-comment">
                     <div class="smile">
                         <i class="far fa-smile"></i>
@@ -142,11 +162,14 @@ const showPosts = async (token) => {
                     <a href="#" class="post-link">Post</a>
                 </div>
             </div>
-            `
+            `    
     }    
     const resultsDiv = document.getElementById('card-block');
     resultsDiv.innerHTML = postResults;
 }
+
+
+
 
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
