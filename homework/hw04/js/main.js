@@ -140,16 +140,35 @@ const showPosts = async (token) => {
                         <a href="#" class="more-link">more</a>
                     </div>
                     ${commentsGreaterThanOne ? `<a href="#" id="view_all_comments" onClick="(function(){
+                        var cardComments = document.getElementById('card-comments-${i}'); 
+                        cardComments.style.display = 'block';
 
-                        var cardComments = document.getElementById('card-comments-${i}');
-                        cardComments.classList.remove('view_all_comments_btn');
 
-                    })();return false;"> 
-                        View all ${currentPost.comments.length} comments 
-                    </a>` : firstComment}
-                <div id="card-comments-${i}" class="view_all_comments_btn"> 
-                   ${currentCommentHTML}
-                </div>
+
+                    })(); return false;">View all ${currentPost.comments.length} comments </a>` 
+                    : firstComment}
+                <div id="card-comments-${i}" class="modal"> 
+                    <a href="#" id="modal_close" onClick="(function(){
+                        var cardComments = document.getElementById('card-comments-${i}'); 
+                        cardComments.style.display = 'none';
+                    })(); return false;"><span class="close">&times;</span></a>
+                        <div class="modal-content">
+                            <div class="modal-image-div">
+                                <img src="${currentPost.image_url}" alt="post picture" class="modal-image">
+                            </div>
+                            <div class="modal_poster_info_and_comments">
+                                <div class="modal_poster_info">
+                                    <div class="user_pic">
+                                        <img class="account-pic" src="${currentPost.user.image_url}" />
+                                    </div>
+                                    <div class="username">${currentPost.user.username}</div>
+                                </div>
+                                <div class="all-comments">
+                                    ${currentCommentHTML}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <div class="card-add-comment">
                     <div class="smile">
                         <i class="far fa-smile"></i>

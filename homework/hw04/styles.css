@@ -1,3 +1,8 @@
+.all-comments{
+    flex-direction: vertical;
+    /* width: 35%; */
+}
+
 .comment_username{
     font-weight: bold;
     margin-left: 10px;
@@ -7,6 +12,74 @@
     display: none;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    overflow: hidden;
+    flex: center;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 4% 3%;
+    border: 1px solid #888;
+    width: 90vw;
+    height: 85vh;
+    display: flex;
+    overflow: hidden;
+    outline: none;
+    border-radius: 10px;
+}
+
+.modal-image-div{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-image{
+    height: 100%;
+    width: 100%;
+}
+
+.modal_poster_info_and_comments{
+    flex-direction: vertical;
+    width: 35%;
+}
+
+.modal_poster_info{
+    display: flex;
+    flex-direction: horizontal;
+    border-bottom: solid;
+    border-color: gray;
+    border-bottom-width: 1px;
+}
+
+.close {
+    color: #ffffff;
+    float: right;
+    font-size: 75px;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 a:link { text-decoration: none; }
 
@@ -31,7 +104,7 @@ body{
     justify-content: space-between;
     font-family: 'Comfortaa', cursive;
 }
-  
+
 .nav-left a {
     display: flex;
     align-items: center;
@@ -40,18 +113,17 @@ body{
     font-size: 30px;
     margin: 10px;
 }
-  
+
 .nav-right {
     display:inline-flex;
     align-items: center;
 }
-  
+
 .username-top {
     padding: 10px;
     font-size: 20px;
 }
 
-  
 .logout {
     padding: 10px;
     font-size: 10px;
@@ -59,8 +131,6 @@ body{
 }
 
 /* Recommendations Panel Stuff */
-
-
 
 .recommendations-panel {
     margin-top: 20px;
@@ -111,18 +181,18 @@ body{
     margin-bottom: 20px;
     color: grey;
 }
-  
+
 .suggested-accounts {
     display: flex;
     flex-direction: column;
 
 }
-  
+
 .account {
     display: flex;
     margin-right: 25px;
 }
-  
+
 .account-pic {
     width: 75px;
     height: 75px;
@@ -131,24 +201,24 @@ body{
     margin-right: 20px;
     object-fit:fill;
 }
-  
+
 .account-info {
     display: flex;
     flex-direction: column;
     width: 200px;
 }
-  
+
 .account-username {
     font-size: 35px;
     margin-bottom: 5px;
 }
-  
+
 .suggested-for-you {
     font-size: 15px;
     color: grey;
     font-weight: bold;
 }
-  
+
 .follow-link {
     display: flex;
     justify-content: flex-end;
@@ -171,7 +241,6 @@ body{
     margin-right: 30% auto;
     padding: 10px;
 }
-
 
 .story {
     justify-content: left;
@@ -215,8 +284,6 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -225,7 +292,7 @@ body{
 }
 
 .card-header, .username{
-font-family: 'Comfortaa', cursive;
+    font-family: 'Comfortaa', cursive;
 }
 
 .replyname {
@@ -242,8 +309,6 @@ font-family: 'Comfortaa', cursive;
     font-size: 30px;
     height: 5px;
     margin-left: 20px;
-
-
 }
 
 .heart, .comment, .plane{
@@ -288,14 +353,13 @@ font-family: 'Comfortaa', cursive;
     margin-right: 10px;
 }
 
-
-
 .card-comments {
     margin-bottom: 20px;
 }
 
 .card-comment {
     margin-bottom: 10px;
+    flex-direction: vertical;
 }
 
 .replyname, .comment-text {
@@ -327,8 +391,6 @@ font-family: 'Comfortaa', cursive;
     border: none;
 }
 
-
-
 .card-likes{
     margin-top: 30px;
     padding: 10px;
@@ -348,8 +410,6 @@ font-family: 'Comfortaa', cursive;
 input::placeholder {
     font: 20px/3 sans-serif;    
 }
-
-
 
 @media only screen and (max-width: 800px) {
     .hide-mobile {
