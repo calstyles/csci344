@@ -260,6 +260,9 @@ font-family: 'Comfortaa', cursive;
     color: red;
 }
 
+.post-link{
+    margin-left: auto;
+}
 
 .card-likes {
     font-weight: bold;
