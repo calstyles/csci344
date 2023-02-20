@@ -93,20 +93,35 @@ const showPosts = async (token) => {
         let currentPost = data[i];
         let currentCommentHTML = ``
         let commentsGreaterThanOne = (currentPost.comments.length > 1 ? true : false);
-        let firstComment = ``
+        let firstComment = ``;
+        
         for(let j = 0; j < currentPost.comments.length; j++){
             let currentComment = currentPost.comments[j];
             currentCommentHTML += 
             `  <div class="card-comment">
+                    <div class="comment-user-pic-div">
+                        <img src="${currentComment.user.image_url}" class="comment-user-pic"/>
+                    </div>
                 <span class="comment_username">
-                    ${currentComment.user.username}
+                    ${currentComment.user.username} <span class="comment-text">${currentComment.text}</span>
+                    <div class="days-ago">${currentComment.display_time}</div>
                 </span>
                 
-                <span class="comment-text">${currentComment.text}</span>
                </div>
             `
 
-            firstComment = (j === 0 ? currentCommentHTML : firstComment);
+            if(commentsGreaterThanOne == false){
+                firstComment = `<div class="card-comment">
+                    <span class="comment_username">
+                        ${currentComment.user.username}
+                    </span>
+                    
+                    <span class="comment-text">
+                        ${currentComment.text}
+                    </span>
+                </div>
+                `
+            }
         }
 
         postResults +=  
@@ -142,9 +157,6 @@ const showPosts = async (token) => {
                     ${commentsGreaterThanOne ? `<a href="#" id="view_all_comments" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 
                         cardComments.style.display = 'block';
-
-
-
                     })(); return false;">View all ${currentPost.comments.length} comments </a>` 
                     : firstComment}
                 <div id="card-comments-${i}" class="modal"> 
