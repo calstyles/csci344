@@ -139,14 +139,14 @@ const showPosts = async (token) => {
                         <span class="caption-text">${currentPost.caption}</span>
                         <a href="#" class="more-link">more</a>
                     </div>
-                    ${commentsGreaterThanOne ? `<button href="#" id="view_all_comments" onClick="(function(){
+                    ${commentsGreaterThanOne ? `<a href="#" id="view_all_comments" onClick="(function(){
 
                         var cardComments = document.getElementById('card-comments-${i}');
                         cardComments.classList.remove('view_all_comments_btn');
 
                     })();return false;"> 
                         View all ${currentPost.comments.length} comments 
-                    </button>` : firstComment}
+                    </a>` : firstComment}
                 <div id="card-comments-${i}" class="view_all_comments_btn"> 
                    ${currentCommentHTML}
                 </div>
