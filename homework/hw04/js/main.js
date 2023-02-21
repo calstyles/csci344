@@ -102,12 +102,16 @@ const showPosts = async (token) => {
                     <div class="comment-user-pic-div">
                         <img src="${currentComment.user.image_url}" class="comment-user-pic"/>
                     </div>
-                <span class="comment_username">
-                    ${currentComment.user.username} 
-                    <span class="comment-text">${currentComment.text}</span>
-                    <div class="days-ago">${currentComment.display_time}</div>
-                </span>
-                <div class="heart-side"><i class="far fa-heart fa-regular"></i></div>
+                    <span class="comment_username">
+                        ${currentComment.user.username} 
+                        <span class="comment-text">${currentComment.text}</span>
+                        <div class="days-ago">${currentComment.display_time}</div>
+                    </span>
+                    <div class="heart-side">
+                        <a href="#" class="icon-properties">
+                            <i class="far fa-heart fa-regular"></i>
+                        </a>
+                    </div>
                </div>
             `
 
@@ -134,16 +138,16 @@ const showPosts = async (token) => {
                     <img src="${currentPost.image_url}" alt="post picture" class="post-pic">
                     <div class="card-actions">
                         <div class="heart">
-                            <i ${currentPost.current_user_like_id == null ? `class="far fa-heart fa-regular"` : `class="fas fa-heart liked_post"`}></i>
+                            <a href="#" class="icon-properties"><i ${currentPost.current_user_like_id == null ? `class="far fa-heart fa-regular"` : `class="fas fa-heart liked_post"`}></i></a>
                         </div>
                         <div class="comment">
-                            <i class="fas fa-comment"></i>
+                            <a href="#" class="icon-properties"><i class="fas fa-comment"></i></a>
                         </div>
                         <div class="plane">
-                            <i class="far fa-paper-plane"></i>
+                            <a href="#" class="icon-properties"><i class="far fa-paper-plane"></i></a>
                         </div>    
                         <div class="bookmark">
-                            <i ${currentPost.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i>
+                            <a href="#" class="icon-properties"><i ${currentPost.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i></a>
                         </div>
                     </div>
                 <div class="card-likes">${currentPost.likes.length} likes</div>
@@ -188,7 +192,7 @@ const showPosts = async (token) => {
                     </div>
                 <div class="card-add-comment">
                     <div class="smile">
-                        <i class="far fa-smile"></i>
+                        <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
                     </div>
                     <input type="text" placeholder="Add a comment...">
                     <a href="#" class="post-link">Post</a>
