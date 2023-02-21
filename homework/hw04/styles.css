@@ -12,13 +12,18 @@
     flex-direction: column;
 }
 
-.comment_username{
-    font-weight: bold;
+.comment_username2{
     margin-left: 10px;
+    font-weight: bold;
 }
 
-.view_all_comments_btn{
-    display: none;
+.comment_username{
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.view-all-comments-btn{
+    margin-left: 10px;
 }
 
 .comment-user-pic{
@@ -195,6 +200,7 @@ body{
 
 .username {
     margin-top: 15px;
+    margin-right: 5px;
     margin-left: 10px;
     font-size: 30px;
     font-family: 'Comfortaa', cursive;
@@ -376,6 +382,7 @@ body{
 
 .card-caption {
     margin-top: 10px;
+    margin-left: 10px;
     margin-bottom: 10px;
 }
 
@@ -392,9 +399,16 @@ body{
     margin-bottom: 10px;
 }
 
+.more-link{
+    margin-left: 10px;
+}
+
+.comment-text{
+    font-weight: normal;   
+}
+
 .replyname, .comment-text {
-    font-weight: normal;
-    margin-right: 10px;
+    font-weight: normal;    
 }
 
 .card-add-comment {

@@ -103,7 +103,8 @@ const showPosts = async (token) => {
                         <img src="${currentComment.user.image_url}" class="comment-user-pic"/>
                     </div>
                 <span class="comment_username">
-                    ${currentComment.user.username} <span class="comment-text">${currentComment.text}</span>
+                    ${currentComment.user.username} 
+                    <span class="comment-text">${currentComment.text}</span>
                     <div class="days-ago">${currentComment.display_time}</div>
                 </span>
                 <div class="heart-side"><i class="far fa-heart fa-regular"></i></div>
@@ -111,16 +112,13 @@ const showPosts = async (token) => {
             `
 
             if(commentsGreaterThanOne == false){
-                firstComment = `<div class="card-comment">
-                    <span class="comment_username">
-                        ${currentComment.user.username}
-                    </span>
-                    
-                    <span class="comment-text">
-                        ${currentComment.text}
-                    </span>
-                </div>
-                `
+                firstComment = `<div class="comment_username2">
+                                    ${currentComment.user.username}
+                                    <span class="comment-text">
+                                         ${currentComment.text}
+                                    </span>
+                                </div>
+                                `
             }
         }
 
@@ -150,11 +148,16 @@ const showPosts = async (token) => {
                     </div>
                 <div class="card-likes">${currentPost.likes.length} likes</div>
                     <div class="card-caption">
-                        <span class="username">${currentPost.user.username}</span>
-                        <span class="caption-text">${currentPost.caption}</span>
+                        <span class="comment_username">
+                            ${currentPost.user.username}
+                            <span class ="comment-text">
+                               ${currentPost.caption}  
+                            </span>
+                        </span> 
+                        
                         <a href="#" class="more-link">more</a>
                     </div>
-                    ${commentsGreaterThanOne ? `<a href="#" id="view_all_comments" onClick="(function(){
+                    ${commentsGreaterThanOne ? `<a href="#" class="view-all-comments-btn" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 
                         cardComments.style.display = 'block';
                     })(); return false;">View all ${currentPost.comments.length} comments </a>` 
@@ -173,7 +176,9 @@ const showPosts = async (token) => {
                                     <div class="user_pic">
                                         <img class="account-pic" src="${currentPost.user.image_url}" />
                                     </div>
-                                    <div class="username">${currentPost.user.username}</div>
+                                    <div class="username">
+                                        ${currentPost.user.username}
+                                    </div>
                                 </div>
                                 <div class="all-comments">
                                     ${currentCommentHTML}
