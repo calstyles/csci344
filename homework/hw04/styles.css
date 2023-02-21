@@ -27,6 +27,14 @@
     height: 50px;
 }
 
+.heart-side{
+    margin-left: auto;
+    display: flex;
+    align-content: flex-end;
+    justify-content: space-between;
+    text-align: center;
+    padding: 10px;
+}
 
 .modal {
     display: none;

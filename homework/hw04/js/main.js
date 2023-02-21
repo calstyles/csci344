@@ -106,7 +106,7 @@ const showPosts = async (token) => {
                     ${currentComment.user.username} <span class="comment-text">${currentComment.text}</span>
                     <div class="days-ago">${currentComment.display_time}</div>
                 </span>
-                
+                <div class="heart-side"><i class="far fa-heart fa-regular"></i></div>
                </div>
             `
 
