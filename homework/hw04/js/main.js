@@ -164,12 +164,16 @@ const showPosts = async (token) => {
                     ${commentsGreaterThanOne ? `<a href="#" class="view-all-comments-btn" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 
                         cardComments.style.display = 'block';
+                        const triggerButton = document.querySelector('#modal_close');
+                        triggerButton.focus();
                     })(); return false;">View all ${currentPost.comments.length} comments </a>` 
                     : firstComment}
                 <div id="card-comments-${i}" class="modal"> 
                     <a href="#" id="modal_close" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 
                         cardComments.style.display = 'none';
+                        const closeControl = document.querySelector('.view-all-comments-btn');
+                        closeControl.focus();
                     })(); return false;"><span class="close">&times;</span></a>
                         <div class="modal-content">
                             <div class="modal-image-div">
