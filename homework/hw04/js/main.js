@@ -161,7 +161,7 @@ const showPosts = async (token) => {
                         
                         <a href="#" class="more-link">more</a>
                     </div>
-                    ${commentsGreaterThanOne ? `<a href="#" class="view-all-comments-btn-${i}" onClick="(function(){
+                    ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${i}" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 
                         cardComments.style.display = 'block';
                         const triggerButton = document.querySelector('#modal_close_${i}');
