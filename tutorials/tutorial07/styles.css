@@ -17,6 +17,14 @@ main {
     align-items: flex-end;
 }
 
+.bookmark-properties{
+    color: black;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
 #stories {
     display: flex;
     column-gap: 20px;

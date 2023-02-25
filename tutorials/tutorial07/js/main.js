@@ -59,6 +59,7 @@ const postToHTML = post => {
         <section id="post_${post.id}" class="post">
             <img src="${post.image_url}" alt="Fake image" />
             <p>${post.caption}</p>
+            <a href="#" class="bookmark-properties"><i ${post.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i></a>
             ${ showCommentAndButtonIfItMakesSense(post) }
         </section>
     `
