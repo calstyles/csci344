@@ -358,8 +358,9 @@ input::placeholder {
 }
 
 .comment_username2{
-    margin-left: 10px;
     font-weight: bold;
+    margin: 10px;
+    
 }
 
 .comment_username{
