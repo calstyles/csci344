@@ -170,7 +170,17 @@ const showPosts = async (token) => {
                             triggerButton.focus();
                         })(); return false;">View all ${currentPost.comments.length} comments </a>` 
                         : firstComment}
-                        
+                        ${commentsGreaterThanOne ? 
+                            `<div class="comment_username2">
+                                ${currentPost.comments[0].user.username}
+                                <span class="comment-text">
+                                        ${currentPost.comments[0].text}
+                                </span>
+                                <div class="days-ago2">
+                                    ${currentPost.comments[0].display_time.toUpperCase()}
+                                </div>
+                            </div>`
+                        : `<div></div>`}
                         <div id="card-comments-${i}" class="modal"> 
                             <a href="#" id="modal_close_${i}" onClick="(function(){
                                 var cardComments = document.getElementById('card-comments-${i}'); 
