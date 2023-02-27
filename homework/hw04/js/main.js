@@ -161,7 +161,7 @@ const showPosts = async (token) => {
                             <div class="days-ago2">${currentPost.display_time.toUpperCase()}</div>
                         </span> 
                         
-                        <a href="#" class="more-link">more</a>
+                        <!--                        <a href="#" class="more-link">more</a> -->
                     </div>
                     ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${i}" onClick="(function(){
                         var cardComments = document.getElementById('card-comments-${i}'); 

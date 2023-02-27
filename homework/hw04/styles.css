@@ -348,6 +348,8 @@ input::placeholder {
 .days-ago2{
     font-weight: lighter;
     margin-top: 5px;
+    color: #888;
+    font-size: 15px;
 }
 
 .days-ago{
@@ -365,11 +367,13 @@ input::placeholder {
 }
 
 .view-all-comments-btn{
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-bottom: 5px;
 }
 
 #view-all-comments-btn{
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-bottom: 5px;
 }
 
 .comment-user-pic{
