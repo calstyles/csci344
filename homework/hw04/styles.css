@@ -1,134 +1,3 @@
-.all-comments{
-    flex-direction: vertical;
-    /* width: 35%; */
-    max-height: calc(85%);
-    overflow-y: auto;
-    padding: 20px;
-    height: 100%;
-}
-
-.icon-properties{
-    color: black;
-}
-
-.days-ago{
-    display: flex;
-    flex-direction: column;
-}
-
-.comment_username2{
-    margin-left: 10px;
-    font-weight: bold;
-}
-
-.comment_username{
-    font-weight: bold;
-}
-
-.view-all-comments-btn{
-    margin-left: 10px;
-}
-
-#view-all-comments-btn{
-    margin-left: 10px;
-}
-
-.comment-user-pic{
-    border-radius: 50%;
-    padding-right: 5px;
-    width: 50px;
-    height: 50px;
-}
-
-.heart-side{
-    margin-left: auto;
-    display: flex;
-    align-content: flex-end;
-    justify-content: space-between;
-    text-align: center;
-    padding: 10px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.6);
-    overflow: hidden;
-    flex: center;
-    align-items: center;
-    justify-content: center;
-    outline: none;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 4% 3%;
-    border: 1px solid #888;
-    width: 90vw;
-    height: 85vh;
-    display: flex;
-    overflow: hidden;
-    outline: none;
-    border-radius: 10px;
-}
-
-.modal-image-div{
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.modal-image{
-    height: 100%;
-    width: 100%;
-}
-
-.modal_poster_info_and_comments{
-    flex-direction: vertical;
-    width: 35%;
-}
-
-.modal_poster_info{
-    display: flex;
-    flex-direction: horizontal;
-    border-bottom: solid;
-    border-color: gray;
-    border-bottom-width: 1px;
-}
-
-.modal_poster_info, .username{
-    display: flex;
-    align-items: center;
-
-}
-
-.close {
-    color: #ffffff;
-    float: right;
-    font-size: 75px;
-    font-weight: bold;
-    padding-right: 20px;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-a:link { 
-    color: black;
-    text-decoration: none; 
-}
-
 /*Head Stuff*/
 
 body{
@@ -463,7 +332,157 @@ input::placeholder {
     font: 20px/3 sans-serif;    
 }
 
+.all-comments{
+    flex-direction: vertical;
+    /* width: 35%; */
+    max-height: calc(85%);
+    overflow-y: auto;
+    padding: 20px;
+    height: 100%;
+}
+
+.icon-properties{
+    color: black;
+}
+
+.days-ago2{
+    font-weight: lighter;
+    margin-top: 5px;
+}
+
+.days-ago{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment_username2{
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.comment_username{
+    font-weight: bold;
+}
+
+.view-all-comments-btn{
+    margin-left: 10px;
+}
+
+#view-all-comments-btn{
+    margin-left: 10px;
+}
+
+.comment-user-pic{
+    border-radius: 50%;
+    padding-right: 5px;
+    width: 50px;
+    height: 50px;
+}
+
+.heart-side{
+    margin-left: auto;
+    display: flex;
+    align-content: flex-end;
+    justify-content: space-between;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Modal Stuff */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.6);
+    overflow: hidden;
+    flex: center;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 4% 3%;
+    border: 1px solid #888;
+    width: 90vw;
+    height: 85vh;
+    display: flex;
+    overflow: hidden;
+    outline: none;
+    border-radius: 10px;
+}
+
+.modal-image-div{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-image{
+    height: 100%;
+    width: 100%;
+}
+
+.modal_poster_info_and_comments{
+    flex-direction: vertical;
+    width: 35%;
+}
+
+.modal_poster_info{
+    display: flex;
+    flex-direction: horizontal;
+    border-bottom: solid;
+    border-color: gray;
+    border-bottom-width: 1px;
+}
+
+.modal_poster_info, .username{
+    display: flex;
+    align-items: center;
+
+}
+
+.close {
+    color: #ffffff;
+    float: right;
+    font-size: 75px;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:link { 
+    color: black;
+    text-decoration: none; 
+}
+
+/* Mobile Stuff */
+
 @media only screen and (max-width: 800px) {
+    .modal-image-div{
+        display: none;
+    }
+    .modal-image{
+        display: none;
+    }
+    .modal_poster_info_and_comments{
+        flex-direction: vertical;
+        width: 100%;
+    }
     .hide-mobile {
         display:none;
     }

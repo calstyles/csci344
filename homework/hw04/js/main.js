@@ -121,6 +121,7 @@ const showPosts = async (token) => {
                                     <span class="comment-text">
                                          ${currentComment.text}
                                     </span>
+                                    <div class="days-ago2">${currentPost.display_time.toUpperCase()}</div>
                                 </div>
                                 `
             }
@@ -157,6 +158,7 @@ const showPosts = async (token) => {
                             <span class ="comment-text">
                                ${currentPost.caption}  
                             </span>
+                            <div class="days-ago2">${currentPost.display_time.toUpperCase()}</div>
                         </span> 
                         
                         <a href="#" class="more-link">more</a>
