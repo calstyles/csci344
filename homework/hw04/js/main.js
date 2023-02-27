@@ -181,7 +181,7 @@ const showPosts = async (token) => {
                                 </div>
                             </div>`
                         : `<div></div>`}
-                        <div id="card-comments-${i}" class="modal"> 
+                        <div id="card-comments-${i}" class="modal" role="dialog"> 
                             <a href="#" id="modal_close_${i}" onClick="(function(){
                                 var cardComments = document.getElementById('card-comments-${i}'); 
                                 cardComments.style.display = 'none';
