@@ -11,6 +11,43 @@ let token;
 /******************/
 /* Your Functions */
 /******************/
+
+const createBookmark = async (currentPost) => {
+    // define the endpoint:
+    const endpoint = `https://photo-app-secured.herokuapp.com/api/bookmarks/`;
+    const postData = {
+        "post_id": currentPost // replace with the actual post ID
+    };
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(postData)
+    })
+    const data = await response.json();
+    console.log(data);
+}
+
+const deleteBookmark = async () => {
+    // define the endpoint:
+    const endpoint = `https://photo-app-secured.herokuapp.com/api/bookmarks/<bookmark_id>`;
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    console.log(data);
+}
+
 const showStories = async () => {
     const endpoint = `${rootURL}/api/stories`;
     const response = await fetch(endpoint, {
@@ -55,6 +92,26 @@ const showPosts = async () => {
 
 const postToHTML = post => {
     // console.log(post.comments.length);
+    const bookmarkButton = document.querySelector('.bookmark-button');
+
+    bookmarkButton.addEventListener('click', async () => {
+        const postId = post.id; // get the ID of the current post
+        const currentPost = post;
+    
+        if (post.current_user_bookmark_id) {
+            deleteBookmark();        
+        } else {
+            // If the post has not been bookmarked by the current user, issue a POST request
+            createBookmark(currentPost);
+        }
+    
+        // After the bookmark has been created or deleted, re-query the post and redraw it
+        const postEndpoint = `/api/posts/${postId}`;
+        const response = await fetch(postEndpoint);
+        const updatedPost = await response.json();
+        const postElement = document.getElementById(`post-${postId}`);
+        targetElementAndReplace(postElement, updatedPost);
+    });
     return `
         <section id="post_${post.id}" class="post">
             <img src="${post.image_url}" alt="Fake image" />
@@ -81,7 +138,6 @@ const showCommentAndButtonIfItMakesSense = post => {
         return '';
     } 
 }
-
 
 const initPage = async () => {
     // set the token as a global variable 
