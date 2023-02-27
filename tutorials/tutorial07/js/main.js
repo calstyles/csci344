@@ -65,9 +65,9 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
-        return `<button onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fa-solid fa-bookmark"></i></button>`;
+        return `<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`;
     }
-    return `<button onclick="createBookmark(${currentPost.id})"><i class="fa-regular fa-bookmark"></i></button>`;
+    return `<a onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
 }
 
 

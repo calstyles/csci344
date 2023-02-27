@@ -8,7 +8,10 @@ body {
 }
 
 /* Replace with your HW2 CSS */
-
+a{
+    color:black;
+    font-size: 20px;
+}
 
 main {
     width: 60vw;
