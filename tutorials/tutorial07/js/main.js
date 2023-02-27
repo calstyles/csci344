@@ -12,9 +12,22 @@ let token;
 /* Your Functions */
 /******************/
 
+const redraw = async (currentPost) => {
+    const endpoint = `${rootURL}/api/posts/${currentPost}`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    const htmlString = postToHTML(data);
+    targetElementAndReplace(`#post_${currentPost}`, htmlString);
+}
+
 const createBookmark = async (currentPost) => {
     // define the endpoint:
-    const endpoint = `https://photo-app-secured.herokuapp.com/api/bookmarks/`;
+    const endpoint = `${rootURL}/api/bookmarks/`;
     const postData = {
         "post_id": currentPost // replace with the actual post ID
     };
@@ -29,12 +42,13 @@ const createBookmark = async (currentPost) => {
         body: JSON.stringify(postData)
     })
     const data = await response.json();
-    console.log(data);
+    redraw(currentPost);
+    console.log("bookmarked");
 }
 
-const deleteBookmark = async () => {
+const deleteBookmark = async (currentPost, currentBookmark) => {
     // define the endpoint:
-    const endpoint = `https://photo-app-secured.herokuapp.com/api/bookmarks/<bookmark_id>`;
+    const endpoint = `${rootURL}/api/bookmarks/${currentBookmark}`;
 
     // Create the bookmark:
     const response = await fetch(endpoint, {
@@ -45,8 +59,17 @@ const deleteBookmark = async () => {
         }
     })
     const data = await response.json();
-    console.log(data);
+    redraw(currentPost);
+    console.log("unbookmarked");
 }
+
+const getBookmark = (currentPost) => {
+    if (currentPost.current_user_bookmark_id) {
+        return `<button onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fa-solid fa-bookmark"></i></button>`;
+    }
+    return `<button onclick="createBookmark(${currentPost.id})"><i class="fa-regular fa-bookmark"></i></button>`;
+}
+
 
 const showStories = async () => {
     const endpoint = `${rootURL}/api/stories`;
@@ -92,32 +115,12 @@ const showPosts = async () => {
 
 const postToHTML = post => {
     // console.log(post.comments.length);
-    const bookmarkButton = document.querySelector('.bookmark-button');
-
-    bookmarkButton.addEventListener('click', async () => {
-        const postId = post.id; // get the ID of the current post
-        const currentPost = post;
-    
-        if (post.current_user_bookmark_id) {
-            deleteBookmark();        
-        } else {
-            // If the post has not been bookmarked by the current user, issue a POST request
-            createBookmark(currentPost);
-        }
-    
-        // After the bookmark has been created or deleted, re-query the post and redraw it
-        const postEndpoint = `/api/posts/${postId}`;
-        const response = await fetch(postEndpoint);
-        const updatedPost = await response.json();
-        const postElement = document.getElementById(`post-${postId}`);
-        targetElementAndReplace(postElement, updatedPost);
-    });
     return `
         <section id="post_${post.id}" class="post">
             <img src="${post.image_url}" alt="Fake image" />
+            ${getBookmark(post)}
             <p>${post.caption}</p>
-            <a href="#" class="bookmark-properties"><i ${post.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i></a>
-            ${ showCommentAndButtonIfItMakesSense(post) }
+            ${showCommentAndButtonIfItMakesSense(post)}
         </section>
     `
 }
