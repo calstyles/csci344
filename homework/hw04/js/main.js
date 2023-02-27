@@ -151,59 +151,60 @@ const showPosts = async (token) => {
                             <a href="#" class="icon-properties"><i ${currentPost.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i></a>
                         </div>
                     </div>
-                <div class="card-likes">${currentPost.likes.length} likes</div>
-                    <div class="card-caption">
-                        <span class="comment_username">
-                            ${currentPost.user.username}
-                            <span class ="comment-text">
-                               ${currentPost.caption}  
-                            </span>
-                            <div class="days-ago2">${currentPost.display_time.toUpperCase()}</div>
-                        </span> 
+                    <div class="card-likes">${currentPost.likes.length} likes</div>
+                        <div class="card-caption">
+                            <span class="comment_username">
+                                ${currentPost.user.username}
+                                <span class ="comment-text">
+                                ${currentPost.caption}  
+                                </span>
+                                <div class="days-ago2">${currentPost.display_time.toUpperCase()}</div>
+                            </span> 
+                            
+                            <!--                        <a href="#" class="more-link">more</a> -->
+                        </div>
+                        ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${i}" onClick="(function(){
+                            var cardComments = document.getElementById('card-comments-${i}'); 
+                            cardComments.style.display = 'block';
+                            const triggerButton = document.querySelector('#modal_close_${i}');
+                            triggerButton.focus();
+                        })(); return false;">View all ${currentPost.comments.length} comments </a>` 
+                        : firstComment}
                         
-                        <!--                        <a href="#" class="more-link">more</a> -->
-                    </div>
-                    ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${i}" onClick="(function(){
-                        var cardComments = document.getElementById('card-comments-${i}'); 
-                        cardComments.style.display = 'block';
-                        const triggerButton = document.querySelector('#modal_close_${i}');
-                        triggerButton.focus();
-                    })(); return false;">View all ${currentPost.comments.length} comments </a>` 
-                    : firstComment}
-                <div id="card-comments-${i}" class="modal"> 
-                    <a href="#" id="modal_close_${i}" onClick="(function(){
-                        var cardComments = document.getElementById('card-comments-${i}'); 
-                        cardComments.style.display = 'none';
-                        const closeControl = document.querySelector('.view-all-comments-btn-${i}');
-                        closeControl.focus();
-                    })(); return false;"><span class="close">&times;</span></a>
-                        <div class="modal-content">
-                            <div class="modal-image-div">
-                                <img src="${currentPost.image_url}" alt="post picture" class="modal-image">
-                            </div>
-                            <div class="modal_poster_info_and_comments">
-                                <div class="modal_poster_info">
-                                    <div class="user_pic">
-                                        <img class="account-pic" src="${currentPost.user.image_url}" />
-                                    </div>
-                                    <div class="username">
-                                        ${currentPost.user.username}
-                                    </div>
+                        <div id="card-comments-${i}" class="modal"> 
+                            <a href="#" id="modal_close_${i}" onClick="(function(){
+                                var cardComments = document.getElementById('card-comments-${i}'); 
+                                cardComments.style.display = 'none';
+                                const closeControl = document.querySelector('.view-all-comments-btn-${i}');
+                                closeControl.focus();
+                            })(); return false;"><span class="close">&times;</span></a>
+                            <div class="modal-content">
+                                <div class="modal-image-div">
+                                    <img src="${currentPost.image_url}" alt="post picture" class="modal-image">
                                 </div>
-                                <div class="all-comments">
-                                    ${currentCommentHTML}
+                                <div class="modal_poster_info_and_comments">
+                                    <div class="modal_poster_info">
+                                        <div class="user_pic">
+                                            <img class="account-pic" src="${currentPost.user.image_url}" />
+                                        </div>
+                                        <div class="username">
+                                            ${currentPost.user.username}
+                                        </div>
+                                    </div>
+                                    <div class="all-comments">
+                                        ${currentCommentHTML}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    <div class="card-add-comment">
+                        <div class="smile">
+                            <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
+                        </div>
+                        <input type="text" placeholder="Add a comment...">
+                        <a href="#" class="post-link">Post</a>
                     </div>
-                <div class="card-add-comment">
-                    <div class="smile">
-                        <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
-                    </div>
-                    <input type="text" placeholder="Add a comment...">
-                    <a href="#" class="post-link">Post</a>
                 </div>
-            </div>
             `    
     }    
     const resultsDiv = document.getElementById('card-block');
