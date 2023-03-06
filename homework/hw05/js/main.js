@@ -28,7 +28,7 @@ const redraw = async (currentPost) => {
     })
     const data = await response.json();
     const htmlString = postToHTML(data);
-    targetElementAndReplace(`#post_${currentPost}`, htmlString);
+    targetElementAndReplace(`#bookmark_${currentPost}`, htmlString);
 }
 
 const createBookmark = async (currentPost) => {
@@ -64,6 +64,8 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
             'Authorization': 'Bearer ' + token
         }
     })
+    console.log(response);
+
     const data = await response.json();
     redraw(currentPost);
     console.log("unbookmarked");
@@ -71,8 +73,11 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
+        // console.log("bookmark id " + currentPost.current_user_bookmark_id);
+        // console.log(`<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`);
         return `<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`;
     }
+    // console.log("id " + currentPost.id);
     return `<a onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
 }
 
