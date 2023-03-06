@@ -1,24 +1,9 @@
 import {getAccessToken} from './utilities.js';
 const rootURL = 'https://photo-app-secured.herokuapp.com';
 
-const showUserProfile = async (token) => {
-    const endpoint = `${rootURL}/api/profile`;
-    const response = await fetch(endpoint, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-    })
-    const data = await response.json();
-    console.log('User Profile:', data); 
-    const userDiv = document.getElementById('user-profile')
-    userDiv.innerHTML =         `
-        <img src="${data.image_url}" alt="profile picture" class="user-pic">
-        <div class="username-rec"><b>${data.username}</b></div>
-    `
-};
+// START OF BOOKMARK FUNCTIONS
 
-const redraw = async (currentPost) => {
+const redrawBookmark = async (currentPost) => {
     const endpoint = `${rootURL}/api/posts/${currentPost}`;
     const response = await fetch(endpoint, {
         headers: {
@@ -27,7 +12,7 @@ const redraw = async (currentPost) => {
         }
     })
     const data = await response.json();
-    const htmlString = postToHTML(data);
+    const htmlString = bookmarkToHTML(data);
     
     targetElementAndReplace(`bookmark_${currentPost}`, htmlString);
 }
@@ -49,7 +34,7 @@ window.createBookmark = async (currentPost) => {
         body: JSON.stringify(postData)
     })
     const data = await response.json();
-    redraw(currentPost);
+    redrawBookmark(currentPost);
 }
 
 window.deleteBookmark = async (currentPost, currentBookmark) => {
@@ -66,11 +51,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
     })
 
     const data = await response.json();
-    redraw(currentPost);
-}
-
-const bookmarkToHTML = currentPost => {
-    return `${getBookmark(currentPost)}`;
+    redrawBookmark(currentPost);
 }
 
 const getBookmark = (currentPost) => {
@@ -80,6 +61,12 @@ const getBookmark = (currentPost) => {
     return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>`;
 }
 
+const bookmarkToHTML = currentPost => {
+    return `${getBookmark(currentPost)}`;
+}
+
+// END OF BOOKMARK FUNCTIONS
+
 const targetElementAndReplace = (selector, newHTML) => { 
 	const div = document.createElement('div'); 
 	div.innerHTML = newHTML;
@@ -87,6 +74,23 @@ const targetElementAndReplace = (selector, newHTML) => {
     const oldEl = document.getElementById(selector);
     oldEl.parentElement.replaceChild(newEl, oldEl);
 }
+
+const showUserProfile = async (token) => {
+    const endpoint = `${rootURL}/api/profile`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    console.log('User Profile:', data); 
+    const userDiv = document.getElementById('user-profile')
+    userDiv.innerHTML =         `
+        <img src="${data.image_url}" alt="profile picture" class="user-pic">
+        <div class="username-rec"><b>${data.username}</b></div>
+    `
+};
 
 const showSuggestions = async (token) => {
     const endpoint = `${rootURL}/api/suggestions`;
