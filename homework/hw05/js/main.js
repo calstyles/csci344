@@ -76,6 +76,13 @@ const getBookmark = (currentPost) => {
     return `<a onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
 }
 
+const targetElementAndReplace = (selector, newHTML) => { 
+	const div = document.createElement('div'); 
+	div.innerHTML = newHTML;
+	const newEl = div.firstElementChild; 
+    const oldEl = document.querySelector(selector);
+    oldEl.parentElement.replaceChild(newEl, oldEl);
+}
 
 const showSuggestions = async (token) => {
     const endpoint = `${rootURL}/api/suggestions`;
