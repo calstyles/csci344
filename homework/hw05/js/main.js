@@ -19,7 +19,6 @@ const showUserProfile = async (token) => {
 };
 
 const redraw = async (currentPost) => {
-    console.log("currentPost =  " + currentPost);
     const endpoint = `${rootURL}/api/posts/${currentPost}`;
     const response = await fetch(endpoint, {
         headers: {
@@ -30,12 +29,10 @@ const redraw = async (currentPost) => {
     const data = await response.json();
     const htmlString = postToHTML(data);
     
-    targetElementAndReplace(`#bookmark_${currentPost}`, htmlString);
-    console.log(`#bookmark_${currentPost}`);
+    targetElementAndReplace(`bookmark_${currentPost}`, htmlString);
 }
 
-const createBookmark = async (currentPost) => {
-    console.log("currentPost " + currentPost);
+window.createBookmark = async (currentPost) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/`;
     const postData = {
@@ -53,10 +50,9 @@ const createBookmark = async (currentPost) => {
     })
     const data = await response.json();
     redraw(currentPost);
-    console.log("bookmarked");
 }
 
-const deleteBookmark = async (currentPost, currentBookmark) => {
+window.deleteBookmark = async (currentPost, currentBookmark) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/${currentBookmark}`;
 
@@ -68,25 +64,27 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
             'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
         }
     })
-    console.log(response);
 
     const data = await response.json();
     redraw(currentPost);
-    console.log("unbookmarked");
+}
+
+const postToHTML = currentPost => {
+    return `${getBookmark(currentPost)}`;
 }
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
-        return `<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`;
+        return `<div class="bookmark" id="bookmark_${currentPost.id}"><a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a></div>`;
     }
-    return `<a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
+    return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>`;
 }
 
 const targetElementAndReplace = (selector, newHTML) => { 
 	const div = document.createElement('div'); 
 	div.innerHTML = newHTML;
 	const newEl = div.firstElementChild; 
-    const oldEl = document.querySelector(selector);
+    const oldEl = document.getElementById(selector);
     oldEl.parentElement.replaceChild(newEl, oldEl);
 }
 
@@ -219,9 +217,7 @@ const showPosts = async (token) => {
                         <div class="plane">
                             <a href="#" class="icon-properties"><i class="far fa-paper-plane"></i></a>
                         </div>    
-                        <div class="bookmark">
-                            ${getBookmark(currentPost)}
-                        </div>
+                        ${postToHTML(currentPost)}
                     </div>
                     <div class="card-likes">${currentPost.likes.length} likes</div>
                         <div class="card-caption">
