@@ -18,6 +18,65 @@ const showUserProfile = async (token) => {
     `
 };
 
+const redraw = async (currentPost) => {
+    const endpoint = `${rootURL}/api/posts/${currentPost}`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    const htmlString = postToHTML(data);
+    targetElementAndReplace(`#post_${currentPost}`, htmlString);
+}
+
+const createBookmark = async (currentPost) => {
+    // define the endpoint:
+    const endpoint = `${rootURL}/api/bookmarks/`;
+    const postData = {
+        "post_id": currentPost // replace with the actual post ID
+    };
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(postData)
+    })
+    const data = await response.json();
+    redraw(currentPost);
+    console.log("bookmarked");
+}
+
+const deleteBookmark = async (currentPost, currentBookmark) => {
+    // define the endpoint:
+    const endpoint = `${rootURL}/api/bookmarks/${currentBookmark}`;
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+    redraw(currentPost);
+    console.log("unbookmarked");
+}
+
+const getBookmark = (currentPost) => {
+    if (currentPost.current_user_bookmark_id) {
+        return `<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`;
+    }
+    return `<a onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
+}
+
+
 const showSuggestions = async (token) => {
     const endpoint = `${rootURL}/api/suggestions`;
     const response = await fetch(endpoint, {
