@@ -19,19 +19,23 @@ const showUserProfile = async (token) => {
 };
 
 const redraw = async (currentPost) => {
+    console.log("currentPost =  " + currentPost);
     const endpoint = `${rootURL}/api/posts/${currentPost}`;
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
         }
     })
     const data = await response.json();
     const htmlString = postToHTML(data);
+    
     targetElementAndReplace(`#bookmark_${currentPost}`, htmlString);
+    console.log(`#bookmark_${currentPost}`);
 }
 
 const createBookmark = async (currentPost) => {
+    console.log("currentPost " + currentPost);
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/`;
     const postData = {
@@ -43,7 +47,7 @@ const createBookmark = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
         },
         body: JSON.stringify(postData)
     })
@@ -61,7 +65,7 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
         }
     })
     console.log(response);
@@ -73,12 +77,9 @@ const deleteBookmark = async (currentPost, currentBookmark) => {
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
-        // console.log("bookmark id " + currentPost.current_user_bookmark_id);
-        // console.log(`<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`);
         return `<a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a>`;
     }
-    // console.log("id " + currentPost.id);
-    return `<a onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
+    return `<a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a>`;
 }
 
 const targetElementAndReplace = (selector, newHTML) => { 
