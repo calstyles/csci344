@@ -69,7 +69,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
     redraw(currentPost);
 }
 
-const postToHTML = currentPost => {
+const bookmarkToHTML = currentPost => {
     return `${getBookmark(currentPost)}`;
 }
 
@@ -217,7 +217,7 @@ const showPosts = async (token) => {
                         <div class="plane">
                             <a href="#" class="icon-properties"><i class="far fa-paper-plane"></i></a>
                         </div>    
-                        ${postToHTML(currentPost)}
+                        ${bookmarkToHTML(currentPost)}
                     </div>
                     <div class="card-likes">${currentPost.likes.length} likes</div>
                         <div class="card-caption">
