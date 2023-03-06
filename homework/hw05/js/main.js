@@ -207,7 +207,7 @@ const showPosts = async (token) => {
                             <a href="#" class="icon-properties"><i class="far fa-paper-plane"></i></a>
                         </div>    
                         <div class="bookmark">
-                            <a href="#" class="icon-properties"><i ${currentPost.current_user_bookmark_id == null ? `class="far fa-bookmark"` : `class="fas fa-bookmark"`}></i></a>
+                            ${getBookmark(currentPost)}
                         </div>
                     </div>
                     <div class="card-likes">${currentPost.likes.length} likes</div>
