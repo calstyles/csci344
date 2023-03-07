@@ -90,7 +90,6 @@ window.createLike = async (currentPost) => {
         "post_id": currentPost // replace with the actual post ID
     };
 
-    // Create the bookmark:
     const response = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -107,7 +106,6 @@ window.deleteLike = async (currentPost, currentLike) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/posts/likes/${currentLike}`;
 
-    // Create the bookmark:
     const response = await fetch(endpoint, {
         method: "DELETE",
         headers: {
@@ -132,6 +130,94 @@ const likeToHTML = currentPost => {
 }
 
 // END OF LIKE FUNCTIONS
+
+// START OF FOLLOW FUNCTIONS
+
+const redrawFollow = async (currentSuggestion) => {
+    const endpoint = `${rootURL}/api/following/${currentSuggestion}`;
+    console.log("current here " + currentSuggestion);
+    console.log(currentSuggestion);
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        }
+    })
+    const data = await response.json();
+    const htmlString = followToHTML(data);
+    targetElementAndReplace(`follow_${currentSuggestion}`, htmlString);
+}
+
+window.createFollow = async (currentSuggestion) => {
+    // define the endpoint:
+    const endpoint = `${rootURL}/api/following`;
+    const postData = {
+        "post_id": currentSuggestion // replace with the actual post ID
+    };
+
+    const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        },
+        body: JSON.stringify(postData)
+    })
+    const data = await response.json();
+    // console.log("data: " + currentPost);
+    redrawFollow(currentSuggestion);
+}
+
+window.deleteFollow = async (currentSuggestion, currentFollow) => {
+    // define the endpoint:
+    console.log("currentFollow: " + currentFollow)
+    const endpoint = `${rootURL}/api/following/${currentFollow}`;
+    const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        }
+    })
+    const data = await response.json();
+    console.log(data);
+    // console.log("data: " + data);
+    redrawFollow(currentSuggestion);
+}
+
+window.isFollowing = async() => {
+    const endpoint = `${rootURL}/api/following`;
+
+    const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        },
+    })
+    const data = await response.json();
+    console.log(data);
+    return data;
+}
+
+const getFollow = (currentSuggestion) => {
+    // console.log("currentSuggestion: " + currentSuggestion.id);
+    // console.log("following: " + currentSuggestion.following);
+    console.log("current id " + currentSuggestion.id);
+    console.log("is follow id " + isFollowing().id);
+    if (currentSuggestion.id == isFollowing().id) {
+        console.log("id: " + currentSuggestion.id);
+        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id, isFollowing().following})" class="follow-link">follow</a></div>`;
+    }
+    return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
+}
+
+const followToHTML = currentSuggestion => {
+    return `${getFollow(currentSuggestion)}`;
+}
+
+
+// END OF FOLLOW FUNCTIONS
 
 const targetElementAndReplace = (selector, newHTML) => { 
 	const div = document.createElement('div'); 
@@ -166,9 +252,9 @@ const showSuggestions = async (token) => {
             'Authorization': 'Bearer ' + token
         }
     })
-    
+
     const data = await response.json();
-//    console.log('Suggestions:', data);
+    console.log('Suggestions:', data);
 
     let suggestionResults = ``
     for(let i = 0; i < data.length; i++){
@@ -181,7 +267,7 @@ const showSuggestions = async (token) => {
                     <div class="account-username">${currentSuggestion.username}</div>
                     <div class="suggested-for-you">Suggested for you</div>
                 </div>
-                <a href="#" class="follow-link">follow</a>
+                ${followToHTML(currentSuggestion)}
             </div>
             `
     }    
