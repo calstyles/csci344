@@ -56,7 +56,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
-        return `<div class="bookmark" id="bookmark_${currentPost.id}"><a onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a></div>`;
+        return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a></div>`;
     }
     return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>`;
 }
@@ -66,6 +66,72 @@ const bookmarkToHTML = currentPost => {
 }
 
 // END OF BOOKMARK FUNCTIONS
+
+// START OF LIKE FUNCTIONS
+
+const redrawLike = async (currentPost) => {
+    const endpoint = `${rootURL}/api/posts/${currentPost}`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        }
+    })
+    const data = await response.json();
+    const htmlString = likeToHTML(data);
+    
+    targetElementAndReplace(`heart_${currentPost}`, htmlString);
+}
+
+window.createLike = async (currentPost) => {
+    // define the endpoint:
+    const endpoint = `${rootURL}/api/posts/likes/`;
+    const postData = {
+        "post_id": currentPost // replace with the actual post ID
+    };
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        },
+        body: JSON.stringify(postData)
+    })
+    const data = await response.json();
+    redrawLike(currentPost);
+}
+
+window.deleteLike = async (currentPost, currentLike) => {
+    // define the endpoint:
+    const endpoint = `${rootURL}/api/posts/likes/${currentLike}`;
+
+    // Create the bookmark:
+    const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+        }
+    })
+
+    const data = await response.json();
+    redrawLike(currentPost);
+}
+
+const getLike = (currentPost) => {
+    if (currentPost.current_user_like_id) {
+        return `<div class="heart" id="heart_${currentPost.id}"><a class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})"><i class="fas fa-heart liked_post"></i></a></div>`;
+    }
+    return `<div class="heart" id="heart_${currentPost.id}"><a class="icon-properties" onclick="createLike(${currentPost.id})"><i class="far fa-heart fa-regular"></i></a></div>`;
+}
+
+const likeToHTML = currentPost => {
+    return `${getLike(currentPost)}`;
+}
+
+// END OF LIKE FUNCTIONS
 
 const targetElementAndReplace = (selector, newHTML) => { 
 	const div = document.createElement('div'); 
@@ -212,9 +278,7 @@ const showPosts = async (token) => {
                 </div>
                     <img src="${currentPost.image_url}" alt="post picture" class="post-pic">
                     <div class="card-actions">
-                        <div class="heart">
-                            <a href="#" class="icon-properties"><i ${currentPost.current_user_like_id == null ? `class="far fa-heart fa-regular"` : `class="fas fa-heart liked_post"`}></i></a>
-                        </div>
+                        ${likeToHTML(currentPost)}
                         <div class="comment">
                             <a href="#" class="icon-properties"><i class="fas fa-comment"></i></a>
                         </div>
