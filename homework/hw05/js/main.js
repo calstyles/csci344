@@ -176,6 +176,9 @@ const redrawFollow = async (currentSuggestion) => {
 window.createFollow = async (currentSuggestion) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/following`;
+    console.log("We are here");
+    console.log(endpoint);
+    console.log(currentSuggestion);
     const postData = {
         "post_id": currentSuggestion // replace with the actual post ID
     };
@@ -193,7 +196,8 @@ window.createFollow = async (currentSuggestion) => {
 }
 
 window.deleteFollow = async (currentSuggestion, currentFollow) => {
-    const endpoint = `${rootURL}/api/following/${currentFollow.id}`;
+    console.log("currentFollow " + currentFollow);
+    const endpoint = `${rootURL}/api/following/${currentSuggestion}`;
     console.log(endpoint);
     const response = await fetch(endpoint, {
         method: "DELETE",
@@ -203,20 +207,22 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
         }
     })
     const data = await response.json();
+    console.log("data ");
+    console.log(data)
     redrawFollow(currentSuggestion);
 }
 
 const getFollow = (currentSuggestion, currentFollow) => {
-    // console.log("currentSuggestion: " + currentSuggestion.id);
-    // console.log("following: " + currentSuggestion.following);
-    console.log("current id " + currentSuggestion.id);
-    console.log("is follow id " + currentFollow);
-    if (currentSuggestion.id) {
-        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow})" class="follow-link">follow</a></div>`;
+
+    // console.log("current id ");
+    // console.log(currentSuggestion.id);
+    // console.log("is following id ");
+    // console.log(currentFollow.following.id);
+    if (currentFollow.following.id) {
+        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow.following.id })" class="follow-link">unfollow</a></div>`;
     }
-    console.log(currentSuggestion.id);
-    console.log("prints again?");
-    return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
+    // console.log(currentSuggestion.id);
+    return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">follow</a></div>`;
 }
 
 const followToHTML = (currentSuggestion, currentFollow) => {
