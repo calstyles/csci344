@@ -79,7 +79,6 @@ const redrawLike = async (currentPost) => {
     })
     const data = await response.json();
     const htmlString = likeToHTML(data);
-    
     targetElementAndReplace(`heart_${currentPost}`, htmlString);
 }
 
@@ -93,9 +92,9 @@ const redrawLikeCount = async (currentPost) => {
         }
     })
     const data = await response.json();
-    const count = likeToHTML(data.likes.length);
+    const htmlString = likeCountToHTML(data);
     
-    targetElementAndReplace(`card-likes_${currentPost}`, count);
+    targetElementAndReplace(`card-likes_${currentPost}`, htmlString);
 }
 
 window.createLike = async (currentPost) => {
@@ -133,6 +132,16 @@ window.deleteLike = async (currentPost, currentLike) => {
     const data = await response.json();
     redrawLike(currentPost);
     redrawLikeCount(currentPost);
+}
+
+const likeCountToHTML = (currentPost) => {
+    return `${getLikeCount(currentPost)}`;
+}
+
+const getLikeCount = (currentPost) => {
+
+    return `<div id="card-likes_${currentPost.id}" class="card-likes">${currentPost.likes.length} likes</div>`;
+    
 }
 
 const getLike = (currentPost) => {
@@ -211,22 +220,18 @@ const getFollow = (currentSuggestion, currentFollow) => {
     return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
 }
 
-const followToHTML = (currentSuggestion, currentFollow) => {
-    return `${getFollow(currentSuggestion, currentFollow)}`;
-}
+// const followToHTML = (currentSuggestion, currentFollow) => {
+//     return `${getFollow(currentSuggestion, currentFollow)}`;
+// }
 
 
 // END OF FOLLOW FUNCTIONS
 
 const targetElementAndReplace = (selector, newHTML) => { 
-    // console.log("selector: " + selector);
-    // console.log("newHTML: " + newHTML);
 	const div = document.createElement('div'); 
 	div.innerHTML = newHTML;
 	const newEl = div.firstElementChild; 
     const oldEl = document.getElementById(selector);
-    // console.log(oldEl);
-    // console.log(newEl);
     oldEl.parentElement.replaceChild(newEl, oldEl);
 }
 
@@ -388,7 +393,7 @@ const showPosts = async (token) => {
                         </div>    
                         ${bookmarkToHTML(currentPost)}
                     </div>
-                    <div id="card-likes_${currentPost}" class="card-likes">${currentPost.likes.length} likes</div>
+                    ${likeCountToHTML(currentPost)}
                         <div class="card-caption">
                             <span class="comment_username">
                                 ${currentPost.user.username}
