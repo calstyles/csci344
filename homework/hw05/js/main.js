@@ -206,7 +206,7 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
     redrawFollow(currentSuggestion);
 }
 
-const getFollow = (currentSuggestion) => {
+const getFollow = (currentSuggestion, currentFollow) => {
     // console.log("currentSuggestion: " + currentSuggestion.id);
     // console.log("following: " + currentSuggestion.following);
     console.log("current id " + currentSuggestion.id);
