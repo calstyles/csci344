@@ -206,13 +206,12 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
     redrawFollow(currentSuggestion);
 }
 
-const getFollow = (currentSuggestion, currentFollow) => {
-    console.log(currentFollow);
-    if (currentFollow === undefined) {
-        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
-    }
-    console.log("print");
-    if(currentFollow.id != null){
+const getFollow = (currentSuggestion) => {
+    // console.log("currentSuggestion: " + currentSuggestion.id);
+    // console.log("following: " + currentSuggestion.following);
+    console.log("current id " + currentSuggestion.id);
+    console.log("is follow id " + currentFollow);
+    if (currentSuggestion.id) {
         return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow})" class="follow-link">follow</a></div>`;
     }
     console.log(currentSuggestion.id);
@@ -220,9 +219,9 @@ const getFollow = (currentSuggestion, currentFollow) => {
     return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
 }
 
-// const followToHTML = (currentSuggestion, currentFollow) => {
-//     return `${getFollow(currentSuggestion, currentFollow)}`;
-// }
+const followToHTML = (currentSuggestion, currentFollow) => {
+    return `${getFollow(currentSuggestion, currentFollow)}`;
+}
 
 
 // END OF FOLLOW FUNCTIONS
