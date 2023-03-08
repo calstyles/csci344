@@ -152,10 +152,7 @@ const likeToHTML = currentPost => {
 // START OF FOLLOW FUNCTIONS
 
 const redrawFollow = async (currentSuggestion) => {
-    // console.log("currentSuggestion in redrawFollow " + currentSuggestion);
     const endpoint = `${rootURL}/api/following/${currentSuggestion}`;
-    // console.log("current here " + currentSuggestion);
-    // console.log(currentSuggestion);
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
@@ -183,12 +180,12 @@ window.createFollow = async (currentSuggestion) => {
         body: JSON.stringify(postData)
     })
     const data = await response.json();
-    // console.log("data: " + currentPost);
     redrawFollow(currentSuggestion);
 }
 
 window.deleteFollow = async (currentSuggestion, currentFollow) => {
     const endpoint = `${rootURL}/api/following/${currentFollow.id}`;
+    console.log(endpoint);
     const response = await fetch(endpoint, {
         method: "DELETE",
         headers: {
@@ -201,11 +198,16 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
 }
 
 const getFollow = (currentSuggestion, currentFollow) => {
-    if (currentFollow.id) {
-
-        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id, currentFollow})" class="follow-link">follow</a></div>`;
+    console.log(currentFollow);
+    if (currentFollow === undefined) {
+        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
     }
-    
+    console.log("print");
+    if(currentFollow.id != null){
+        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow})" class="follow-link">follow</a></div>`;
+    }
+    console.log(currentSuggestion.id);
+    console.log("prints again?");
     return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">unfollow</a></div>`;
 }
 
@@ -217,14 +219,14 @@ const followToHTML = (currentSuggestion, currentFollow) => {
 // END OF FOLLOW FUNCTIONS
 
 const targetElementAndReplace = (selector, newHTML) => { 
-    console.log("selector: " + selector);
-    console.log("newHTML: " + newHTML);
+    // console.log("selector: " + selector);
+    // console.log("newHTML: " + newHTML);
 	const div = document.createElement('div'); 
 	div.innerHTML = newHTML;
 	const newEl = div.firstElementChild; 
     const oldEl = document.getElementById(selector);
-    console.log(oldEl);
-    console.log(newEl);
+    // console.log(oldEl);
+    // console.log(newEl);
     oldEl.parentElement.replaceChild(newEl, oldEl);
 }
 
@@ -272,10 +274,6 @@ const showSuggestions = async (token) => {
     for(let i = 0; i < data.length; i++){
         let currentSuggestion = data[i];
         let currentFollow = data2[i];
-        console.log("currentSuggestion");
-        console.log(currentSuggestion);
-        console.log("currentFollow");
-        console.log(currentFollow);
         suggestionResults +=  
             `
             <div class="account">
