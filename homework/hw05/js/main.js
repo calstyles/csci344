@@ -252,12 +252,13 @@ const redrawComment = async(currentPost) => {
     })
     const data = await response.json();
     const htmlString = commentToHTML(data);
-    targetElementAndReplace(`heart_${currentPost}`, htmlString);
+    targetElementAndReplace(`comment_username2_${currentPost}`, htmlString);
 }
 
 window.createComment = async (currentPost) => {
     const endpoint = `${rootURL}/api/comments`;
     const response = await fetch(endpoint, {
+        method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
@@ -269,12 +270,20 @@ window.createComment = async (currentPost) => {
 }
 
 const getComment = (currentPost) => {
-    
+    return `<div id="comment_username2" class="comment_username2">
+                ${currentPost.comments[currentPost.comments.length - 1].user.username}
+                <span class="comment-text">
+                        ${currentPost.comments[currentPost.comments.length - 1].text}
+                </span>
+                <div class="days-ago2">
+                    ${currentPost.comments[currentPost.comments.length - 1].display_time.toUpperCase()}
+                </div>
+            </div>`;
 }
 
-// const commentToToHTML = (currentPost) => {
-//     return `${currentPost}`;
-// }
+const commentToHTML = (currentPost) => {
+    return `${getComment(currentPost)}`;
+}
 
 // END OF COMMENT FUNCTIONS
 
@@ -466,15 +475,7 @@ const showPosts = async (token) => {
                         })(); return false;">View all ${currentPost.comments.length} comments </a>` 
                         : firstComment}
                         ${commentsGreaterThanOne ? 
-                            `<div class="comment_username2">
-                                ${currentPost.comments[currentPost.comments.length - 1].user.username}
-                                <span class="comment-text">
-                                        ${currentPost.comments[currentPost.comments.length - 1].text}
-                                </span>
-                                <div class="days-ago2">
-                                    ${currentPost.comments[currentPost.comments.length - 1].display_time.toUpperCase()}
-                                </div>
-                            </div>`
+                            `${commentToHTML(currentPost)}`
                         : `<div></div>`}
                         <div id="card-comments-${i}" class="modal" role="dialog"> 
                             <a href="#" id="modal_close_${i}" onClick="(function(){
@@ -511,7 +512,6 @@ const showPosts = async (token) => {
                     </div>
                 </div>
             `    
-            console.log(currentCommentHTML);
     }    
     const resultsDiv = document.getElementById('card-block');
     resultsDiv.innerHTML = postResults;
