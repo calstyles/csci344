@@ -161,16 +161,35 @@ const likeToHTML = currentPost => {
 // START OF FOLLOW FUNCTIONS
 
 const redrawFollow = async (currentSuggestion) => {
-    const endpoint = `${rootURL}/api/following/${currentSuggestion}`;
-    const response = await fetch(endpoint, {
-        headers: {
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const endpoint2 = `${rootURL}/api/following`;
+    const response2 = await fetch(endpoint2, {
+        headers:{
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + token
         }
     })
-    const data = await response.json();
-    const htmlString = followToHTML(data);
-    targetElementAndReplace(`follow_${currentSuggestion}`, htmlString);
+
+    
+    const data2 = await response2.json();
+    var suggestion = document.getElementById("follow_" + currentSuggestion).parentElement;
+    var pleaseWork = suggestion.getElementsByClassName("account-username")
+    console.log(pleaseWork[0].innerHTML)
+    var currentFollower = null
+    for(let i = 0; i < data2.length; i++){
+        if(data2[i].following.first_name.toLowerCase() == pleaseWork[0].innerHTML){
+            currentFollower = data2[i]
+        }
+    }
+    
+    var test = ``
+    if(currentFollower != null){
+        test = getFollow(currentSuggestion, currentFollower)
+    }else{
+        test = getFollow(currentSuggestion, null)
+    }
+
+     targetElementAndReplace(`follow_${currentSuggestion}`, test);
 }
 
 window.createFollow = async (currentSuggestion) => {
@@ -178,7 +197,7 @@ window.createFollow = async (currentSuggestion) => {
     const endpoint = `${rootURL}/api/following/`;
     // console.log("We are here");
     // console.log(endpoint);
-    console.log(currentSuggestion);
+    // console.log(currentSuggestion);
     const postData = {
         "user_id": currentSuggestion // replace with the actual post ID
     };
@@ -199,7 +218,7 @@ window.createFollow = async (currentSuggestion) => {
     // console.log(response);
 
     const data = await response.json();
-    redrawFollow(currentSuggestion);
+    redrawFollow(currentSuggestion, true)
 }
 
 window.deleteFollow = async (currentSuggestion, currentFollow) => {
@@ -216,7 +235,9 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
     const data = await response.json();
     // console.log("data ");
     // console.log(data)
-    redrawFollow(currentSuggestion);
+    // redrawFollow(currentSuggestion, currentFollow);
+
+    redrawFollow(currentSuggestion, false);
 }
 
 const getFollow = (currentSuggestion, currentFollow) => {
@@ -224,8 +245,9 @@ const getFollow = (currentSuggestion, currentFollow) => {
     // console.log("current id ");
     // console.log(currentSuggestion.id);
     // console.log("is following id ");
+    // && currentFollow.following.id === currentSuggestion.id
     // console.log(currentFollow.following.id);
-     if (currentFollow.following.id === currentSuggestion.id) {
+     if (currentFollow != null) {
         return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow.following.id})" class="follow-link">unfollow</a></div>`;
     }
     // console.log(currentSuggestion.id);
@@ -235,7 +257,6 @@ const getFollow = (currentSuggestion, currentFollow) => {
 const followToHTML = (currentSuggestion, currentFollow) => {
     return `${getFollow(currentSuggestion, currentFollow)}`;
 }
-
 
 // END OF FOLLOW FUNCTIONS
 
@@ -257,11 +278,11 @@ const showUserProfile = async (token) => {
     })
     const data = await response.json();
     console.log('User Profile:', data); 
-    const userDiv = document.getElementById('user-profile')
+    const userDiv = document.getElementById('user-profile');
     userDiv.innerHTML =         `
         <img src="${data.image_url}" alt="profile picture" class="user-pic">
         <div class="username-rec"><b>${data.username}</b></div>
-    `
+    `;
 };
 
 const showSuggestions = async (token) => {
@@ -282,6 +303,7 @@ const showSuggestions = async (token) => {
         }
     })
 
+    
     const data2 = await response2.json();
     
     console.log('Suggestions:', data);
@@ -478,7 +500,8 @@ const showPosts = async (token) => {
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
     const token = await getAccessToken(rootURL, 'luke', 'luke_password');
-
+    console.log(token)
+    
     // then use the access token provided to access data on the user's behalf
     showUserProfile(token);
     showSuggestions(token);
