@@ -332,7 +332,6 @@ const showSuggestions = async (token) => {
     for(let i = 0; i < data.length; i++){
         let currentSuggestion = data[i];
         let currentFollow = data2[i];
-        console.log(currentFollow)
         suggestionResults +=  
             `
             <div class="account">
@@ -468,12 +467,12 @@ const showPosts = async (token) => {
                         : firstComment}
                         ${commentsGreaterThanOne ? 
                             `<div class="comment_username2">
-                                ${currentPost.comments[0].user.username}
+                                ${currentPost.comments[currentPost.comments.length - 1].user.username}
                                 <span class="comment-text">
-                                        ${currentPost.comments[0].text}
+                                        ${currentPost.comments[currentPost.comments.length - 1].text}
                                 </span>
                                 <div class="days-ago2">
-                                    ${currentPost.comments[0].display_time.toUpperCase()}
+                                    ${currentPost.comments[currentPost.comments.length - 1].display_time.toUpperCase()}
                                 </div>
                             </div>`
                         : `<div></div>`}
@@ -512,6 +511,7 @@ const showPosts = async (token) => {
                     </div>
                 </div>
             `    
+            console.log(currentCommentHTML);
     }    
     const resultsDiv = document.getElementById('card-block');
     resultsDiv.innerHTML = postResults;
