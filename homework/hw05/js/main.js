@@ -8,7 +8,7 @@ const redrawBookmark = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -29,7 +29,7 @@ window.createBookmark = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
@@ -46,7 +46,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
 
@@ -74,7 +74,7 @@ const redrawLike = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -88,7 +88,7 @@ const redrawLikeCount = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -108,7 +108,7 @@ window.createLike = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
@@ -125,7 +125,7 @@ window.deleteLike = async (currentPost, currentLike) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
 
@@ -165,7 +165,7 @@ const redrawFollow = async (currentSuggestion) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -175,40 +175,47 @@ const redrawFollow = async (currentSuggestion) => {
 
 window.createFollow = async (currentSuggestion) => {
     // define the endpoint:
-    const endpoint = `${rootURL}/api/following`;
-    console.log("We are here");
-    console.log(endpoint);
+    const endpoint = `${rootURL}/api/following/`;
+    // console.log("We are here");
+    // console.log(endpoint);
     console.log(currentSuggestion);
     const postData = {
-        "post_id": currentSuggestion // replace with the actual post ID
+        "user_id": currentSuggestion // replace with the actual post ID
     };
+
+    // console.log("postData");
+    // console.log(postData);
 
     const response = await fetch(endpoint, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
+
+    // console.log("This is our response");
+    // console.log(response);
+
     const data = await response.json();
     redrawFollow(currentSuggestion);
 }
 
 window.deleteFollow = async (currentSuggestion, currentFollow) => {
-    console.log("currentFollow " + currentFollow);
-    const endpoint = `${rootURL}/api/following/${currentSuggestion}`;
-    console.log(endpoint);
+    // console.log("currentFollow " + currentFollow);
+    const endpoint = `${rootURL}/api/following/${currentFollow}`;
+    // console.log(endpoint);
     const response = await fetch(endpoint, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'webdev', 'password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
-    console.log("data ");
-    console.log(data)
+    // console.log("data ");
+    // console.log(data)
     redrawFollow(currentSuggestion);
 }
 
@@ -218,8 +225,8 @@ const getFollow = (currentSuggestion, currentFollow) => {
     // console.log(currentSuggestion.id);
     // console.log("is following id ");
     // console.log(currentFollow.following.id);
-    if (currentFollow.following.id) {
-        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow.following.id })" class="follow-link">unfollow</a></div>`;
+     if (currentFollow.following.id === currentSuggestion.id) {
+        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow.following.id})" class="follow-link">unfollow</a></div>`;
     }
     // console.log(currentSuggestion.id);
     return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">follow</a></div>`;
@@ -278,7 +285,7 @@ const showSuggestions = async (token) => {
     const data2 = await response2.json();
     
     console.log('Suggestions:', data);
-    console.log('Following: ', data2)
+    console.log('Following: ', data2);
 
     let suggestionResults = ``
     for(let i = 0; i < data.length; i++){
@@ -470,7 +477,7 @@ const showPosts = async (token) => {
 
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
-    const token = await getAccessToken(rootURL, 'webdev', 'password');
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
 
     // then use the access token provided to access data on the user's behalf
     showUserProfile(token);
