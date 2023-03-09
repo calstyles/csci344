@@ -169,15 +169,13 @@ const redrawFollow = async (currentSuggestion) => {
             'Authorization': 'Bearer ' + token
         }
     })
-
     
     const data2 = await response2.json();
     var suggestion = document.getElementById("follow_" + currentSuggestion).parentElement;
-    var pleaseWork = suggestion.getElementsByClassName("account-username")
-    console.log(pleaseWork[0].innerHTML)
+    var account = suggestion.getElementsByClassName("account-username")
     var currentFollower = null
     for(let i = 0; i < data2.length; i++){
-        if(data2[i].following.first_name.toLowerCase() == pleaseWork[0].innerHTML){
+        if(data2[i].following.first_name.toLowerCase() == account[0].innerHTML){
             currentFollower = data2[i]
         }
     }
@@ -195,15 +193,10 @@ const redrawFollow = async (currentSuggestion) => {
 window.createFollow = async (currentSuggestion) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/following/`;
-    // console.log("We are here");
-    // console.log(endpoint);
-    // console.log(currentSuggestion);
+
     const postData = {
         "user_id": currentSuggestion // replace with the actual post ID
     };
-
-    // console.log("postData");
-    // console.log(postData);
 
     const response = await fetch(endpoint, {
         method: "POST",
@@ -213,9 +206,6 @@ window.createFollow = async (currentSuggestion) => {
         },
         body: JSON.stringify(postData)
     })
-
-    // console.log("This is our response");
-    // console.log(response);
 
     const data = await response.json();
     redrawFollow(currentSuggestion)
@@ -236,15 +226,9 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
 
 const getFollow = (currentSuggestion, currentFollow) => {
 
-    // console.log("current id ");
-    // console.log(currentSuggestion.id);
-    // console.log("is following id ");
-    // && currentFollow.following.id === currentSuggestion.id
-    // console.log(currentFollow.following.id);
-     if (currentFollow != null) {
+     if (currentFollow != null && currentSuggestion == currentFollow.following.id) {
         return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link">unfollow</a></div>`;
     }
-    // console.log(currentSuggestion.id);
     return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link">follow</a></div>`;
 }
 
@@ -253,6 +237,47 @@ const followToHTML = (currentSuggestion, currentFollow) => {
 }
 
 // END OF FOLLOW FUNCTIONS
+
+
+
+// START OF COMMENT FUNCTIONS
+
+const redrawComment = async(currentPost) => {
+    const endpoint = `${rootURL}/api/posts/${currentPost}`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+        }
+    })
+    const data = await response.json();
+    const htmlString = commentToHTML(data);
+    targetElementAndReplace(`heart_${currentPost}`, htmlString);
+}
+
+window.createComment = async (currentPost) => {
+    const endpoint = `${rootURL}/api/comments`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+        }
+    })
+
+    const data = await response.json();
+    redrawComment(currentPost);
+}
+
+const getComment = (currentPost) => {
+    
+}
+
+// const commentToToHTML = (currentPost) => {
+//     return `${currentPost}`;
+// }
+
+// END OF COMMENT FUNCTIONS
+
 
 const targetElementAndReplace = (selector, newHTML) => { 
 	const div = document.createElement('div'); 
@@ -307,6 +332,7 @@ const showSuggestions = async (token) => {
     for(let i = 0; i < data.length; i++){
         let currentSuggestion = data[i];
         let currentFollow = data2[i];
+        console.log(currentFollow)
         suggestionResults +=  
             `
             <div class="account">
