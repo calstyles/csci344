@@ -218,13 +218,11 @@ window.createFollow = async (currentSuggestion) => {
     // console.log(response);
 
     const data = await response.json();
-    redrawFollow(currentSuggestion, true)
+    redrawFollow(currentSuggestion)
 }
 
 window.deleteFollow = async (currentSuggestion, currentFollow) => {
-    // console.log("currentFollow " + currentFollow);
     const endpoint = `${rootURL}/api/following/${currentFollow}`;
-    // console.log(endpoint);
     const response = await fetch(endpoint, {
         method: "DELETE",
         headers: {
@@ -233,11 +231,7 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
         }
     })
     const data = await response.json();
-    // console.log("data ");
-    // console.log(data)
-    // redrawFollow(currentSuggestion, currentFollow);
-
-    redrawFollow(currentSuggestion, false);
+    redrawFollow(currentSuggestion);
 }
 
 const getFollow = (currentSuggestion, currentFollow) => {
@@ -248,10 +242,10 @@ const getFollow = (currentSuggestion, currentFollow) => {
     // && currentFollow.following.id === currentSuggestion.id
     // console.log(currentFollow.following.id);
      if (currentFollow != null) {
-        return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="deleteFollow(${currentSuggestion.id}, ${currentFollow.following.id})" class="follow-link">unfollow</a></div>`;
+        return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link">unfollow</a></div>`;
     }
     // console.log(currentSuggestion.id);
-    return `<div class="follow" id="follow_${currentSuggestion.id}"><a id="follow_${currentSuggestion.id}" onclick="createFollow(${currentSuggestion.id})" class="follow-link">follow</a></div>`;
+    return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link">follow</a></div>`;
 }
 
 const followToHTML = (currentSuggestion, currentFollow) => {
@@ -321,7 +315,7 @@ const showSuggestions = async (token) => {
                     <div class="account-username">${currentSuggestion.username}</div>
                     <div class="suggested-for-you">Suggested for you</div>
                 </div>
-                ${followToHTML(currentSuggestion, currentFollow)}
+                ${followToHTML(currentSuggestion.id, currentFollow)}
             </div>
             `
     }    
