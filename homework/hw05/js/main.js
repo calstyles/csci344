@@ -58,9 +58,9 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
 
 const getBookmark = (currentPost) => {
     if (currentPost.current_user_bookmark_id) {
-        return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></a></div>`;
+        return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></button></div>`;
     }
-    return `<div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>`;
+    return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></button></div>`;
 }
 
 const bookmarkToHTML = currentPost => {
@@ -148,9 +148,9 @@ const getLikeCount = (currentPost) => {
 
 const getLike = (currentPost) => {
     if (currentPost.current_user_like_id) {
-        return `<div class="heart" id="heart_${currentPost.id}"><a class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})"><i class="fas fa-heart liked_post"></i></a></div>`;
+        return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})"><i class="fas fa-heart liked_post"></i></button></div>`;
     }
-    return `<div class="heart" id="heart_${currentPost.id}"><a class="icon-properties" onclick="createLike(${currentPost.id})"><i class="far fa-heart fa-regular"></i></a></div>`;
+    return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="createLike(${currentPost.id})"><i class="far fa-heart fa-regular"></i></button></div>`;
 }
 
 const likeToHTML = currentPost => {
@@ -229,9 +229,9 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
 const getFollow = (currentSuggestion, currentFollow) => {
 
      if (currentFollow != null && currentSuggestion == currentFollow.following.id) {
-        return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link">unfollow</a></div>`;
+        return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link">unfollow</button></div>`;
     }
-    return `<div class="follow" id="follow_${currentSuggestion}"><a id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link">follow</a></div>`;
+    return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link">follow</button></div>`;
 }
 
 const followToHTML = (currentSuggestion, currentFollow) => {
@@ -535,7 +535,7 @@ const showPosts = async (token) => {
                             <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
                         </div>
                         <input id="comment_text_${currentPost.id}" type="text" placeholder="Add a comment..." >
-                        <div id="post-link_${currentPost.id}"><a onclick="createPostComment(${currentPost.id})" class="post-link">Post</a></div>
+                        <div id="post-link_${currentPost.id}"><button onclick="createPostComment(${currentPost.id})" class="post-link">Post</button></div>
                     </div>
                 </div>
             `    
