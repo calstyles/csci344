@@ -286,7 +286,16 @@ window.createPostComment = async (currentPost) => {
     redrawComment(currentPost);
 }
 
+const getCommentView = (currentPost) => {
+    
+}
+
+const commentViewToHTML = (currentPost) => {
+
+}
+
 const getComment = (currentPost) => {
+    console.log("currentPost in getComment " + currentPost);
     return `<div id="comment_username2_${currentPost.id}" class="comment_username2">
                 ${currentPost.comments[currentPost.comments.length - 1].user.username}
                 <span class="comment-text">
@@ -485,21 +494,21 @@ const showPosts = async (token) => {
                             
                             <!--                        <a href="#" class="more-link">more</a> -->
                         </div>
-                        ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${i}" onClick="(function(){
-                            var cardComments = document.getElementById('card-comments-${i}'); 
+                        ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${currentPost.id}" onClick="(function(){
+                            var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
                             cardComments.style.display = 'block';
-                            const triggerButton = document.querySelector('#modal_close_${i}');
+                            const triggerButton = document.querySelector('#modal_close_${currentPost.id}');
                             triggerButton.focus();
                         })(); return false;">View all ${currentPost.comments.length} comments </a>` 
                         : firstComment}
                         ${commentsGreaterThanOne ? 
                             `${commentToHTML(currentPost)}`
                         : `<div></div>`}
-                        <div id="card-comments-${i}" class="modal" role="dialog"> 
-                            <a href="#" id="modal_close_${i}" onClick="(function(){
-                                var cardComments = document.getElementById('card-comments-${i}'); 
+                        <div id="card-comments-${currentPost.id}" class="modal" role="dialog"> 
+                            <a href="#" id="modal_close_${currentPost.id}" onClick="(function(){
+                                var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
                                 cardComments.style.display = 'none';
-                                const closeControl = document.querySelector('.view-all-comments-btn-${i}');
+                                const closeControl = document.querySelector('.view-all-comments-btn-${currentPost.id}');
                                 closeControl.focus();
                             })(); return false;"><span class="close">&times;</span></a>
                             <div class="modal-content">
@@ -526,7 +535,7 @@ const showPosts = async (token) => {
                             <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
                         </div>
                         <input id="comment_text_${currentPost.id}" type="text" placeholder="Add a comment..." >
-                        <div id="post-link_${currentPost.id}"><a onclick="createPostComment(${currentPost.id})">Post</a></div>
+                        <div id="post-link_${currentPost.id}"><a onclick="createPostComment(${currentPost.id})" class="post-link">Post</a></div>
                     </div>
                 </div>
             `    
