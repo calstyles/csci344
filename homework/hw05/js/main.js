@@ -17,6 +17,8 @@ const redrawBookmark = async (currentPost) => {
     targetElementAndReplace(`bookmark_${currentPost}`, htmlString);
 }
 
+
+
 window.createBookmark = async (currentPost) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/`;
@@ -243,34 +245,49 @@ const followToHTML = (currentSuggestion, currentFollow) => {
 // START OF COMMENT FUNCTIONS
 
 const redrawComment = async(currentPost) => {
-    const endpoint = `${rootURL}/api/posts/${currentPost}`;
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const endpoint = `${rootURL}/api/posts`;
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + token
         }
     })
     const data = await response.json();
-    const htmlString = commentToHTML(data);
-    targetElementAndReplace(`comment_username2_${currentPost}`, htmlString);
+
+    let hi 
+    for(let i = 0; i < data.length; i++){
+        if(data[i].id == currentPost){
+            hi = data[i]
+        }
+    }
+
+    targetElementAndReplace(`comment_username2_${currentPost}`, getComment(hi));
 }
 
-window.createComment = async (currentPost) => {
-    const endpoint = `${rootURL}/api/comments`;
+window.createPostComment = async (currentPost) => {
+    let text = document.getElementById("comment_text_"+currentPost).value
+
+    const endpoint = `${rootURL}/api/comments/`;
+    const postData = {
+        "post_id": currentPost,
+        "text": text
+    };
     const response = await fetch(endpoint, {
-        method: "DELETE",
+        method: "POST",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
-        }
+        },
+        body: JSON.stringify(postData)
     })
-
+    
     const data = await response.json();
     redrawComment(currentPost);
 }
 
 const getComment = (currentPost) => {
-    return `<div id="comment_username2" class="comment_username2">
+    return `<div id="comment_username2_${currentPost.id}" class="comment_username2">
                 ${currentPost.comments[currentPost.comments.length - 1].user.username}
                 <span class="comment-text">
                         ${currentPost.comments[currentPost.comments.length - 1].text}
@@ -282,6 +299,7 @@ const getComment = (currentPost) => {
 }
 
 const commentToHTML = (currentPost) => {
+    // console.log("heres the current post: " + currentPost)
     return `${getComment(currentPost)}`;
 }
 
@@ -507,12 +525,14 @@ const showPosts = async (token) => {
                         <div class="smile">
                             <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
                         </div>
-                        <input type="text" placeholder="Add a comment...">
-                        <a href="#" class="post-link">Post</a>
+                        <input id="comment_text_${currentPost.id}" type="text" placeholder="Add a comment..." >
+                        <div id="post-link_${currentPost.id}"><a onclick="createPostComment(${currentPost.id})">Post</a></div>
                     </div>
                 </div>
             `    
     }    
+    // <div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>
+    // <div id="post-link_${currentPost.id}"><a href="#" onclick="createComment(${currentPost.id})">Post</a></div>
     const resultsDiv = document.getElementById('card-block');
     resultsDiv.innerHTML = postResults;
 }
