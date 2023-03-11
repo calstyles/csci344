@@ -8,7 +8,7 @@ const redrawBookmark = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
     const data = await response.json();
@@ -31,7 +31,7 @@ window.createBookmark = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         },
         body: JSON.stringify(postData)
     })
@@ -48,7 +48,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
 
@@ -76,7 +76,7 @@ const redrawLike = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
     const data = await response.json();
@@ -90,7 +90,7 @@ const redrawLikeCount = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
     const data = await response.json();
@@ -110,7 +110,7 @@ window.createLike = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         },
         body: JSON.stringify(postData)
     })
@@ -127,7 +127,7 @@ window.deleteLike = async (currentPost, currentLike) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
 
@@ -163,7 +163,7 @@ const likeToHTML = currentPost => {
 // START OF FOLLOW FUNCTIONS
 
 const redrawFollow = async (currentSuggestion) => {
-    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
     const endpoint2 = `${rootURL}/api/following`;
     const response2 = await fetch(endpoint2, {
         headers:{
@@ -204,7 +204,7 @@ window.createFollow = async (currentSuggestion) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         },
         body: JSON.stringify(postData)
     })
@@ -219,7 +219,7 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         }
     })
     const data = await response.json();
@@ -245,7 +245,7 @@ const followToHTML = (currentSuggestion, currentFollow) => {
 // START OF COMMENT FUNCTIONS
 
 const redrawComment = async(currentPost) => {
-    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
     const endpoint = `${rootURL}/api/posts`;
     const response = await fetch(endpoint, {
         headers: {
@@ -262,7 +262,13 @@ const redrawComment = async(currentPost) => {
         }
     }
 
+    let commentsGreaterThanOne = (hi.comments.length > 1 ? true : false);
+    // if(commentsGreaterThanOne){
+
+    // }
+
     targetElementAndReplace(`comment_username2_${currentPost}`, getComment(hi));
+    targetElementAndReplace(`view-all-comments-btn-${currentPost}`, getCommentCount(hi, commentsGreaterThanOne))
 }
 
 window.createPostComment = async (currentPost) => {
@@ -277,7 +283,7 @@ window.createPostComment = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
         },
         body: JSON.stringify(postData)
     })
@@ -307,12 +313,38 @@ const getComment = (currentPost) => {
             </div>`;
 }
 
+const getCommentCount = (currentPost, commentsGreaterThanOne) => {
+    let commentsGreaterThanOneHTML = ``
+    let firstComment
+    if(commentsGreaterThanOne){
+        commentsGreaterThanOneHTML = `<span id="view-all-comments-btn-${currentPost.id}"><a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${currentPost.id}" onClick="(function(){
+            var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
+            cardComments.style.display = 'block';
+            const triggerButton = document.querySelector('#modal_close_${currentPost.id}');
+            triggerButton.focus();
+        })(); return false;">View all ${currentPost.comments.length} comments</a></span>`
+    }else{
+        commentsGreaterThanOneHTML = `<span id="view-all-comments-btn-${currentPost.id}"><a href="#" id="view-all-comments-btn"; return false;"></a></span>`
+    }
+
+    return commentsGreaterThanOneHTML
+}
+
+const commentCountToHTML = (currentPost, commentsGreaterThanOne) => {
+    return `${getCommentCount(currentPost, commentsGreaterThanOne)}`;
+}
+
+
 const commentToHTML = (currentPost) => {
     // console.log("heres the current post: " + currentPost)
     return `${getComment(currentPost)}`;
 }
 
 // END OF COMMENT FUNCTIONS
+
+const getPostNum = (currentPost) => {
+    
+} 
 
 
 const targetElementAndReplace = (selector, newHTML) => { 
@@ -494,16 +526,10 @@ const showPosts = async (token) => {
                             
                             <!--                        <a href="#" class="more-link">more</a> -->
                         </div>
-                        ${commentsGreaterThanOne ? `<a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${currentPost.id}" onClick="(function(){
-                            var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
-                            cardComments.style.display = 'block';
-                            const triggerButton = document.querySelector('#modal_close_${currentPost.id}');
-                            triggerButton.focus();
-                        })(); return false;">View all ${currentPost.comments.length} comments </a>` 
-                        : firstComment}
+                        ${commentCountToHTML(currentPost, commentsGreaterThanOne)}
                         ${commentsGreaterThanOne ? 
                             `${commentToHTML(currentPost)}`
-                        : `<div></div>`}
+                        : `<div id="comment_username2_${currentPost.id}" class="comment_username2"></div>`}
                         <div id="card-comments-${currentPost.id}" class="modal" role="dialog"> 
                             <a href="#" id="modal_close_${currentPost.id}" onClick="(function(){
                                 var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
@@ -548,7 +574,7 @@ const showPosts = async (token) => {
 
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
-    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
     console.log(token)
     
     // then use the access token provided to access data on the user's behalf
