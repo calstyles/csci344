@@ -8,7 +8,7 @@ const redrawBookmark = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -16,8 +16,6 @@ const redrawBookmark = async (currentPost) => {
     
     targetElementAndReplace(`bookmark_${currentPost}`, htmlString);
 }
-
-
 
 window.createBookmark = async (currentPost) => {
     // define the endpoint:
@@ -31,7 +29,7 @@ window.createBookmark = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
@@ -48,7 +46,7 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
 
@@ -57,10 +55,12 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
 }
 
 const getBookmark = (currentPost) => {
+    console.log("this is the current post");
+    console.log(currentPost);
     if (currentPost.current_user_bookmark_id) {
-        return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})"><i class="fas fa-bookmark"></i></button></div>`;
+        return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})" aria-checked="true" aria-label="bookmark ${currentPost.id} of 20"><i class="fas fa-bookmark"></i></button></div>`;
     }
-    return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></button></div>`;
+    return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id})" aria-checked="false" aria-label="bookmark ${currentPost.id} of 20"><i class="far fa-bookmark"></i></button></div>`;
 }
 
 const bookmarkToHTML = currentPost => {
@@ -76,7 +76,7 @@ const redrawLike = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -90,7 +90,7 @@ const redrawLikeCount = async (currentPost) => {
     const response = await fetch(endpoint, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -110,7 +110,7 @@ window.createLike = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
@@ -127,7 +127,7 @@ window.deleteLike = async (currentPost, currentLike) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
 
@@ -148,9 +148,9 @@ const getLikeCount = (currentPost) => {
 
 const getLike = (currentPost) => {
     if (currentPost.current_user_like_id) {
-        return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})"><i class="fas fa-heart liked_post"></i></button></div>`;
+        return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})" aria-checked="true" aria-label="like ${currentPost.id} of 20"><i class="fas fa-heart liked_post"></i></button></div>`;
     }
-    return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="createLike(${currentPost.id})"><i class="far fa-heart fa-regular"></i></button></div>`;
+    return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="createLike(${currentPost.id})" aria-checked="false" aria-label="bookmark ${currentPost.id} of 20"><i class="far fa-heart fa-regular"></i></button></div>`;
 }
 
 const likeToHTML = currentPost => {
@@ -163,7 +163,7 @@ const likeToHTML = currentPost => {
 // START OF FOLLOW FUNCTIONS
 
 const redrawFollow = async (currentSuggestion) => {
-    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
     const endpoint2 = `${rootURL}/api/following`;
     const response2 = await fetch(endpoint2, {
         headers:{
@@ -204,7 +204,7 @@ window.createFollow = async (currentSuggestion) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
@@ -219,7 +219,7 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         }
     })
     const data = await response.json();
@@ -228,10 +228,10 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
 
 const getFollow = (currentSuggestion, currentFollow) => {
 
-     if (currentFollow != null && currentSuggestion == currentFollow.following.id) {
-        return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link">unfollow</button></div>`;
+    if (currentFollow != null && currentSuggestion == currentFollow.following.id) {
+        return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link" aria-checked="true" aria-label="follow ${currentFollow.id} of ${currentSuggestion}">unfollow</button></div>`;
     }
-    return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link">follow</button></div>`;
+    return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link" aria-checked="false" aria-label="follow ${currentFollow.id} of ${currentSuggestion}">follow</button></div>`;
 }
 
 const followToHTML = (currentSuggestion, currentFollow) => {
@@ -245,7 +245,7 @@ const followToHTML = (currentSuggestion, currentFollow) => {
 // START OF COMMENT FUNCTIONS
 
 const redrawComment = async(currentPost) => {
-    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
     const endpoint = `${rootURL}/api/posts`;
     const response = await fetch(endpoint, {
         headers: {
@@ -283,21 +283,13 @@ window.createPostComment = async (currentPost) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'caleb', 'caleb_password')
+            'Authorization': 'Bearer ' + await getAccessToken(rootURL, 'luke', 'luke_password')
         },
         body: JSON.stringify(postData)
     })
     
     const data = await response.json();
     redrawComment(currentPost);
-}
-
-const getCommentView = (currentPost) => {
-    
-}
-
-const commentViewToHTML = (currentPost) => {
-
 }
 
 const getComment = (currentPost) => {
@@ -342,9 +334,55 @@ const commentToHTML = (currentPost) => {
 
 // END OF COMMENT FUNCTIONS
 
-const getPostNum = (currentPost) => {
-    
+// FOR ARIA FUNCTIONS
+
+const getPostNum = async (currentPost) => {
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    const endpoint = `${rootURL}/api/posts`;
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    const data = await response.json();
+
+    const postId = data.id;
+    console.log(postId + "post id");
+    return postId;
+
 } 
+
+const getPostLength = async () => {
+    // const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+    // const endpoint = `${rootURL}/api/posts`;
+    // const response = await fetch(endpoint, {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     }
+    // })
+    // const data = await response.json();
+
+    // const postLength = data.length;
+    // console.log(postLength + "post length");
+    // return postLength;
+        const token = await getAccessToken(rootURL, 'luke', 'luke_password');
+        const endpoint = `${rootURL}/api/posts`;
+        const response = await fetch(endpoint, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        const data = await response.json();
+        console.log(data.length);
+
+        return data.length;
+
+} 
+
+// END OF ARIA FUNCTIONS
 
 
 const targetElementAndReplace = (selector, newHTML) => { 
@@ -574,7 +612,7 @@ const showPosts = async (token) => {
 
 const initPage = async () => {
     // first log in (we will build on this after Spring Break):
-    const token = await getAccessToken(rootURL, 'caleb', 'caleb_password');
+    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
     console.log(token)
     
     // then use the access token provided to access data on the user's behalf
