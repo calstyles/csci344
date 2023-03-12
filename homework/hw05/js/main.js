@@ -567,7 +567,7 @@ const showPosts = async (token) => {
                         <div class="smile">
                             <a href="#" class="icon-properties"><i class="far fa-smile"></i></a>
                         </div>
-                        <input id="comment_text_${currentPost.id}" type="text" placeholder="Add a comment..." >
+                        <input id="comment_text_${currentPost.id}" type="text" placeholder="Add a comment..." onkeydown="if (event.keyCode === 13) { createPostComment(${currentPost.id}) }">
                         <div id="post-link_${currentPost.id}"><button onclick="createPostComment(${currentPost.id})" class="post-link">Post</button></div>
                     </div>
                 </div>
