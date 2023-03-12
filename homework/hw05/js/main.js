@@ -270,7 +270,7 @@ const redrawComment = async(currentPost) => {
 }
 
 window.createPostComment = async (currentPost) => {
-    let text = document.getElementById("comment_text_"+currentPost).value
+    let text = document.getElementById("comment_text_"+currentPost).value;
 
     const endpoint = `${rootURL}/api/comments/`;
     const postData = {
@@ -305,7 +305,6 @@ const getComment = (currentPost) => {
 
 const getCommentCount = (currentPost, commentsGreaterThanOne) => {
     let commentsGreaterThanOneHTML = ``
-    let firstComment
     if(commentsGreaterThanOne){
         commentsGreaterThanOneHTML = `<span id="view-all-comments-btn-${currentPost.id}"><a href="#" id="view-all-comments-btn" class="view-all-comments-btn-${currentPost.id}" onClick="(function(){
             var cardComments = document.getElementById('card-comments-${currentPost.id}'); 
@@ -331,27 +330,6 @@ const commentToHTML = (currentPost) => {
 }
 
 // END OF COMMENT FUNCTIONS
-
-// FOR ARIA FUNCTIONS
-
-const getPostNum = async (currentPost) => {
-    const token = await getAccessToken(rootURL, 'luke', 'luke_password');
-    const endpoint = `${rootURL}/api/posts`;
-    const response = await fetch(endpoint, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-    })
-    const data = await response.json();
-
-    const postId = data.id;
-    console.log(postId + "post id");
-    return postId;
-
-} 
-
-// END OF ARIA FUNCTIONS
 
 
 const targetElementAndReplace = (selector, newHTML) => { 
@@ -572,11 +550,11 @@ const showPosts = async (token) => {
                     </div>
                 </div>
             `    
+            const resultsDiv = document.getElementById('card-block');
+            resultsDiv.innerHTML = postResults;
     }    
-    // <div class="bookmark" id="bookmark_${currentPost.id}"><a class="icon-properties" onclick="createBookmark(${currentPost.id})"><i class="far fa-bookmark"></i></a></div>
-    // <div id="post-link_${currentPost.id}"><a href="#" onclick="createComment(${currentPost.id})">Post</a></div>
-    const resultsDiv = document.getElementById('card-block');
-    resultsDiv.innerHTML = postResults;
+    
+    
 }
 
 const initPage = async () => {
