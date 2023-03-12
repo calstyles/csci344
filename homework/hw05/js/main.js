@@ -3,7 +3,7 @@ const rootURL = 'https://photo-app-secured.herokuapp.com';
 
 // START OF BOOKMARK FUNCTIONS
 
-const redrawBookmark = async (currentPost) => {
+const redrawBookmark = async (currentPost, i, length) => {
     const endpoint = `${rootURL}/api/posts/${currentPost}`;
     const response = await fetch(endpoint, {
         headers: {
@@ -12,12 +12,12 @@ const redrawBookmark = async (currentPost) => {
         }
     })
     const data = await response.json();
-    const htmlString = bookmarkToHTML(data);
+    const htmlString = bookmarkToHTML(data, i, length);
     
     targetElementAndReplace(`bookmark_${currentPost}`, htmlString);
 }
 
-window.createBookmark = async (currentPost) => {
+window.createBookmark = async (currentPost, i, length) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/`;
     const postData = {
@@ -34,10 +34,10 @@ window.createBookmark = async (currentPost) => {
         body: JSON.stringify(postData)
     })
     const data = await response.json();
-    redrawBookmark(currentPost);
+    redrawBookmark(currentPost, i, length);
 }
 
-window.deleteBookmark = async (currentPost, currentBookmark) => {
+window.deleteBookmark = async (currentPost, currentBookmark, i, length) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/bookmarks/${currentBookmark}`;
 
@@ -51,27 +51,27 @@ window.deleteBookmark = async (currentPost, currentBookmark) => {
     })
 
     const data = await response.json();
-    redrawBookmark(currentPost);
+    redrawBookmark(currentPost, i, length);
 }
 
-const getBookmark = (currentPost) => {
+const getBookmark = (currentPost, i, length) => {
     console.log("this is the current post");
     console.log(currentPost);
     if (currentPost.current_user_bookmark_id) {
-        return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id})" aria-checked="true" aria-label="bookmark ${currentPost.id} of 20"><i class="fas fa-bookmark"></i></button></div>`;
+        return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id}, ${i}, ${length})" aria-checked="true" aria-label="bookmark ${i + 1} of ${length}"><i class="fas fa-bookmark"></i></button></div>`;
     }
-    return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id})" aria-checked="false" aria-label="bookmark ${currentPost.id} of 20"><i class="far fa-bookmark"></i></button></div>`;
+    return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id}, ${i}, ${length})" aria-checked="false" aria-label="bookmark ${i + 1} of ${length}"><i class="far fa-bookmark"></i></button></div>`;
 }
 
-const bookmarkToHTML = currentPost => {
-    return `${getBookmark(currentPost)}`;
+const bookmarkToHTML = (currentPost, i, length) => {
+    return `${getBookmark(currentPost, i, length)}`;
 }
 
 // END OF BOOKMARK FUNCTIONS
 
 // START OF LIKE FUNCTIONS
 
-const redrawLike = async (currentPost) => {
+const redrawLike = async (currentPost, i, length) => {
     const endpoint = `${rootURL}/api/posts/${currentPost}`;
     const response = await fetch(endpoint, {
         headers: {
@@ -80,7 +80,7 @@ const redrawLike = async (currentPost) => {
         }
     })
     const data = await response.json();
-    const htmlString = likeToHTML(data);
+    const htmlString = likeToHTML(data, i, length);
     targetElementAndReplace(`heart_${currentPost}`, htmlString);
 }
 
@@ -99,7 +99,7 @@ const redrawLikeCount = async (currentPost) => {
     targetElementAndReplace(`card-likes_${currentPost}`, htmlString);
 }
 
-window.createLike = async (currentPost) => {
+window.createLike = async (currentPost, i, length) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/posts/likes/`;
     const postData = {
@@ -115,11 +115,11 @@ window.createLike = async (currentPost) => {
         body: JSON.stringify(postData)
     })
     const data = await response.json();
-    redrawLike(currentPost);
+    redrawLike(currentPost, i, length);
     redrawLikeCount(currentPost);
 }
 
-window.deleteLike = async (currentPost, currentLike) => {
+window.deleteLike = async (currentPost, currentLike, i, length) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/posts/likes/${currentLike}`;
 
@@ -132,7 +132,7 @@ window.deleteLike = async (currentPost, currentLike) => {
     })
 
     const data = await response.json();
-    redrawLike(currentPost);
+    redrawLike(currentPost, i, length);
     redrawLikeCount(currentPost);
 }
 
@@ -141,20 +141,18 @@ const likeCountToHTML = (currentPost) => {
 }
 
 const getLikeCount = (currentPost) => {
-
     return `<div id="card-likes_${currentPost.id}" class="card-likes">${currentPost.likes.length} likes</div>`;
-    
 }
 
-const getLike = (currentPost) => {
+const getLike = (currentPost, i, length) => {
     if (currentPost.current_user_like_id) {
-        return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id})" aria-checked="true" aria-label="like ${currentPost.id} of 20"><i class="fas fa-heart liked_post"></i></button></div>`;
+        return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="deleteLike(${currentPost.id}, ${currentPost.current_user_like_id}, ${i}, ${length})" aria-checked="true" aria-label="like ${i + 1} of ${length}"><i class="fas fa-heart liked_post"></i></button></div>`;
     }
-    return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="createLike(${currentPost.id})" aria-checked="false" aria-label="bookmark ${currentPost.id} of 20"><i class="far fa-heart fa-regular"></i></button></div>`;
+    return `<div class="heart" id="heart_${currentPost.id}"><button class="icon-properties" onclick="createLike(${currentPost.id}, ${i}, ${length})" aria-checked="false" aria-label="like ${i + 1} of ${length}"><i class="far fa-heart fa-regular"></i></button></div>`;
 }
 
-const likeToHTML = currentPost => {
-    return `${getLike(currentPost)}`;
+const likeToHTML = (currentPost, i, length) => {
+    return `${getLike(currentPost, i, length)}`;
 }
 
 
@@ -162,7 +160,7 @@ const likeToHTML = currentPost => {
 
 // START OF FOLLOW FUNCTIONS
 
-const redrawFollow = async (currentSuggestion) => {
+const redrawFollow = async (currentSuggestion, i, length) => {
     const token = await getAccessToken(rootURL, 'luke', 'luke_password');
     const endpoint2 = `${rootURL}/api/following`;
     const response2 = await fetch(endpoint2, {
@@ -184,15 +182,15 @@ const redrawFollow = async (currentSuggestion) => {
     
     var test = ``
     if(currentFollower != null){
-        test = getFollow(currentSuggestion, currentFollower)
+        test = getFollow(currentSuggestion, currentFollower, i, length)
     }else{
-        test = getFollow(currentSuggestion, null)
+        test = getFollow(currentSuggestion, null, i, length)
     }
 
      targetElementAndReplace(`follow_${currentSuggestion}`, test);
 }
 
-window.createFollow = async (currentSuggestion) => {
+window.createFollow = async (currentSuggestion, i, length) => {
     // define the endpoint:
     const endpoint = `${rootURL}/api/following/`;
 
@@ -210,10 +208,10 @@ window.createFollow = async (currentSuggestion) => {
     })
 
     const data = await response.json();
-    redrawFollow(currentSuggestion)
+    redrawFollow(currentSuggestion, i, length)
 }
 
-window.deleteFollow = async (currentSuggestion, currentFollow) => {
+window.deleteFollow = async (currentSuggestion, currentFollow, i, length) => {
     const endpoint = `${rootURL}/api/following/${currentFollow}`;
     const response = await fetch(endpoint, {
         method: "DELETE",
@@ -223,19 +221,19 @@ window.deleteFollow = async (currentSuggestion, currentFollow) => {
         }
     })
     const data = await response.json();
-    redrawFollow(currentSuggestion);
+    redrawFollow(currentSuggestion, i, length);
 }
 
-const getFollow = (currentSuggestion, currentFollow) => {
+const getFollow = (currentSuggestion, currentFollow, i, length) => {
 
     if (currentFollow != null && currentSuggestion == currentFollow.following.id) {
-        return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id})" class="follow-link" aria-checked="true" aria-label="follow ${currentFollow.id} of ${currentSuggestion}">unfollow</button></div>`;
+        return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="deleteFollow(${currentSuggestion}, ${currentFollow.id}, ${i}, ${length})" class="follow-link" aria-checked="true" aria-label="follow ${i + 1} of ${length}">unfollow</button></div>`;
     }
-    return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion})" class="follow-link" aria-checked="false" aria-label="follow ${currentFollow.id} of ${currentSuggestion}">follow</button></div>`;
+    return `<div class="follow" id="follow_${currentSuggestion}"><button id="follow_${currentSuggestion}" onclick="createFollow(${currentSuggestion}, ${i}, ${length})" class="follow-link" aria-checked="false" aria-label="follow ${i + 1} of ${length}">follow</button></div>`;
 }
 
-const followToHTML = (currentSuggestion, currentFollow) => {
-    return `${getFollow(currentSuggestion, currentFollow)}`;
+const followToHTML = (currentSuggestion, currentFollow, i, length) => {
+    return `${getFollow(currentSuggestion, currentFollow, i, length)}`;
 }
 
 // END OF FOLLOW FUNCTIONS
@@ -353,35 +351,6 @@ const getPostNum = async (currentPost) => {
 
 } 
 
-const getPostLength = async () => {
-    // const token = await getAccessToken(rootURL, 'luke', 'luke_password');
-    // const endpoint = `${rootURL}/api/posts`;
-    // const response = await fetch(endpoint, {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': 'Bearer ' + token
-    //     }
-    // })
-    // const data = await response.json();
-
-    // const postLength = data.length;
-    // console.log(postLength + "post length");
-    // return postLength;
-        const token = await getAccessToken(rootURL, 'luke', 'luke_password');
-        const endpoint = `${rootURL}/api/posts`;
-        const response = await fetch(endpoint, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
-        })
-        const data = await response.json();
-        console.log(data.length);
-
-        return data.length;
-
-} 
-
 // END OF ARIA FUNCTIONS
 
 
@@ -446,7 +415,7 @@ const showSuggestions = async (token) => {
                     <div class="account-username">${currentSuggestion.username}</div>
                     <div class="suggested-for-you">Suggested for you</div>
                 </div>
-                ${followToHTML(currentSuggestion.id, currentFollow)}
+                ${followToHTML(currentSuggestion.id, currentFollow, i, data.length)}
             </div>
             `
     }    
@@ -499,7 +468,7 @@ const showPosts = async (token) => {
         let currentCommentHTML = ``
         let commentsGreaterThanOne = (currentPost.comments.length > 1 ? true : false);
         let firstComment = ``;
-        
+
         for(let j = 0; j < currentPost.comments.length; j++){
             let currentComment = currentPost.comments[j];
             currentCommentHTML += 
@@ -543,14 +512,14 @@ const showPosts = async (token) => {
                 </div>
                     <img src="${currentPost.image_url}" alt="post picture" class="post-pic">
                     <div class="card-actions">
-                        ${likeToHTML(currentPost)}
+                        ${likeToHTML(currentPost, i, data.length)}
                         <div class="comment">
                             <a href="#" class="icon-properties"><i class="fas fa-comment"></i></a>
                         </div>
                         <div class="plane">
                             <a href="#" class="icon-properties"><i class="far fa-paper-plane"></i></a>
                         </div>    
-                        ${bookmarkToHTML(currentPost)}
+                        ${bookmarkToHTML(currentPost, i, data.length)}
                     </div>
                     ${likeCountToHTML(currentPost)}
                         <div class="card-caption">
