@@ -6,8 +6,6 @@ import { useState, useEffect } from "react";
 
 export default function Post({post, token}) { 
     async function requeryPost(){
-        // console.log("requery posts");
-        // console.log(post.id);
         const response = await fetch("https://photo-app-secured.herokuapp.com/api/posts/" + post.id, {
             method: "GET",
             headers: {
@@ -16,8 +14,6 @@ export default function Post({post, token}) {
             }
         });
         const data = await response.json();
-        console.log("data here")
-        console.log(data);
         return data;
         
     }
