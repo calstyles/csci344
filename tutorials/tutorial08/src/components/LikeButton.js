@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LikeButton({post, requeryPost, token}) { 
+export default function LikeButton({post, currentLikeId, requeryPost, token}) { 
     async function likePost(){
         const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/";
         const postData = {
@@ -20,7 +20,7 @@ export default function LikeButton({post, requeryPost, token}) {
     }
 
     async function unLikePost(){
-        const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/" + post.current_user_like_id;
+        const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/" + currentLikeId;
         const response = await fetch(endpoint, {
             method: "DELETE",
             headers: {
@@ -33,7 +33,7 @@ export default function LikeButton({post, requeryPost, token}) {
         requeryPost();
     }
 
-    if(post.current_user_like_id != null){
+    if(currentLikeId != null){
         console.log("like has been called!");
         return (
             <div className="heart">
