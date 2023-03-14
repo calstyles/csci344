@@ -20,9 +20,7 @@ export default function Posts({token}) {
         }
         fetchPosts();
     }, [token]);
-
     
-
     if (!posts) {
         return '';
     }

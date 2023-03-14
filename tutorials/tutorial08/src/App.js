@@ -20,12 +20,10 @@ export default function App ({token}) {
            {/* Right Panel */}
             <aside>
                 <header>
-                    Profile Goes Here...
                     <Profile />
                 </header>
                 <div className="suggestions">
                     <div>
-                        Suggestions go here...
                         <Suggestions />
                     </div>
                 </div>
@@ -35,14 +33,12 @@ export default function App ({token}) {
 
                 {/* Stories */}
                 <header className="stories">
-                    Stories go here...
                     <Stories />
                 </header>
 
                 {/* Posts */}
                 <div id="posts">
-                    Posts go here...
-                    <Posts />
+                    <Posts token={token}/>
                 </div>
 
             </main>
