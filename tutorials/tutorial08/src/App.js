@@ -5,8 +5,6 @@ import Stories from './components/Stories';
 import Suggestions from './components/Suggestions';
 import Posts from './components/Posts';
 
-// import {NavLinks, Profile, Stories, Suggestions, Posts} from './components'
-
 export default function App ({token}) { 
     console.log('access token:', token);
     
