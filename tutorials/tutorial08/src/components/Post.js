@@ -14,6 +14,7 @@ export default function Post({post, token}) {
             }
         });
         const data = await response.json();
+        console.log("called requery!");
         return data;
         
     }

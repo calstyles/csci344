@@ -33,16 +33,16 @@ export default function LikeButton({post, requeryPost, token}) {
         requeryPost();
     }
 
-
-
     if(post.current_user_like_id != null){
+        console.log("like has been called!");
         return (
             <div className="heart">
                 <a className="icon-properties"><i className="far fa-heart liked_post" onClick={unLikePost}></i></a>
             </div>
         ); 
     }
-    
+
+    console.log("unlike has been called");
     return (
         <div className="heart">
             <a className="icon-properties"><i className="fas fa-heart fa-regular" onClick={likePost}></i></a>
