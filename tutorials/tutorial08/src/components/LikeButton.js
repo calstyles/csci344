@@ -19,11 +19,18 @@ export default function LikeButton({post, requeryPost, token}) {
             body: JSON.stringify(postData)
         })
         const data = await response.json();
+
+        // console.log("likePost");
+        // console.log(data);
         requeryPost();
     }
 
-    async function unLikePost(){
-        const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/";
+    async function unLikePost(likeID){
+        // console.log("likeID");
+        // console.log(likeID);
+        // console.log("post");
+        // console.log(post);
+        const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/" + likeID;
         const response = await fetch(endpoint, {
             method: "DELETE",
             headers: {
@@ -33,24 +40,28 @@ export default function LikeButton({post, requeryPost, token}) {
         })
     
         const data = await response.json();
+        // console.log("unLikePost");
+        // console.log(data);
         requeryPost();
     }
-
-
     
-    if(post.current_user_like_id != null){
-        console.log(post.current_user_like_id);
+    if(post.current_user_like_id){
+        // console.log("post that ran like button");
+        // console.log(post);
+        // console.log("post ID");
+        // console.log(post.current_user_like_id);
         return (
             <div className="heart">
-                <a className="icon-properties"><i className="far fa-heart fa-regular" onClick={likePost}></i></a>
+                <a className="icon-properties"><i className="fas fa-heart liked_post" onClick={unLikePost(post.current_user_like_id)}></i></a>
             </div>
-        ); 
-    }else{
-        return (
-            <div className="heart">
-                <a className="icon-properties"><i className="fas fa-heart liked_post" onClick={unLikePost}></i></a>
-            </div>
-        ); 
+        );         
     }
+    // console.log("post that ran unlike button");
+    // console.log(post);
+    return (
+        <div className="heart">
+            <a className="icon-properties"><i className="far fa-heart fa-regular" onClick={likePost}></i></a>
+        </div>
+    ); 
 
 }
