@@ -1,5 +1,11 @@
 import React from 'react';
-import NavLinks from './NavLinks';
+import NavLinks from './components/NavLinks';
+import Profile from './components/Profile';
+import Stories from './components/Stories';
+import Suggestions from './components/Suggestions';
+import Posts from './components/Posts';
+
+// import {NavLinks, Profile, Stories, Suggestions, Posts} from './components'
 
 export default function App ({token}) { 
     console.log('access token:', token);
@@ -17,10 +23,12 @@ export default function App ({token}) {
             <aside>
                 <header>
                     Profile Goes Here...
+                    <Profile />
                 </header>
                 <div className="suggestions">
                     <div>
                         Suggestions go here...
+                        <Suggestions />
                     </div>
                 </div>
             </aside>
@@ -30,11 +38,13 @@ export default function App ({token}) {
                 {/* Stories */}
                 <header className="stories">
                     Stories go here...
+                    <Stories />
                 </header>
 
                 {/* Posts */}
                 <div id="posts">
                     Posts go here...
+                    <Posts />
                 </div>
 
             </main>

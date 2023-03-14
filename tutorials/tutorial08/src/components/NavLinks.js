@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import {getHeaders} from './utils';
+import {getHeaders} from '../utils';
 
 export default function NavLinks({token}) { 
     const [profile, setProfile] = useState(null);
