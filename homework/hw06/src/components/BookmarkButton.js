@@ -40,13 +40,13 @@ export default function BookmarkButton({post, currentBookmarkId, requeryPost, to
         console.log("like has been called");
         return(
             <div className="bookmark">
-                <a className="icon-properties"><i class="fas fa-bookmark" onClick={unBookmarkPost}></i></a>
+                <button className="icon-properties"><i class="fas fa-bookmark" onClick={unBookmarkPost}></i></button>
             </div>
         );
     }
     return(
         <div class="bookmark">
-            <a class="icon-properties"><i class="far fa-bookmark" onClick={bookmarkPost}></i></a>
+            <button class="icon-properties"><i class="far fa-bookmark" onClick={bookmarkPost}></i></button>
         </div>
     );
 }
