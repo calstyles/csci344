@@ -20,7 +20,7 @@ export default function App ({token}) {
            {/* Right Panel */}
             <aside>
                 <header>
-                    <Profile />
+                    <Profile token={token}/>
                 </header>
                 <div className="suggestions">
                     <div>
