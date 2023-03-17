@@ -6,21 +6,22 @@ export default function Profile(token) {
     const[profile, setProfile] = useState(null);
 
     useEffect(() => {
+        console.log(profile);
         async function fetchProfile(){
-            const response = await fetch("https://photo-app-secured.herokuapp.com/api/profile/", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            console.log(response);
-            const data = await response.json();
-            setProfile(data);
+                const response = await fetch('/api/profile', {
+                    headers: getHeaders(token)
+                });
+                console.log("response");
+                console.log(response);
+                const data = await response.json();
+                console.log("data");
+                console.log(data);
+                setProfile(data);
+            
         }
         fetchProfile();
     }, [token]);
-
+    console.log(profile);
     return (
         <div>
             {profile}
