@@ -23,9 +23,9 @@ export default function Post({post, token}) {
             <div key={"post_username_" + post.id}>{post.user.username}</div>
             <img src={post.image_url} key={"post_image_" + post.id}></img>
             <div key={"post_caption_" + post.id}>{post.caption}</div>
-            <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token}/>
+            <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token} key={"likeButton_" + post.id}/>
             <div>{currentLikeLength} likes</div>
-            <BookmarkButton post={post} currentBookmarkId ={currentBookmarkId} requeryPost={requeryPost} token={token}/>
+            <BookmarkButton post={post} currentBookmarkId ={currentBookmarkId} requeryPost={requeryPost} token={token} key={"bookmarkButton_" + post.id}/>
         </div>
     );     
 }

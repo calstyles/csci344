@@ -22,7 +22,7 @@ export default function Stories({token}) {
     return (
         stories.map(story=>{
             return (
-                    <div className='story-panel'>
+                    <div className='story-panel' key={"story_" + story.id}>
                         <div><img src={story.user.image_url} className="story-image"></img></div>
                         <a className="story-username">{story.user.username}</a>
                     </div>

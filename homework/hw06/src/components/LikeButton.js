@@ -36,14 +36,14 @@ export default function LikeButton({post, currentLikeId, requeryPost, token}) {
     if(currentLikeId != null){
         return (
             <div className="heart">
-                <button className="icon-properties"><i className="fas fa-heart fa-regular" onClick={unLikePost}></i></button>
+                <button type="submit" className="icon-properties"><i className="fas fa-heart fa-regular" onClick={unLikePost}></i></button>
             </div>
         ); 
     }
 
     return (
         <div className="heart">
-            <button className="icon-properties"><i className="far fa-heart liked_post" onClick={likePost}></i></button>
+            <button type="submit" className="icon-properties"><i className="far fa-heart liked_post" onClick={likePost}></i></button>
         </div>
     );        
 

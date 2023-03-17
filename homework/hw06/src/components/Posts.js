@@ -24,7 +24,7 @@ export default function Posts({token}) {
     return (
         posts.map(post => {
             return (
-                <Post post={post} token={token}/>
+                <Post post={post} token={token} key={"post_" + post.id}/>
             )
         })
     );     

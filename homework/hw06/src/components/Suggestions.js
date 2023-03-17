@@ -13,6 +13,8 @@ export default function Suggestions({token}) {
                 headers: getHeaders(token)
             });
             const data = await response.json();
+            console.log("followers");
+            console.log(suggestions);
             setSuggestions(data);
         }
         fetchSuggestions();
@@ -24,7 +26,7 @@ export default function Suggestions({token}) {
     return (
         suggestions.map(suggestion => {
             return (
-                <Suggestion suggestion={suggestion} token={token}/>
+                <Suggestion suggestion={suggestion} token={token} key={"suggestion_" + suggestion.id}/>
             )
         })
     );
