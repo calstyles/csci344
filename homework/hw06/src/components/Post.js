@@ -6,6 +6,7 @@ import {getHeaders} from '../utils';
 export default function Post({post, token}) { 
     const [currentLikeId, setCurrentLikeId] = useState(post.current_user_like_id);
     const [currentBookmarkId, setCurrentBookmarkId] = useState(post.current_user_bookmark_id);
+    const [currentLikeLength, setCurrentLikeLength] = useState(post.likes.length);
 
     async function requeryPost(){
         const response = await fetch("https://photo-app-secured.herokuapp.com/api/posts/" + post.id, {
@@ -14,6 +15,7 @@ export default function Post({post, token}) {
         const data = await response.json();
         setCurrentLikeId(data.current_user_like_id);
         setCurrentBookmarkId(data.current_user_bookmark_id);
+        setCurrentLikeLength(data.likes.length);        
     }
 
     return (
@@ -22,6 +24,7 @@ export default function Post({post, token}) {
             <img src={post.image_url} key={"post_image_" + post.id}></img>
             <div key={"post_caption_" + post.id}>{post.caption}</div>
             <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token}/>
+            <div>{currentLikeLength} likes</div>
             <BookmarkButton post={post} currentBookmarkId ={currentBookmarkId} requeryPost={requeryPost} token={token}/>
         </div>
     );     
