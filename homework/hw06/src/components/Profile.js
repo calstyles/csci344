@@ -2,29 +2,31 @@ import React from 'react';
 import {getHeaders} from '../utils';
 import { useState, useEffect } from "react";
 
-export default function Profile(token) { 
+export default function Profile({token}) { 
+    // console.log("Token inside Profile");
+    // console.log(token.token);
     const[profile, setProfile] = useState(null);
 
     useEffect(() => {
-        console.log(profile);
+        // console.log(profile);
         async function fetchProfile(){
-                const response = await fetch('/api/profile', {
+                const response = await fetch('https://photo-app-secured.herokuapp.com/api/profile', {
                     headers: getHeaders(token)
                 });
-                console.log("response");
-                console.log(response);
                 const data = await response.json();
-                console.log("data");
-                console.log(data);
                 setProfile(data);
-            
         }
         fetchProfile();
     }, [token]);
-    console.log(profile);
-    return (
-        <div>
-            {profile}
-        </div>
-    );     
+
+    if (profile==null) {
+        return '';
+    }else{
+        return (
+            <div id="profile">
+                <div className='current-user'>{profile.username}</div>
+                <img src={profile.image_url} key={"profile_image_" + profile.id} className="profile"></img>
+            </div>
+        );     
+    }
 }

@@ -32,21 +32,18 @@ export default function BookmarkButton({post, currentBookmarkId, requeryPost, to
         const data = await response.json();
         requeryPost();
     }
-        //     return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="deleteBookmark(${currentPost.id}, ${currentPost.current_user_bookmark_id}, ${i}, ${length})" aria-checked="true" aria-label="bookmark ${i + 1} of ${length}"><i class="fas fa-bookmark"></i></button></div>`;
-        // }
-        // return `<div class="bookmark" id="bookmark_${currentPost.id}"><button class="icon-properties" onclick="createBookmark(${currentPost.id}, ${i}, ${length})" aria-checked="false" aria-label="bookmark ${i + 1} of ${length}"><i class="far fa-bookmark"></i></button></div>`;
 
     if (currentBookmarkId != null) {
         console.log("like has been called");
         return(
             <div className="bookmark">
-                <button className="icon-properties"><i class="fas fa-bookmark" onClick={unBookmarkPost}></i></button>
+                <button className="icon-properties"><i className="fas fa-bookmark" onClick={unBookmarkPost}></i></button>
             </div>
         );
     }
     return(
         <div class="bookmark">
-            <button class="icon-properties"><i class="far fa-bookmark" onClick={bookmarkPost}></i></button>
+            <button className="icon-properties"><i className="far fa-bookmark" onClick={bookmarkPost}></i></button>
         </div>
     );
 }

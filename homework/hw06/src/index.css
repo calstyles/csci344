@@ -80,6 +80,18 @@ main {
     overflow: hidden;
 }
 
+.current-user{
+    font-size: 50px;
+}
+
+.profile{
+    display: block;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 30px;
+}
+
 .card {
     border: solid 1px #dbdbdb;
     margin-bottom: 30px;
