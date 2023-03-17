@@ -16,14 +16,11 @@ export default function Stories({token}) {
         fetchStories();
     }, [token]);
 
-    console.log(stories);
-
     if (stories==null) {
         return '';
     }
     return (
         stories.map(story=>{
-            console.log(story);
             return (
                     <div className='story-panel'>
                         <div><img src={story.user.image_url} className="story-image"></img></div>

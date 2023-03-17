@@ -24,7 +24,7 @@ export default function App ({token}) {
                 </header>
                 <div className="suggestions">
                     <div>
-                        <Suggestions />
+                        <Suggestions token={token}/>
                     </div>
                 </div>
             </aside>

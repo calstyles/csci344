@@ -3,8 +3,6 @@ import {getHeaders} from '../utils';
 import { useState, useEffect } from "react";
 
 export default function Profile({token}) { 
-    // console.log("Token inside Profile");
-    // console.log(token.token);
     const[profile, setProfile] = useState(null);
 
     useEffect(() => {

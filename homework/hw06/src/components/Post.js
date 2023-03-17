@@ -9,11 +9,7 @@ export default function Post({post, token}) {
 
     async function requeryPost(){
         const response = await fetch("https://photo-app-secured.herokuapp.com/api/posts/" + post.id, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
+                    headers: getHeaders(token)
         });
         const data = await response.json();
         setCurrentLikeId(data.current_user_like_id);
