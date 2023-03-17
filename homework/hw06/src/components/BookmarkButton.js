@@ -34,7 +34,6 @@ export default function BookmarkButton({post, currentBookmarkId, requeryPost, to
     }
 
     if (currentBookmarkId != null) {
-        console.log("like has been called");
         return(
             <div className="bookmark">
                 <button className="icon-properties"><i className="fas fa-bookmark" onClick={unBookmarkPost}></i></button>

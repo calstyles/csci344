@@ -34,7 +34,6 @@ export default function LikeButton({post, currentLikeId, requeryPost, token}) {
     }
 
     if(currentLikeId != null){
-        console.log("like has been called!");
         return (
             <div className="heart">
                 <button className="icon-properties"><i className="far fa-heart liked_post" onClick={unLikePost}></i></button>
@@ -42,7 +41,6 @@ export default function LikeButton({post, currentLikeId, requeryPost, token}) {
         ); 
     }
 
-    console.log("unlike has been called");
     return (
         <div className="heart">
             <button className="icon-properties"><i className="fas fa-heart fa-regular" onClick={likePost}></i></button>

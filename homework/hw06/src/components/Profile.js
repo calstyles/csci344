@@ -8,7 +8,6 @@ export default function Profile({token}) {
     const[profile, setProfile] = useState(null);
 
     useEffect(() => {
-        // console.log(profile);
         async function fetchProfile(){
                 const response = await fetch('https://photo-app-secured.herokuapp.com/api/profile', {
                     headers: getHeaders(token)

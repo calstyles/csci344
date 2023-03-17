@@ -33,7 +33,7 @@ export default function App ({token}) {
 
                 {/* Stories */}
                 <header className="stories">
-                    <Stories />
+                    <Stories token={token}/>
                 </header>
 
                 {/* Posts */}
