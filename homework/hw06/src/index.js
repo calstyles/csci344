@@ -6,7 +6,7 @@ import {getAccessToken} from './utils';
 
 // Kicks off the app after the user "logs in":
 async function renderApp() {
-    const token = await getAccessToken('webdev', 'password');
+    const token = await getAccessToken('caleb', 'caleb_password');
     
     ReactDOM.render(
         <App token={token} />,
