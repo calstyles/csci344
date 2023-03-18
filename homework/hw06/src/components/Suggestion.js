@@ -4,22 +4,24 @@ import { useState, useEffect } from "react";
 
     
 export default function Suggestion({suggestion, token}) { 
+    const [isFollowing, setIsFollowing] = useState(null);
+
 
     async function requerySuggestion(){
-        let following = false;
+        let isFollowing = false;
         const response = await fetch('/api/following', {
             headers: getHeaders(token)
         });
         const data = await response.json();
-        console.log(data);
+        // console.log("follow are here");
+        // console.log(data);
         
         for(let i = 0; i < data.length; i++){
             if(suggestion == data[i]){
-                following = true;
+                isFollowing = true;
             }
         }
-        
-        return following;
+        setIsFollowing(isFollowing);
     }  
 
     async function followUser(){
@@ -54,32 +56,36 @@ export default function Suggestion({suggestion, token}) {
         requerySuggestion();
     }
 
-    if(!requerySuggestion()){
+    console.log(isFollowing);
+
+    if(!isFollowing){
         return (
             <div className="suggestion">
-                <img src={Suggestion.image_url} key={"suggestion_image_" + Suggestion.id}></img>
-                <div className="suggestion-info">
-                    <div key={"suggestion_username_" + Suggestion.id}>{Suggestion.username}</div>
-                    <div className="suggested-for-you">Suggested for you</div>
-                </div>
-                <div className="followButton">
-                    <button type="submit" className="icon-properties" onClick={followUser}>follow</button>
+                <img className="user-pic" src={suggestion.image_url} key={"suggestion_image_" + suggestion.id}></img>
+                <div className='suggestion-words'>
+                    <div className="suggestion-info">
+                        <div key={"suggestion_username_" + suggestion.id}>{suggestion.username}</div>
+                        <div className="suggested-for-you">Suggested for you</div>
+                    </div>
+                    <div className="followButton">
+                        <button type="submit" className="icon-properties" onClick={followUser}>follow</button>
+                    </div>
                 </div>
             </div>
         ); 
     }
 
+    requerySuggestion();
     return (
-        <div className="suggestion">
-        <img src={Suggestion.image_url} key={"suggestion_image_" + Suggestion.id}></img>
-        <div className="suggestion-info">
-            <div key={"suggestion_username_" + Suggestion.id}>{Suggestion.username}</div>
-            <div className="suggested-for-you">Suggested for you</div>
-        </div>
-            <div className="followButton">
-                <button type="submit" className="icon-properties" onClick={unfollowUser}>unfollow</button>
-            </div>
+        <div className="suggested-accounts">
+            <img className="user-pic" src={suggestion.image_url} key={"suggestion_image_" + suggestion.id}></img>
+            <div className="suggestion-info">
+                <div key={"suggestion_username_" + suggestion.id}>{suggestion.username}</div>
+                <div className="suggested-for-you">Suggested for you</div>
+                <div className="followButton">
+                    <button type="submit" className="icon-properties" onClick={unfollowUser}>unfollow</button>
+                </div>
+            </div>    
         </div>
     );        
-
 }

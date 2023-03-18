@@ -20,9 +20,9 @@ export default function Profile({token}) {
         return '';
     }else{
         return (
-            <div id="profile">
-                <div className='current-user'>{profile.username}</div>
+            <div id="profile" class="profile">
                 <img src={profile.image_url} key={"profile_image_" + profile.id} className="profile"></img>
+                <div className='current-user'>{profile.username}</div>
             </div>
         );     
     }

@@ -4,6 +4,18 @@
     box-sizing: border-box;
 }
 
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+}
+
+.heart{
+    margin-right: 40px;
+}
+
 body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
@@ -81,14 +93,17 @@ main {
 
 .current-user{
     font-size: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .profile{
-    display: block;
+    display: flex;
     border-radius: 50%;
     width: 100px;
     height: 100px;
     margin-right: 30px;
+    margin-bottom: 30px;
 }
 
 .story-panel{
@@ -122,6 +137,50 @@ main {
     min-width: 540px;
 }
 
+.follow-link {
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+    padding-left: 20px;
+    text-decoration: none;
+    font-size: 20px;
+    margin-top: 5px;
+    width: 200px;
+}
+
+.suggested-for-you {
+    font-size: 15px;
+    color: grey;
+    font-weight: bold;
+}
+
+.suggested-accounts {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-info{
+    flex: content;
+    justify-content: flex-end;
+
+}
+
+.suggestion-words{
+    display: flex;
+}
+
+.suggested-accounts {
+    display: flex;
+    flex-direction: column;
+
+}
+.user-pic {
+    display: block;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 30px;
+}
 
 @media (max-width: 900px) {
     aside {
