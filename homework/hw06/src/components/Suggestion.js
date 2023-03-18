@@ -13,7 +13,12 @@ export default function Suggestion({ suggestion, token }) {
             headers: getHeaders(token),
         });
         const data = await response.json();
-        const isFollowing = data.some((user) => user.id === suggestion.id);
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === suggestion.id) {
+                isFollowing = true;
+                break;
+            }
+        }
         setIsFollowing(isFollowing);
     }
   
@@ -32,7 +37,6 @@ export default function Suggestion({ suggestion, token }) {
             body: JSON.stringify(postData),
         });
         const data = await response.json();
-        console.log(data.following.id);
         
         setCurrentFollow(data.id);
         setCurrentFollowingId(data.following.id);
@@ -40,14 +44,12 @@ export default function Suggestion({ suggestion, token }) {
     }
   
     async function unfollowUser() {
-        console.log(currentFollow);
         const endpoint = 'https://photo-app-secured.herokuapp.com/api/following/' + currentFollow;
         const response = await fetch(endpoint, {
             method: 'DELETE',
             headers: getHeaders(token),
         });
         const data = await response.json();
-        console.log(data);
         setIsFollowing(false);
         setCurrentFollowingId(null);
         setCurrentFollow(null);
