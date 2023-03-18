@@ -35,12 +35,12 @@ export default function LikeButton({post, currentLikeId, requeryPost, token}) {
 
     if(currentLikeId != null){
         return (
-            <button type="button" className="icon-properties" onClick={unLikePost}><i className="fas fa-heart fa-regular"></i></button>
+            <button type="button" className="icon-properties" onClick={unLikePost}><i className="fas fa-heart fa-regular" aria-checked="true" role="switch"></i></button>
         ); 
     }
 
     return (
-            <button type="button" className="icon-properties" onClick={likePost}><i className="far fa-heart liked_post"></i></button>
+            <button type="button" className="icon-properties" onClick={likePost}><i className="far fa-heart liked_post" aria-checked="false" role="switch"></i></button>
     );        
 
 }

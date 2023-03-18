@@ -13,8 +13,6 @@ export default function Suggestions({token}) {
                 headers: getHeaders(token)
             });
             const data = await response.json();
-            console.log("suggestions are here");
-            console.log(data);
             setSuggestions(data);
         }
         fetchSuggestions();

@@ -36,13 +36,13 @@ export default function BookmarkButton({post, currentBookmarkId, requeryPost, to
     if (currentBookmarkId != null) {
         return(
             <div className="bookmark">
-                <button className="icon-properties" onClick={unBookmarkPost}><i className="fas fa-bookmark"></i></button>
+                <button className="icon-properties" onClick={unBookmarkPost}><i className="fas fa-bookmark" aria-checked="true" role="switch"></i></button>
             </div>
         );
     }
     return(
         <div className="bookmark">
-            <button className="icon-properties" onClick={bookmarkPost}><i className="far fa-bookmark"></i></button>
+            <button className="icon-properties" onClick={bookmarkPost}><i className="far fa-bookmark" aria-checked="false" role="switch"></i></button>
         </div>
     );
 }

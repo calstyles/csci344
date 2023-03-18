@@ -67,9 +67,9 @@ export default function Suggestion({ suggestion, token }) {
                 </div>
                 <div className="followButton">
                     {isFollowing && suggestion.id == currentFollowingId ? (
-                        <button type="submit" className="icon-properties" onClick={unfollowUser}>unfollow</button>
+                        <button type="submit" className="icon-properties" onClick={unfollowUser} aria-checked="true" role="switch">unfollow</button>
                         ) : (
-                        <button type="submit" className="icon-properties" onClick={followUser}>follow</button>
+                        <button type="submit" className="icon-properties" onClick={followUser} aria-checked="false" role="switch">follow</button>
                     )}
                 </div>
             </div>
