@@ -4,16 +4,17 @@ import { useState, useEffect } from "react";
 
     
 export default function Suggestion({ suggestion, token }) {
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [currentFollow, setCurrentFollow] = useState(null);
-  
-    async function requerySuggestion() {
-      const response = await fetch('/api/following', {
-        headers: getHeaders(token),
-      });
-      const data = await response.json();
-      const isFollowing = data.some((user) => user.id === suggestion.id);
-      setIsFollowing(isFollowing);
+        const [isFollowing, setIsFollowing] = useState(false);
+        const [currentFollow, setCurrentFollow] = useState(null);
+        const [currentFollowingId, setCurrentFollowingId] = useState(null);
+    
+        async function requerySuggestion() {
+        const response = await fetch('/api/following', {
+            headers: getHeaders(token),
+        });
+        const data = await response.json();
+        const isFollowing = data.some((user) => user.id === suggestion.id);
+        setIsFollowing(isFollowing);
     }
   
     useEffect(() => {
@@ -21,23 +22,21 @@ export default function Suggestion({ suggestion, token }) {
     }, []);
   
     async function followUser() {
-      const endpoint = 'https://photo-app-secured.herokuapp.com/api/following';
-      const postData = {
-        user_id: suggestion.id,
-      };
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify(postData),
-      });
-      const data = await response.json();
-      console.log(data);
-      
-      setCurrentFollow(data.following.id);
-      setIsFollowing(true);
+        const endpoint = 'https://photo-app-secured.herokuapp.com/api/following';
+        const postData = {
+            user_id: suggestion.id,
+        };
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: getHeaders(token),
+            body: JSON.stringify(postData),
+        });
+        const data = await response.json();
+        console.log(data.following.id);
+        
+        setCurrentFollow(data.id);
+        setCurrentFollowingId(data.following.id);
+        setIsFollowing(true);
     }
   
     async function unfollowUser() {
@@ -45,14 +44,12 @@ export default function Suggestion({ suggestion, token }) {
         const endpoint = 'https://photo-app-secured.herokuapp.com/api/following/' + currentFollow;
         const response = await fetch(endpoint, {
             method: 'DELETE',
-            headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
-            },
+            headers: getHeaders(token),
         });
         const data = await response.json();
         console.log(data);
         setIsFollowing(false);
+        setCurrentFollowingId(null);
         setCurrentFollow(null);
     }
   
@@ -67,7 +64,7 @@ export default function Suggestion({ suggestion, token }) {
                     <div className="suggested-for-you">Suggested for you</div>
                 </div>
                 <div className="followButton">
-                    {isFollowing && suggestion.id == currentFollow? (
+                    {isFollowing && suggestion.id == currentFollowingId ? (
                         <button type="submit" className="icon-properties" onClick={unfollowUser}>unfollow</button>
                         ) : (
                         <button type="submit" className="icon-properties" onClick={followUser}>follow</button>
@@ -76,4 +73,4 @@ export default function Suggestion({ suggestion, token }) {
             </div>
       </div>
     );
-  }
+}
