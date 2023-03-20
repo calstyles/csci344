@@ -19,11 +19,21 @@ export default function Post({post, token}) {
         console.log(data);
         console.log(data.comments[0]);
         console.log(data.comments);
+        setFirstComment(data.comments[0]);
+        
+        
         setCurrentLikeId(data.current_user_like_id);
         setCurrentBookmarkId(data.current_user_bookmark_id);
-        setCurrentLikeLength(data.likes.length);  
-        setFirstComment(data.comments[0]);      
+        setCurrentLikeLength(data.likes.length);     
         // setRecentComment(data.comments[data.comments.length - 1].id);
+    }
+
+    async function requeryComments(){
+        const response = await fetch("https://photo-app-secured.herokuapp.com/api/comments", {
+            headers: getHeaders(token)
+        });
+        const data = await response.json();
+        console.log(data);
     }
 
     return (
