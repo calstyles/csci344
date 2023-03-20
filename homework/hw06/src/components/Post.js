@@ -28,14 +28,6 @@ export default function Post({post, token}) {
         // setRecentComment(data.comments[data.comments.length - 1].id);
     }
 
-    async function requeryComments(){
-        const response = await fetch("https://photo-app-secured.herokuapp.com/api/comments", {
-            headers: getHeaders(token)
-        });
-        const data = await response.json();
-        console.log(data);
-    }
-
     return (
         <div className="card">   
             <div key={"post_username_" + post.id}>{post.user.username}</div>
