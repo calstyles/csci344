@@ -1,8 +1,51 @@
+import React from 'react';
+import {getHeaders} from '../utils';
+import requeryPost from './Post'
+import { useState, useEffect } from "react";
+
 export default function AddComment({post, firstComment, requeryPost, token}) {
+
+
+    async function postComment(currentPost) {
+        console.log("comment-text_" + currentPost);
+
+        let text = document.getElementsByClassName("comment-text_" + currentPost).value;
+        const endpoint = 'https://photo-app-secured.herokuapp.com/api/comments/';
+
+        console.log(currentPost);
+
+        const postData = {
+            "post_id" : currentPost,
+            "text" : text
+        };
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: getHeaders(token),
+            body: JSON.stringify(postData)
+        })
+        
+        const data = await response.json();
+        requeryPost(post);
+    }
+
+    console.log(post);
+
+    console.log(post.id);
+
     return(
-        <div>
-            {/* <div>{firstComment}</div> */}
-            <h1>Add a Comment Here</h1>
+        <div className="card-add-comment">
+            <div className="smile">
+                <a href="#" className="icon-properties">
+                    <i className="far fa-smile" />
+                </a>
+            </div>
+
+            {console.log("comment-text_" + post.id)}
+            <input className={"comment-text_" + post.id} type="text" placeholder="Add a comment..." onKeyDown={(event) => {if (event.keyCode === 13) {postComment(post.id)}}} />
+            <div className="postButton">
+                <button type="submit" className={"post-link_" + post.id} onClick={() => postComment(post.id)}>Post</button>
+            </div>
         </div>
+                
     );
 }
