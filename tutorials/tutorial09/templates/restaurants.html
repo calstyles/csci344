@@ -11,15 +11,34 @@
     {% include 'includes/header.html' %}
 
     <main>
-        <p>Search location: {{location}}</p>
-        <p>Search term: {{search_term or 'None Specified'}}</p>
-        <!-- <p>Data: {{ restaurants }}</p> -->
-
-        {% for restaurant in restaurants %}
-            <section>
-                TODO: Format Me: {{restaurant}}
-            </section>
-        {% endfor %}
+        {% if restaurants %}
+            {% for restaurant in restaurants %}
+                <div class="page-section">
+                    <div class="card">
+                        <h2>{{ restaurant['name'] }}</h2>
+                        {% if restaurant['image_url'] %}
+                            <img src="{{ restaurant['image_url'] }}" alt="{{ restaurant['name'] }} image">
+                        {% endif %}
+                        <p class="address">{{ restaurant['display_address']}}</p>
+                        <div class="details">
+                            {% if restaurant.get('price') %}
+                                <div class="segment price">Price: {{ restaurant.get('price') }}</div>
+                            {% else %}
+                                <div class="segment price">Price: None</div>
+                            {% endif %}
+                            <div class="segment-border">
+                                <div class="segment rating">Rating: {{ restaurant['rating'] }} <i class="fas fa-star"></i></div>
+                            </div>
+                            <div class="segment-border">
+                                <div class="segment review-count"># Reviews: {{ restaurant['review_count'] }} reviews</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No restaurants found.</p>
+        {% endif %}
     </main>
 </body>
 </html>

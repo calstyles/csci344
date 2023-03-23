@@ -45,7 +45,7 @@ def home():
 ##############################
 @app.route('/message')
 def exercise1():
-    return 'Hello world!'
+    return 'Hi, ' + current_user['first_name'] + ' ' + current_user['last_name'] + '! '
 
 
 ###########################################
@@ -58,7 +58,7 @@ def exercise2():
     with open('data.json') as f:
         data = json.load(f)
     print(data)
-    return json.dumps({})
+    return json.dumps(data)
     
 
 
@@ -79,8 +79,12 @@ e.g., http://127.0.0.1:5000/yelp-proxy/location=NY,%20NY&term=chinese&count=3
 @app.route('/data/yelp/')
 @app.route('/data/yelp')
 def exercise3():
-    search_term = 'pizza'
-    location = 'Asheville, NC'
+    search_term = request.args.get('term')
+    location = request.args.get('location')
+
+    if not search_term or not location:
+        return "Please provide both 'term' and 'location' parameters in your request."
+    
     # go fetch data from another server and give it to the requestor:
     url = 'https://www.apitutor.org/yelp/simple/v3/businesses/search?location={location}&term={search_term}&limit={count}'.format(
         location=location, 
@@ -101,9 +105,11 @@ def exercise4():
     with open('data.json') as f:
         quotes = json.load(f)
     print(quotes)
+    quote = random.choice(quotes)
     return render_template(
         'quote-of-the-day.html',
-        user=current_user
+        user=current_user,
+        quote=quote 
     )
 
 
@@ -119,11 +125,13 @@ def exercise5():
     if not (location and search_term):
         return '"location" and "term" are required query parameters'
 
-    url = 'https://www.apitutor.org/yelp/simple/v3/businesses/search?location={0}&term={1}&limit=1'.format(
-        location, search_term)
+    url = 'https://www.apitutor.org/yelp/simple/v3/businesses/search?location={location}&term={search_term}&limit={count}'.format(
+        location=location,
+        search_term=search_term,
+        count=5)
     response = requests.get(url)
     restaurants = response.json()
-    pprint(restaurants[0])  # for debugging
+    print(restaurants[0])  # for debugging
     return render_template(
         'restaurant.html',
         endpoint='/ui/first-restaurant/',

@@ -9,13 +9,29 @@
 </head>
 <body>
     {% include 'includes/header.html' %}
-
     <main>
-        <p>Search location: {{location}}</p>
-        <p>Search term: {{search_term or 'None Specified'}}</p>
-        <p>Data: {{ restaurant }}</p>
-        <h2>Top Restaurant:</h2> 
-        <p>Name: {{ restaurant.get('name') }}</p>
+        {% if restaurant %}
+            <div class="page-section">
+                <div class="card">
+                    <h2>{{ restaurant.get('name') }}</h2>
+                    {% if restaurant.get('image_url') %}
+                        <img src="{{ restaurant.get('image_url') }}" alt="{{ restaurant.get('name') }} image">
+                    {% endif %}
+                    <p class="address">{{ restaurant.get('display_address', {})}}</p>
+                    <div class="details">
+                        {% if restaurant.get('price') %}
+                            <div class="segment price">Price: {{ restaurant.get('price') }}</div>
+                        {% else %}
+                            <div class="segment price">Price: None</div>
+                        {% endif %}
+                        <div class="segment rating">Rating: {{ restaurant.get('rating') }} <i class="fas fa-star"></i></div>
+                        <div class="segment review-count"># Reviews: {{ restaurant.get('review_count') }} reviews</div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No restaurants found.</p>
+        {% endif %}
     </main>
 </body>
 </html>

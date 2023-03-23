@@ -6,9 +6,7 @@
 </head>
 <body>
     <h1>Welcome, {{ user.get('first_name') }} {{ user.get('last_name') }}</h1>
-    <p>Output the quote and the author here. 
-        See <a href="https://www.w3schools.com/python/python_dictionaries_access.asp" target="_blank">W3Schools</a>
-        to learn how to access a dictionary value if you're new to Python.
-    </p>
+    <p>"{{ quote['quote'] }}"</p>
+    <p> - {{ quote['author'] }}</p>
 </body>
 </html>
