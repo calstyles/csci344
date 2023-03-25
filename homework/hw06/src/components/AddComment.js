@@ -3,7 +3,7 @@ import {getHeaders} from '../utils';
 import requeryPost from './Post'
 import { useState, useEffect } from "react";
 
-export default function AddComment({post, firstComment, requeryPost, token}) {
+export default function AddComment({post, recentComment, requeryPost, token}) {
 
 
     async function postComment(currentPost) {
