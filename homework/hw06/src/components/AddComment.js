@@ -9,10 +9,8 @@ export default function AddComment({post, firstComment, requeryPost, token}) {
     async function postComment(currentPost) {
         console.log("comment-text_" + currentPost);
 
-        let text = document.getElementsByClassName("comment-text_" + currentPost).value;
+        let text = document.getElementsByClassName("comment-text_" + currentPost)[0].value;
         const endpoint = 'https://photo-app-secured.herokuapp.com/api/comments/';
-
-        console.log(currentPost);
 
         const postData = {
             "post_id" : currentPost,
@@ -20,7 +18,10 @@ export default function AddComment({post, firstComment, requeryPost, token}) {
         };
         const response = await fetch(endpoint, {
             method: "POST",
-            headers: getHeaders(token),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
             body: JSON.stringify(postData)
         })
         
