@@ -26,13 +26,8 @@ export default function AddComment({post, requeryPost, token}) {
         })
         
         const data = await response.json();
-        console.log(data);
         requeryPost(post);
     }
-
-    console.log(post);
-
-    console.log(post.id);
 
     return(
         <div className="card-add-comment">
@@ -42,7 +37,6 @@ export default function AddComment({post, requeryPost, token}) {
                 </a>
             </div>
 
-            {console.log("comment-text_" + post.id)}
             <input className={"comment-text_" + post.id} type="text" placeholder="Add a comment..." onKeyDown={(event) => {if (event.keyCode === 13) {postComment(post.id)}}} />
             <div className="postButton">
                 <button type="submit" className={"post-link_" + post.id} onClick={() => postComment(post.id)}>Post</button>
