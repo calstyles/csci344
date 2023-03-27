@@ -3,7 +3,7 @@ import {getHeaders} from '../utils';
 import { useState, useEffect } from "react";
 
     
-export default function Suggestion({ suggestion, token }) {
+export default function Suggestion({ suggestion, token, index, length }) {
         const [isFollowing, setIsFollowing] = useState(false);
         const [currentFollow, setCurrentFollow] = useState(null);
         const [currentFollowingId, setCurrentFollowingId] = useState(null);
@@ -67,9 +67,9 @@ export default function Suggestion({ suggestion, token }) {
                 </div>
                 <div className="followButton">
                     {isFollowing && suggestion.id == currentFollowingId ? (
-                        <button type="submit" className="icon-properties" onClick={unfollowUser} aria-checked="true" role="switch">unfollow</button>
+                        <button type="submit" className="icon-properties" onClick={unfollowUser} aria-checked="true" aria-label={`suggestion ${index} of ${length}`} role="switch">unfollow</button>
                         ) : (
-                        <button type="submit" className="icon-properties" onClick={followUser} aria-checked="false" role="switch">follow</button>
+                        <button type="submit" className="icon-properties" onClick={followUser} aria-checked="false" aria-label={`suggestion ${index} of ${length}`} role="switch">follow</button>
                     )}
                 </div>
             </div>

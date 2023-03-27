@@ -22,9 +22,9 @@ export default function Suggestions({token}) {
         return '';
     }
     return (
-        suggestions.map(suggestion => {
+        suggestions.map((suggestion, index )=> {
             return (
-                <Suggestion suggestion={suggestion} token={token} key={"suggestion_" + suggestion.id}/>
+                <Suggestion suggestion={suggestion} token={token} index={index + 1} length={suggestions.length} key={"suggestion_" + suggestion.id}/>
             )
         })
     );

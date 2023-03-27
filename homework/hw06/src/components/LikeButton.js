@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LikeButton({post, currentLikeId, requeryPost, token}) { 
+export default function LikeButton({post, currentLikeId, requeryPost, token, ariaLabel}) { 
     async function likePost(){
         const endpoint = "https://photo-app-secured.herokuapp.com/api/posts/likes/";
         const postData = {
@@ -28,19 +28,18 @@ export default function LikeButton({post, currentLikeId, requeryPost, token}) {
                 'Authorization': 'Bearer ' + token
             }
         })
-    
+
         const data = await response.json();
         requeryPost();
     }
 
     if(currentLikeId != null){
         return (
-            <button type="button" className="icon-properties" onClick={unLikePost}><i className="fas fa-heart fa-regular" aria-checked="true" role="switch"></i></button>
+            <button type="button" className="icon-properties" onClick={unLikePost}><i className="fas fa-heart fa-regular" aria-checked="true" aria-label={ariaLabel} role="switch"></i></button>
         ); 
     }
 
     return (
-            <button type="button" className="icon-properties" onClick={likePost}><i className="far fa-heart liked_post" aria-checked="false" role="switch"></i></button>
+            <button type="button" className="icon-properties" onClick={likePost}><i className="far fa-heart liked_post" aria-checked="false" aria-label={ariaLabel} role="switch"></i></button>
     );        
-
 }
