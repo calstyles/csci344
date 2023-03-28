@@ -37,8 +37,9 @@ export default function Post({ post, token, index, length }) {
     return (
         <div className="card">
             <div key={'post_username_' + post.id}>{post.user.username}</div>
-            <img src={post.image_url} key={'post_image_' + post.id}></img>
+            <img src={post.image_url} className="post-pic" key={'post_image_' + post.id}></img>
             <div key={'post_caption_' + post.id}>{post.caption}</div>
+            {post.display_time.toUpperCase()}
             <div className='card-actions'>
                 <div className='heart'>
                     <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token} ariaLabel={likeLabel} key={'like_' + post.id}/>
@@ -60,6 +61,7 @@ export default function Post({ post, token, index, length }) {
                         <div key={'comment_' + comment.id}>
                             <div>{comment.user.username}</div>
                             <div>{comment.text}</div>
+                            <div>{comment.display_time}</div>
                         </div>
                     );
                 }
@@ -77,6 +79,7 @@ export default function Post({ post, token, index, length }) {
                                         <div key={'comment_' + comment.id}>
                                             <div>{comment.user.username}</div>
                                             <div>{comment.text}</div>
+                                            <div>{comment.display_time}</div>
                                         </div>
                                     ))}
                                 </div>

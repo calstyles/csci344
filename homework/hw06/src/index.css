@@ -36,6 +36,10 @@ a:hover {
     color: #777;
 }
 
+.post-pic {
+    width: 100%;
+    margin-bottom: 20px;
+}
 
 header {
     margin-top: 20px;
