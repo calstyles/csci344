@@ -39,18 +39,30 @@ export default function Post({ post, token, index, length }) {
             <div key={'post_username_' + post.id}>{post.user.username}</div>
             <img src={post.image_url} key={'post_image_' + post.id}></img>
             <div key={'post_caption_' + post.id}>{post.caption}</div>
-            <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token} ariaLabel={likeLabel} key={'like_' + post.id}/>
-            <div>{currentLikeLength} likes</div>
-            <BookmarkButton post={post} currentBookmarkId={currentBookmarkId} requeryPost={requeryPost} setCurrentBookmarkId={setCurrentBookmarkId} token={token} ariaLabel={bookmarkLabel} key={'bookmarkButton_' + post.id}/>
+            <div className='card-actions'>
+                <div className='heart'>
+                    <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token} ariaLabel={likeLabel} key={'like_' + post.id}/>
+                </div>
+                <div className="comment">
+                    <button href="#" className="icon-properties"><i className="fas fa-comment"></i></button>
+                </div>
+                <div className="plane">
+                    <button href="#" className="icon-properties"><i className="far fa-paper-plane"></i></button>
+                </div>
+                <div className='bookmark'>
+                    <BookmarkButton post={post} currentBookmarkId={currentBookmarkId} requeryPost={requeryPost} setCurrentBookmarkId={setCurrentBookmarkId} token={token} ariaLabel={bookmarkLabel} key={'bookmarkButton_' + post.id}/>
+                </div>
+            </div>
+            <div className='card-likes'>{currentLikeLength} likes</div>
             {comments.map((comment, i) => {
-              if (i === comments.length - 1) {
-                return (
-                  <div key={'comment_' + comment.id}>
-                    <div>{comment.user.username}</div>
-                    <div>{comment.text}</div>
-                  </div>
-                );
-              }
+                if (i === comments.length - 1) {
+                    return (
+                        <div key={'comment_' + comment.id}>
+                            <div>{comment.user.username}</div>
+                            <div>{comment.text}</div>
+                        </div>
+                    );
+                }
             })}
             {comments.length > 1 && !showAllComments && (
               <button onClick={handleViewCommentsClick}>View all {comments.length} comments</button>
@@ -59,13 +71,16 @@ export default function Post({ post, token, index, length }) {
               <div className="modal-overlay">
                     <div className="modal">
                         <div className="modal-content">
-                            {comments.map((comment) => (
-                                <div key={'comment_' + comment.id}>
-                                    <div>{comment.user.username}</div>
-                                    <div>{comment.text}</div>
+                            <div className="modal-image-div"><img src={post.image_url} key={"modal-img-" + post.id}></img></div>
+                                <div className='all-comments'>
+                                    {comments.map((comment) => (
+                                        <div key={'comment_' + comment.id}>
+                                            <div>{comment.user.username}</div>
+                                            <div>{comment.text}</div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                            <button onClick={handleCloseModalClick}>Close</button>
+                            <button onClick={handleCloseModalClick}><span className="close">&times;</span></button>
                         </div>
                     </div>
               </div>
