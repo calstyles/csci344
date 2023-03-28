@@ -42,27 +42,33 @@ export default function Post({ post, token, index, length }) {
             <LikeButton post={post} currentLikeId={currentLikeId} requeryPost={requeryPost} token={token} ariaLabel={likeLabel} key={'like_' + post.id}/>
             <div>{currentLikeLength} likes</div>
             <BookmarkButton post={post} currentBookmarkId={currentBookmarkId} requeryPost={requeryPost} setCurrentBookmarkId={setCurrentBookmarkId} token={token} ariaLabel={bookmarkLabel} key={'bookmarkButton_' + post.id}/>
-            {comments.slice(0, showAllComments ? comments.length : 1).map((comment) => (
-                <div key={'comment_' + comment.id}>
+            {comments.map((comment, i) => {
+              if (i === comments.length - 1) {
+                return (
+                  <div key={'comment_' + comment.id}>
                     <div>{comment.user.username}</div>
                     <div>{comment.text}</div>
-                </div>
-            ))}
+                  </div>
+                );
+              }
+            })}
             {comments.length > 1 && !showAllComments && (
               <button onClick={handleViewCommentsClick}>View all {comments.length} comments</button>
             )}
             {showAllComments && (
-                <div className="modal">
-                    <div className="modal-content">
-                        {comments.map((comment) => (
-                            <div key={'comment_' + comment.id}>
-                                <div>{comment.user.username}</div>
-                                <div>{comment.text}</div>
-                            </div>
-                        ))}
-                        <button onClick={handleCloseModalClick}>Close</button>
+              <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-content">
+                            {comments.map((comment) => (
+                                <div key={'comment_' + comment.id}>
+                                    <div>{comment.user.username}</div>
+                                    <div>{comment.text}</div>
+                                </div>
+                            ))}
+                            <button onClick={handleCloseModalClick}>Close</button>
+                        </div>
                     </div>
-                </div>
+              </div>
             )}
             <AddComment post={post} requeryPost={requeryPost} token={token} key={"post_" + post.id} />
         </div>
