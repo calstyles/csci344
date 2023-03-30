@@ -43,8 +43,11 @@ class PostDetailEndpoint(Resource):
 
 
     def get(self, id):
-        # get the post based on the id
-        return Response(json.dumps({}), mimetype="application/json", status=200)
+        post = Post.query.filter_by(id=id).first()
+        if post:
+            return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
+        else:
+            return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
 
 def initialize_routes(api):
     api.add_resource(
