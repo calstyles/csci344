@@ -11,8 +11,16 @@ class ProfileDetailEndpoint(Resource):
         self.current_user = current_user
 
     def get(self):
-        return Response(json.dumps({}), mimetype="application/json", status=200)
-
+        profile_data = {
+            "id": self.current_user.id,
+            "first_name": self.current_user.first_name,
+            "last_name": self.current_user.last_name,
+            "username": self.current_user.username,
+            "email": self.current_user.email,
+            "image_url": self.current_user.image_url,
+            "thumb_url": self.current_user.thumb_url
+        }
+        return Response(json.dumps(profile_data), mimetype="application/json", status=200)
 
 def initialize_routes(api):
     api.add_resource(
