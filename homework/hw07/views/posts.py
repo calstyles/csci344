@@ -14,10 +14,25 @@ class PostListEndpoint(Resource):
         self.current_user = current_user
 
     def get(self):
-        # get posts created by one of these users:
-        posts = Post.query.limit(10).all()
-        return Response(json.dumps([post.to_dict() for post in posts]), mimetype="application/json", status=200)
+        # get list of authorized user IDs:
+        user_ids = get_authorized_user_ids(self.current_user)
 
+        # get posts by authorized users:
+        posts = Post.query.filter(Post.user_id.in_(user_ids))
+
+        # apply limit parameter, if provided:
+        try:
+            limit = int(request.args.get('limit', 20))
+        except ValueError:
+            return Response(json.dumps({"message": "Invalid limit parameter"}), mimetype="application/json", status=400)
+            
+        if limit > 50:
+            return Response(json.dumps({"message": "Invalid limit parameter"}), mimetype="application/json", status=400)
+        posts = posts.limit(limit)
+
+        # return response:
+        return Response(json.dumps([post.to_dict() for post in posts]), mimetype="application/json", status=200)
+    
     def post(self):
         # create a new post based on the data posted in the body 
         body = request.get_json()
@@ -43,6 +58,7 @@ class PostDetailEndpoint(Resource):
 
 
     def get(self, id):
+        print(id)
         post = Post.query.filter_by(id=id).first()
         if post:
             return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
