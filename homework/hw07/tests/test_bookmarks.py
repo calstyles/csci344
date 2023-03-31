@@ -16,7 +16,7 @@ class TestBookmarkListEndpoint(unittest.TestCase):
         bookmark_ids = utils.get_bookmark_ids(self.current_user.get('id'))
         self.assertTrue(len(bookmarks) > 1)
         for bookmark in bookmarks:
-            # print(bookmark.get('id'), bookmark_ids)
+            print(bookmark.get('id'), bookmark_ids)
             self.assertTrue(bookmark.get('id') in bookmark_ids)
 
     def test_bookmarks_get_check_if_data_structure_correct(self):
