@@ -11,13 +11,11 @@ class FollowingListEndpoint(Resource):
         self.current_user = current_user
     
     def get(self):
-        following_records = Following.query.filter_by(user_id=self.current_user.id).all()
-        following_ids = [following.following_id for following in following_records]
-        user_records = User.query.filter(User.id.in_(following_ids)).all()
-        # convert each Following object to a dictionary using to_dict_following method
-        user_dicts = [user.to_dict() for user in user_records]
+        following_records = Following.query.filter_by(user_id=self.current_user.id)
 
-        print(user_dicts)
+        # convert each Following object to a dictionary using to_dict_following method
+        user_dicts = [following.to_dict_following() for following in following_records]
+
         # return the list of following dictionaries as a JSON response
         return Response(json.dumps(user_dicts), mimetype="application/json", status=200)
     
