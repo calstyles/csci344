@@ -30,7 +30,6 @@ class TestFollowerListEndpoint(unittest.TestCase):
         response = requests.get('{0}/api/followers'.format(root_url))
         self.assertEqual(response.status_code, 200)
         following_list = response.json()
-       
         entry = following_list[0]
         self.assertTrue('id' in entry and type(entry['id']) == int)
         self.assertTrue('follower' in entry and type(entry['follower']) == dict)

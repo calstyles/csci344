@@ -15,8 +15,10 @@ class FollowerListEndpoint(Resource):
         People who are following the current user.
         In other words, select user_id where following_id = current_user.id
         '''
-        followers = Following.query.filter_by(following_id=self.current_user.id).all()
-        followers_list = [follower.to_dict_following() for follower in followers]
+        followers = Following.query.filter_by(following_id=self.current_user.id)
+
+        followers_list = [follower.to_dict_follower() for follower in followers]
+
         return Response(json.dumps(followers_list), mimetype="application/json", status=200)
 
 
