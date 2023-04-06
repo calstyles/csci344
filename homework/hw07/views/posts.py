@@ -36,9 +36,21 @@ class PostListEndpoint(Resource):
     def post(self):
         # create a new post based on the data posted in the body 
         body = request.get_json()
-        print(body)  
-        return Response(json.dumps({}), mimetype="application/json", status=201)
-        
+        image_url = body.get('image_url')
+        if not image_url:
+            return Response(json.dumps({"message": "Missing required field 'image_url'"}), mimetype="application/json", status=400)
+
+        caption = body.get('caption')
+        alt_text = body.get('alt_text')
+
+        # create and add the new post to the database:
+        post = Post(image_url=image_url, user_id=self.current_user.id, caption=caption, alt_text=alt_text)
+        db.session.add(post)
+        db.session.commit()
+
+        # return the new post as a response:
+        return Response(json.dumps(post.to_dict()), mimetype="application/json", status=201)
+    
 class PostDetailEndpoint(Resource):
 
     def __init__(self, current_user):
@@ -60,11 +72,13 @@ class PostDetailEndpoint(Resource):
     def get(self, id):
         print(id)
         post = Post.query.filter_by(id=id).first()
-        if post:
-            return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
-        else:
+        if not post:
             return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
-
+        elif post.user_id != self.current_user.id:
+            return Response(json.dumps({"message": "Permission Denied"}), mimetype="application/json", status=404)
+        else:
+            return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
+        
 def initialize_routes(api):
     api.add_resource(
         PostListEndpoint, 
