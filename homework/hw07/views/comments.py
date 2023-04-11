@@ -17,6 +17,9 @@ class CommentListEndpoint(Resource):
         if post is None:
             return Response(json.dumps({'error': f'Post with id {body["post_id"]} not found.'}), status=404)
 
+        if post.user_id != self.current_user.id:
+            return Response(json.dumps({'error': f'You are not authorized to create a comment on this post.'}), status=404)
+
         comment = Comment(text=body['text'], user_id=self.current_user.id, post_id=post.id)
 
         db.session.add(comment)
