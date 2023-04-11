@@ -58,17 +58,35 @@ class PostDetailEndpoint(Resource):
         
 
     def patch(self, id):
-        # update post based on the data posted in the body 
-        body = request.get_json()
-        print(body)       
-        return Response(json.dumps({}), mimetype="application/json", status=200)
+        post = Post.query.get(id)
+        if not post:
+            return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
 
+        data = request.get_json()
+        if 'image_url' in data:
+            post.image_url = data['image_url']
+        if 'caption' in data:
+            post.caption = data['caption']
+        if 'alt_text' in data:
+            post.alt_text = data['alt_text']
+
+        db.session.commit()
+        return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
 
     def delete(self, id):
-        # delete post where "id"=id
+        print(f"Deleting post with ID {id}")
+        post = Post.query.get(id)
+        print(f"Retrieved post: {post}")
+        if not post:
+            return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
+        # try:
+        db.session.delete(post)
+        db.session.commit()
+        # except Exception as e:
+        #     print(f"Error deleting post: {e}")
+        #     return Response(json.dumps({"message": "Internal server error"}), mimetype="application/json", status=500)
         return Response(json.dumps({}), mimetype="application/json", status=200)
-
-
+    
     def get(self, id):
         print(id)
         post = Post.query.filter_by(id=id).first()
