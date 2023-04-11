@@ -16,8 +16,20 @@ class BookmarksListEndpoint(Resource):
     def post(self):
         # create a new "bookmark" based on the data posted in the body 
         body = request.get_json()
-        print(body)
-        return Response(json.dumps({}), mimetype="application/json", status=201)
+        post_id = body.get('post_id')
+        if post_id is None:
+            return Response(json.dumps({'error': 'post_id is required'}), mimetype="application/json", status=400)
+
+        # check if the user is authorized to access the specified post
+        post = Bookmark.query.get(post_id)
+        if post is None or not post.can_be_viewed_by(self.current_user):
+            return Response(json.dumps({'error': 'post not found or unauthorized to access'}), mimetype="application/json", status=404)
+
+        bookmark = Bookmark(user_id=self.current_user.id, post_id=post_id)
+        db.session.add(bookmark)
+        db.session.commit()
+
+        return Response(json.dumps(bookmark.to_dict()), mimetype="application/json", status=201)
 
 class BookmarkDetailEndpoint(Resource):
 

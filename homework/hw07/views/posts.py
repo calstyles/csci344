@@ -79,12 +79,12 @@ class PostDetailEndpoint(Resource):
         print(f"Retrieved post: {post}")
         if not post:
             return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
-        try:
-            db.session.delete(post)
-            db.session.commit()
-        except Exception as e:
-            print(f"Error deleting post: {e}")
-            return Response(json.dumps({"message": "Internal server error"}), mimetype="application/json", status=500)
+        # try:
+        db.session.delete(post)
+        db.session.commit()
+        # except Exception as e:
+        #     print(f"Error deleting post: {e}")
+        #     return Response(json.dumps({"message": "Internal server error"}), mimetype="application/json", status=500)
         return Response(json.dumps(), mimetype="application/json", status=200)
     
     def get(self, id):
