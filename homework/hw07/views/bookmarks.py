@@ -38,7 +38,12 @@ class BookmarkDetailEndpoint(Resource):
     
     def delete(self, id):
         # delete "bookmark" record where "id"=id
+        bookmark = Bookmark.query.get(id)
+
         print(id)
+        
+        db.session.delete(bookmark)
+        db.session.commit()
         return Response(json.dumps({}), mimetype="application/json", status=200)
 
 
