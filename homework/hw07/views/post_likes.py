@@ -12,13 +12,28 @@ class PostLikesListEndpoint(Resource):
         # create a new "like_post" based on the data posted in the body 
         body = request.get_json()
         post_id = body.get('post_id')
-        if not post_id:
-            return Response(json.dumps({'error': 'post_id is required'}), mimetype="application/json", status=400)
+
+        if body is None:
+            return Response(json.dumps({'error': 'Request body is empty or content-type header is not set to "application/json".'}), status=400)
         
+        if isinstance(body['post_id'], str):
+            return Response(json.dumps({'error': 'Invalid post_id format. Must be an integer.'}), status=400)
+        
+        if not post_id:
+            return Response(json.dumps({'error': 'post_id is required'}), mimetype="application/json", status=404)
+
+        like = LikePost.query.get(body['post_id'])
+
+        if like is None:
+            return Response(json.dumps({'error': f'Post with id {body["post_id"]} not found.'}), status=404)
+        
+        if like.user_id != self.current_user.id:
+            return Response(json.dumps({'error': f'You are not authorized to add a like on this post.'}), status=404)
+
         like_post = LikePost(user_id=self.current_user.id, post_id=post_id)
         db.session.add(like_post)
         db.session.commit()
-        
+
         return Response(json.dumps(like_post.to_dict()), mimetype="application/json", status=201)
     
 class PostLikesDetailEndpoint(Resource):
