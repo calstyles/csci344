@@ -42,6 +42,9 @@ class BookmarkDetailEndpoint(Resource):
 
         print(id)
         
+        if not bookmark:
+            return Response(json.dumps({"message": "Bookmark not found"}), mimetype="application/json", status=404)
+
         db.session.delete(bookmark)
         db.session.commit()
         return Response(json.dumps({}), mimetype="application/json", status=200)

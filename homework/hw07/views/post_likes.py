@@ -27,11 +27,10 @@ class PostLikesDetailEndpoint(Resource):
         self.current_user = current_user
     
     def delete(self, id):
-        like_post = LikePost.query.filter_by(id=id, user_id=self.current_user.id).first()
+        like_post = LikePost.query.filter_by(id=id, user_id=self.current_user.id).first().delete()
         if not like_post:
             return Response(json.dumps({'error': 'Like not found'}), mimetype="application/json", status=404)
         
-        db.session.delete(like_post)
         db.session.commit()
         
         return Response(json.dumps({}), mimetype="application/json", status=200)

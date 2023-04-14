@@ -73,18 +73,14 @@ class PostDetailEndpoint(Resource):
         db.session.commit()
         return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
 
+
     def delete(self, id):
-        print(f"Deleting post with ID {id}")
-        post = Post.query.get(id)
-        print(f"Retrieved post: {post}")
+        post = Post.query.filter_by(id=id).delete()
         if not post:
             return Response(json.dumps({"message": "Post not found"}), mimetype="application/json", status=404)
-        
-        db.session.delete(post)
         db.session.commit()
-        
-        return Response(json.dumps(), mimetype="application/json", status=200)
-    
+        return Response(json.dumps(None), mimetype="application/json", status=200)
+
     def get(self, id):
         print(id)
         post = Post.query.filter_by(id=id).first()

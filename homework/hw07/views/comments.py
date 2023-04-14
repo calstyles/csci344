@@ -10,6 +10,7 @@ class CommentListEndpoint(Resource):
     
     def post(self):
         body = request.get_json()
+        print(body)
         if body is None:
             return Response(json.dumps({'error': 'Request body is empty or content-type header is not set to "application/json".'}), status=400)
         # create a new "Comment" based on the data posted in the body 
