@@ -14,20 +14,24 @@ class CommentListEndpoint(Resource):
         if body is None:
             return Response(json.dumps({'error': 'Request body is empty or content-type header is not set to "application/json".'}), status=400)
         # create a new "Comment" based on the data posted in the body 
+        if isinstance(body['post_id'], str):
+            return Response(json.dumps({'error': 'Invalid post_id format. Must be an integer.'}), status=400)
+        if not body.get('text'):
+            return Response(json.dumps({'error': 'No comment in body.'}), status=400)
+        
         post = Post.query.get(body['post_id'])
+        
         if post is None:
             return Response(json.dumps({'error': f'Post with id {body["post_id"]} not found.'}), status=404)
-
         if post.user_id != self.current_user.id:
             return Response(json.dumps({'error': f'You are not authorized to create a comment on this post.'}), status=404)
-
+        
         comment = Comment(text=body['text'], user_id=self.current_user.id, post_id=post.id)
 
         db.session.add(comment)
         db.session.commit()
-
         return Response(json.dumps(comment.to_dict()), mimetype="application/json", status=201)
-
+    
 class CommentDetailEndpoint(Resource):
 
     def __init__(self, current_user):
