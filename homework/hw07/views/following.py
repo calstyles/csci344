@@ -18,19 +18,27 @@ class FollowingListEndpoint(Resource):
         return Response(json.dumps(following_list), mimetype="application/json", status=200)
     
     def post(self):
-        # create a new "following" record based on the data posted in the body 
         body = request.get_json()
         user_id = body.get('user_id')
-        following = Following.query.filter_by(user_id=self.current_user.id).first()
+
+        if isinstance(user_id, str):
+            return Response(json.dumps({'error': 'invalid user_id format. Must be an integer.'}), status=400)
+
+        if not user_id:
+            return Response(json.dumps({'error': 'user_id is required'}), mimetype="application/json", status=400)
+
+        following_user = User.query.filter_by(id=user_id).first()
+        if not following_user:
+            return Response(json.dumps({'error': 'specified user does not exist'}), mimetype="application/json", status=404)
+
+        following = Following.query.filter_by(user_id=self.current_user.id, following_id=user_id).first()
         if following:
             return Response(json.dumps({'error': 'already following user'}), mimetype="application/json", status=400)
 
-        if not user_id:
-            return Response(json.dumps({'error': 'user_id is required'}), mimetype="application/json", status=404)
-
-        following = Following(user_id=user_id, following_id=self.current_user.id)
+        following = Following(user_id=self.current_user.id, following_id=user_id)
         db.session.add(following)
         db.session.commit()
+
         return Response(json.dumps(following.to_dict_following()), mimetype="application/json", status=201)
 
 class FollowingDetailEndpoint(Resource):
