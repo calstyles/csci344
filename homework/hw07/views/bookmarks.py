@@ -36,6 +36,9 @@ class BookmarksListEndpoint(Resource):
         post = Bookmark.query.get(post_id)
         if not post:
             return Response(json.dumps({'error': 'post not found or unauthorized to access'}), mimetype="application/json", status=404)
+        
+        if Bookmark.query.filter_by(user_id=self.current_user.id, post_id=post_id).first():
+            return Response(json.dumps({'message': 'you have already bookmarked this post'}), mimetype="application/json", status=400)
 
         bookmark = Bookmark(user_id=self.current_user.id, post_id=post_id)
         db.session.add(bookmark)
