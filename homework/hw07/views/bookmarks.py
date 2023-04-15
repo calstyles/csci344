@@ -31,7 +31,6 @@ class BookmarksListEndpoint(Resource):
         except ValueError:
             return Response(json.dumps({'error': 'invalid post_id format. Must be an integer.'}), status=400)
 
-        
         # check if the user is authorized to access the specified post
         post = Bookmark.query.get(post_id)
         if not post:
