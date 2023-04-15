@@ -21,8 +21,13 @@ class FollowingListEndpoint(Resource):
         # create a new "following" record based on the data posted in the body 
         body = request.get_json()
         user_id = body.get('user_id')
+        following = Following.query.filter_by(user_id=self.current_user.id).first()
+        if following:
+            return Response(json.dumps({'error': 'already following user'}), mimetype="application/json", status=400)
+
         if not user_id:
-            return Response(json.dumps({'error': 'user_id is required'}), mimetype="application/json", status=400)
+            return Response(json.dumps({'error': 'user_id is required'}), mimetype="application/json", status=404)
+
         following = Following(user_id=user_id, following_id=self.current_user.id)
         db.session.add(following)
         db.session.commit()
