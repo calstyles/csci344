@@ -16,13 +16,25 @@ class BookmarksListEndpoint(Resource):
     def post(self):
         # create a new "bookmark" based on the data posted in the body 
         body = request.get_json()
+        user_id = body.get('user_id')
         post_id = body.get('post_id')
-        if post_id is None:
+
+        if not post_id:
             return Response(json.dumps({'error': 'post_id is required'}), mimetype="application/json", status=400)
 
+        bookmarked = Bookmark.query.filter_by(user_id=self.current_user.id, post_id=user_id).first()
+        if bookmarked:
+            return Response(json.dumps({'error': 'already bookmarked post'}), mimetype="application/json", status=400)
+
+        try:
+            post_id_int = int(post_id)
+        except ValueError:
+            return Response(json.dumps({'error': 'invalid post_id format. Must be an integer.'}), status=400)
+
+        
         # check if the user is authorized to access the specified post
         post = Bookmark.query.get(post_id)
-        if post is None or not post.can_be_viewed_by(self.current_user):
+        if not post:
             return Response(json.dumps({'error': 'post not found or unauthorized to access'}), mimetype="application/json", status=404)
 
         bookmark = Bookmark(user_id=self.current_user.id, post_id=post_id)
