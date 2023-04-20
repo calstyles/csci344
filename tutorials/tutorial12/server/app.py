@@ -79,6 +79,31 @@ async def respond_to_message(websocket, message):
     logged_in_users (which stores each websocket-username) pair.
     ********************************************************************/
     '''
+    message_type = data.get('type')
+    if message_type == "login":
+        logged_in_users[websocket] = data.get('username')
+        message = {
+            "type": "login",
+            "user_joined": data.get('username'),
+            "active_users": list(logged_in_users.values())
+        }
+
+    elif message_type == "disconnect":
+        if websocket in logged_in_users:
+            username = logged_in_users[websocket]
+            del logged_in_users[websocket]
+            message = {
+                "type": "disconnect",
+                "user_left": username,
+                "active_users": list(logged_in_users.values())
+            }
+
+    elif message_type == "chat":
+        message = data
+    
+    else:
+        print('Unrecognized message type:', data)
+        return
     
     # await websocket.send(json.dumps(data))
     for sock in logged_in_users:

@@ -153,14 +153,34 @@ const utils = {
 const handleServerMessage = ev => {
     const data = JSON.parse(ev.data);
     if (data.type === "login") {
-        console.log('A user has just connected:');
-        console.log(data);
+        const usersList = qs("#users-list");
+        usersList.innerHTML = "";
+        console.log(data)
+        for (let i = 0; i < data.users.length; i++) {
+            const li = document.createElement("li");
+            li.textContent = data.users[i];
+            usersList.appendChild(li);
+        }
     } else if (data.type === "disconnect") {
-        console.log('A user has just disconnected:');
-        console.log(data);
+        const usersList = qs("#users-list");
+        usersList.innerHTML = "";
+        if (Array.isArray(data.users)) {
+            for (let i = 0; i < data.users.length; i++) {
+                const li = document.createElement("li");
+                li.textContent = data.users[i];
+                usersList.appendChild(li);
+            }
+        }
     } else if (data.type === "chat") {
-        console.log('A user has just sent a chat message:');
-        console.log(data);
+        const chatBox = qs("#chat");
+            const chatBubble = document.createElement("div");
+            const sender = data.username === username ? "right" : "left";
+            chatBubble.classList.add(sender);
+            chatBubble.innerHTML = `
+                <span class="sender">${data.username}: </span>
+                <span class="message">${data.text}</span>
+            `;
+            chatBox.appendChild(chatBubble);
     } else {
         console.error("Message type not recognized.");
         console.log(data);
