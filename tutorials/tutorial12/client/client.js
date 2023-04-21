@@ -150,28 +150,23 @@ const utils = {
 /********************
  * 5. Your Code Here
  ********************/
-const loggedInUsers = [];
 const handleServerMessage = ev => {
     const data = JSON.parse(ev.data);
+    console.log(data)
     if (data.type === "login") {
-        loggedInUsers.push(data.username); 
         const usersList = qs("#users-list");
         usersList.innerHTML = "";
-        for (let i = 0; i < loggedInUsers.length; i++) {
+        for (let i = 0; i < data.active_users.length; i++) {
             const li = document.createElement("li");
-            li.textContent = loggedInUsers[i];
+            li.textContent = data.active_users[i];
             usersList.appendChild(li);
         }
     } else if (data.type === "disconnect") {
-        const index = loggedInUsers.indexOf(data.username);
-        if (index !== -1) {
-            loggedInUsers.splice(index, 1);
-        }
         const usersList = qs("#users-list");
         usersList.innerHTML = "";
-        for (let i = 0; i < loggedInUsers.length; i++) {
+        for (let i = 0; i < data.active_users.length; i++) {
             const li = document.createElement("li");
-            li.textContent = loggedInUsers[i];
+            li.textContent = data.active_users[i];
             usersList.appendChild(li);
         }
     } else if (data.type === "chat") {

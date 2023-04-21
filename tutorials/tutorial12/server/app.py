@@ -106,7 +106,7 @@ async def respond_to_message(websocket, message):
     
     elif message_type == "chat":
         for sock in logged_in_users:
-            await sock.send(json.dumps(data))
+            await sock.send(json.dumps(message))
     
     else:
         print('Unrecognized message type:', data)
