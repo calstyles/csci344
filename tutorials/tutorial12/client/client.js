@@ -150,37 +150,37 @@ const utils = {
 /********************
  * 5. Your Code Here
  ********************/
+const loggedInUsers = [];
 const handleServerMessage = ev => {
     const data = JSON.parse(ev.data);
     if (data.type === "login") {
+        loggedInUsers.push(data.username); 
         const usersList = qs("#users-list");
         usersList.innerHTML = "";
-        console.log(data)
-        for (let i = 0; i < data.users.length; i++) {
+        for (let i = 0; i < loggedInUsers.length; i++) {
             const li = document.createElement("li");
-            li.textContent = data.users[i];
+            li.textContent = loggedInUsers[i];
             usersList.appendChild(li);
         }
     } else if (data.type === "disconnect") {
+        const index = loggedInUsers.indexOf(data.username);
+        if (index !== -1) {
+            loggedInUsers.splice(index, 1);
+        }
         const usersList = qs("#users-list");
         usersList.innerHTML = "";
-        if (Array.isArray(data.users)) {
-            for (let i = 0; i < data.users.length; i++) {
-                const li = document.createElement("li");
-                li.textContent = data.users[i];
-                usersList.appendChild(li);
-            }
+        for (let i = 0; i < loggedInUsers.length; i++) {
+            const li = document.createElement("li");
+            li.textContent = loggedInUsers[i];
+            usersList.appendChild(li);
         }
     } else if (data.type === "chat") {
         const chatBox = qs("#chat");
-            const chatBubble = document.createElement("div");
-            const sender = data.username === username ? "right" : "left";
-            chatBubble.classList.add(sender);
-            chatBubble.innerHTML = `
-                <span class="sender">${data.username}: </span>
-                <span class="message">${data.text}</span>
-            `;
-            chatBox.appendChild(chatBubble);
+        const chatList = document.createElement("div");
+        const sender = data.username === username ? "right" : "left";
+        chatList.classList.add(sender);
+        chatList.innerHTML = data.username === username ? `<span class="sender">You: </span> <span class="message">${data.text}</span>` : `<span class="sender">${data.username}: </span> <span class="message">${data.text}</span>`;
+        chatBox.appendChild(chatList);
     } else {
         console.error("Message type not recognized.");
         console.log(data);

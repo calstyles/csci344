@@ -82,34 +82,35 @@ async def respond_to_message(websocket, message):
     message_type = data.get('type')
     if message_type == "login":
         logged_in_users[websocket] = data.get('username')
+        active_users = list(logged_in_users.values())
         message = {
             "type": "login",
             "user_joined": data.get('username'),
-            "active_users": list(logged_in_users.values())
+            "active_users": active_users
         }
-
+        for sock in logged_in_users:
+            await sock.send(json.dumps(message))
+        
     elif message_type == "disconnect":
         if websocket in logged_in_users:
             username = logged_in_users[websocket]
             del logged_in_users[websocket]
+            active_users = list(logged_in_users.values())
             message = {
                 "type": "disconnect",
                 "user_left": username,
-                "active_users": list(logged_in_users.values())
+                "active_users": active_users
             }
-
+            for sock in logged_in_users:
+                await sock.send(json.dumps(message))
+    
     elif message_type == "chat":
-        message = data
+        for sock in logged_in_users:
+            await sock.send(json.dumps(data))
     
     else:
         print('Unrecognized message type:', data)
         return
-    
-    # await websocket.send(json.dumps(data))
-    for sock in logged_in_users:
-        # TODO: replace "data" with a message that conforms to
-        # the specs above:
-        await sock.send(json.dumps(data))
 
 
 async def broadcast_messages(websocket, path):
