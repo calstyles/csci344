@@ -37,7 +37,7 @@ class RefreshTokenEndpoint(Resource):
         except:
             return Response(json.dumps({ 
                 "message": "Invalid refresh_token={0}. Could not decode.".format(refresh_token)
-            }), mimetype="application/json", status=400)
+            }), mimetype="application/json", status=401)
 
         # if the refresh token is valid and hasn't expired, issue a
         # new access token:

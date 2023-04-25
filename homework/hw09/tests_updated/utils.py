@@ -1,7 +1,7 @@
 import os
 import requests
 from flask import Flask
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import create_engine, inspect, text
 import flask_jwt_extended
 import random
 
@@ -35,13 +35,14 @@ def _zip(columns, rows, single_object=True):
         return results
 
 def get_random_user():
-    return get_user(random.randint(1, 30))
+    return get_user(random.randint(1, 20))
 
 def get_user_12():
     with db.connect() as conn:
         inspector = inspect(db)
         columns = [c.get('name') for c in inspector.get_columns('users')]
-        rows = conn.execute('SELECT * FROM users where id=12')
+        sql = 'SELECT * FROM users where id=12'
+        rows = conn.execute(text(sql))
         conn.close()
         return _zip(columns, rows)
 
@@ -49,7 +50,8 @@ def get_user(user_id):
     with db.connect() as conn:
         inspector = inspect(db)
         columns = [c.get('name') for c in inspector.get_columns('users')]
-        rows = conn.execute('SELECT * FROM users where id={0}'.format(user_id))
+        sql = 'SELECT * FROM users where id={0}'.format(user_id)
+        rows = conn.execute(text(sql))
         conn.close()
         return _zip(columns, rows)
 
@@ -73,7 +75,7 @@ def get_unbookmarked_post_id_by_user(user_id):
                 user_id=user_id,
                 authorized_user_ids=', '.join([str(id) for id in ids])
             )
-        rows = list(conn.execute(sql))
+        rows = list(conn.execute(text(sql)))
         conn.close()
         post_id = rows[0][0]
         return post_id
@@ -92,7 +94,7 @@ def get_unfollowed_user(user_id):
             LIMIT 1
         '''.format(user_id=user_id)
         columns = [c.get('name') for c in inspector.get_columns('users')]
-        rows = list(conn.execute(sql))
+        rows = list(conn.execute(text(sql)))
         conn.close()
         return _zip(columns, rows)
 
@@ -115,7 +117,7 @@ def get_unliked_post_id_by_user(user_id):
                 user_id=user_id,
                 authorized_user_ids=', '.join([str(id) for id in ids])
             )
-        rows = list(conn.execute(sql))
+        rows = list(conn.execute(text(sql)))
         conn.close()
         post_id = rows[0][0]
         return post_id
@@ -133,7 +135,8 @@ def restore_post_by_id(post):
             alt_text=post.get('alt_text'),
             user_id=post.get('user_id')
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def restore_comment_by_id(comment):
@@ -147,7 +150,8 @@ def restore_comment_by_id(comment):
             user_id=comment.get('user_id'),
             text=comment.get('text')
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def restore_bookmark(bookmark):
@@ -160,7 +164,8 @@ def restore_bookmark(bookmark):
             post_id=bookmark.get('post_id'),
             user_id=bookmark.get('user_id'),
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def restore_liked_post(liked_post):
@@ -173,7 +178,8 @@ def restore_liked_post(liked_post):
             post_id=liked_post.get('post_id'),
             user_id=liked_post.get('user_id'),
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def restore_post(post_original_data):
@@ -188,7 +194,8 @@ def restore_post(post_original_data):
             post_original_data.get('alt_text'),
             post_original_data.get('id')
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def restore_following(following_original):
@@ -201,7 +208,8 @@ def restore_following(following_original):
             user_id=following_original.get('user_id'),
             following_id=following_original.get('following_id')
         )
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 def get_following_ids(user_id):
@@ -216,7 +224,7 @@ def get_following_ids(user_id):
             ORDER BY following.following_id
         '''.format(user_id)
         columns = [c.get('name') for c in inspector.get_columns('following')]
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         records = _zip(columns, rows)
         return [rec.get('following_id') for rec in records]
@@ -233,7 +241,7 @@ def get_follower_ids(user_id):
             ORDER BY following.user_id
         '''.format(user_id)
         columns = [c.get('name') for c in inspector.get_columns('following')]
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         records = _zip(columns, rows)
         return [rec.get('user_id') for rec in records]
@@ -259,7 +267,7 @@ def get_post_that_user_cannot_access(user_id):
             LIMIT 1
         '''.format(', '.join([str(id) for id in ids]))
         columns = [c.get('name') for c in inspector.get_columns('posts')]
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         object = _zip(columns, rows)
         return object
@@ -271,7 +279,7 @@ def get_x_that_user_cannot_delete(table_name, user_id):
         # then query for a post that was NOT created by one of these users:
         sql = 'SELECT * FROM {0} where user_id != {1} LIMIT 1'.format(table_name, user_id)
         columns = [c.get('name') for c in inspector.get_columns(table_name)]
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         object = _zip(columns, rows)
         return object
@@ -303,7 +311,7 @@ def get_stories_by_user(user_id):
                 users_1.id = stories.user_id 
             WHERE stories.user_id IN ({user_ids})
         '''.format(user_ids=', '.join([str(id) for id in ids]))
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         story_ids = [row[0] for row in rows]
         return story_ids
@@ -316,14 +324,15 @@ def get_unrelated_users(user_id):
         sql = '''
             SELECT id FROM users where id NOT IN ({0})
         '''.format(', '.join([str(id) for id in ids]))
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         return [row[0] for row in rows]
 
 def delete_x_by_id(table_name, id):
     with db.connect() as conn:
         sql = 'DELETE FROM {0} where id={1}'.format(table_name, id)
-        conn.execute(sql)
+        conn.execute(text(sql))
+        conn.commit()
         conn.close()
 
 
@@ -351,7 +360,7 @@ def get_bookmark_ids(user_id):
     with db.connect() as conn:
         # then query for a post that was NOT created by one of these users:
         sql = 'SELECT id FROM bookmarks where user_id = ({0})'.format(user_id)
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         conn.close()
         return [row[0] for row in rows]
 
@@ -361,7 +370,7 @@ def get_x_by_user(table_name, user_id):
         inspector = inspect(db)
         # then query for a post that was NOT created by one of these users:
         sql = 'SELECT * FROM {0} where user_id = ({1}) LIMIT 1'.format(table_name, user_id)
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         columns = [c.get('name') for c in inspector.get_columns(table_name)]
         conn.close()
         object = _zip(columns, rows)
@@ -397,7 +406,7 @@ def get_x_by_id(table_name, id):
         inspector = inspect(db)
         columns = [c.get('name') for c in inspector.get_columns(table_name)]
         sql = 'SELECT * FROM {0} where id={1}'.format(table_name, id)
-        rows = conn.execute(sql)
+        rows = conn.execute(text(sql))
         return _zip(columns, rows)
 
 

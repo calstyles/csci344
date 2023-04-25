@@ -125,7 +125,7 @@ class TestRefreshTokenEndpoint(unittest.TestCase):
             'refresh_token': 'abcde'
         }
         response = requests.post(url, json=data)
-        self.assertTrue(response.status_code in [400, 422])
+        self.assertTrue(response.status_code in [400, 422, 401])
 
     def test_expired_refresh_token_yields_401(self):
         url = '{0}/api/token/refresh'.format(root_url)
