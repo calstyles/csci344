@@ -1,3 +1,5 @@
+# import statement at the top
+import flask_jwt_extended      
 from dotenv import load_dotenv
 load_dotenv()
 from flask import Flask, request
@@ -11,7 +13,12 @@ from views import initialize_routes, get_authorized_user_ids
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+# replace CORS statement with this one:
+# update:
+cors = CORS(app, 
+    resources={r"/api/*": {"origins": '*'}}, 
+    supports_credentials=True # new
+)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False    
@@ -20,10 +27,23 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 api = Api(app)
 
+# 4. Turn on the JWT Manager
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True 
+jwt = flask_jwt_extended.JWTManager(app)
+
 # set logged in user
 with app.app_context():
     app.current_user = User.query.filter_by(id=12).one()
 
+# Include JWT starter code for querying the DB for user info:
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    # print('JWT data:', jwt_data)
+    user_id = jwt_data["sub"]
+    return User.query.filter_by(id=user_id).one_or_none()
 
 # Initialize routes for all of your API endpoints:
 initialize_routes(api)
