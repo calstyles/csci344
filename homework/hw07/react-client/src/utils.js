@@ -1,4 +1,4 @@
-function getCookie (key) {
+export function getCookie (key) {
     let name = key + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
