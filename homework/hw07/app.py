@@ -10,9 +10,17 @@ import os
 from sqlalchemy import and_
 from models import db, Post, User, Following, ApiNavigator, Story
 from views import initialize_routes, get_authorized_user_ids
-
+from lib.flask_multistatic import MultiStaticFlask as Flask
+from flask import send_from_directory   
 
 app = Flask(__name__)
+
+# place the following after: app = Flask(__name__)
+app.static_folder = [
+    os.path.join(app.root_path, 'react-client', 'build', 'static'),
+    os.path.join(app.root_path, 'static')
+]
+
 # replace CORS statement with this one:
 # update:
 cors = CORS(app, 
@@ -50,11 +58,10 @@ initialize_routes(api)
 
 # Server-side template for the homepage:
 @app.route('/')
+# @decorators.jwt_or_login
 def home():
-    return '''
-       <p>View <a href="/api">REST API Tester</a>.</p>
-       <p>Feel free to replace this code from HW2</p>
-    '''
+    # https://medium.com/swlh/how-to-deploy-a-react-python-flask-project-on-heroku-edb99309311
+    return send_from_directory(app.root_path + '/react-client/build', 'index.html')
 
 
 @app.route('/api')
