@@ -43,9 +43,9 @@ app.config["JWT_COOKIE_SECURE"] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True 
 jwt = flask_jwt_extended.JWTManager(app)
 
-# set logged in user
-with app.app_context():
-    app.current_user = User.query.filter_by(id=12).one()
+# # set logged in user
+# with app.app_context():
+#     app.current_user = User.query.filter_by(id=12).one()
 
 # Include JWT starter code for querying the DB for user info:
 @jwt.user_lookup_loader
@@ -64,7 +64,7 @@ def home():
     # https://medium.com/swlh/how-to-deploy-a-react-python-flask-project-on-heroku-edb99309311
     return send_from_directory(app.root_path + '/react-client/build', 'index.html')
 
-
+# @flask_jwt_extended.jwt_required()
 @app.route('/api')
 @decorators.jwt_or_login
 def api_docs():
